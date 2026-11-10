@@ -286,7 +286,7 @@ Issues and pull requests are welcome. Before opening a PR:
 
 ## 📄 License
 
-[MIT](LICENSE) © 2026 laijin1
+[MIT License](LICENSE) © 2026 laijin1
 
 ## ⚠️ Disclaimer
 
