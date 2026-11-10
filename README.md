@@ -1,217 +1,298 @@
-# 密语（Miyu）— 自托管家庭聊天 App
+# 💬 Miyu (密语)
 
-一个跑在自己家里的完整聊天系统：Java 服务端 + Android 客户端，支持端到端加密私聊/群聊、
-语音视频通话、朋友圈式短视频，以及自建的支付/商城闭环。
+> **Self-hosted, End-to-End Encrypted IM — Pure Java Full-Stack**
+> **自托管的端到端加密即时通讯——纯 Java 全栈实现**
 
-> **为什么会有这个项目**：把家人从第三方 IM 搬到自己的服务器上，消息不出自家局域网。
+<p align="center">
+  <img src="docs/assets/design-icons/apk图标.png" width="120" alt="Miyu Logo"/>
+</p>
 
-> **加密边界**：端到端加密覆盖单聊/群聊的消息；**群文件、群相册、群投票为明文存储**，不属于端到端加密范围，仅通过群成员鉴权保护。
+<p align="center">
+  <a href="https://github.com/laijin1/miyu-im/stargazers"><img src="https://img.shields.io/github/stars/laijin1/miyu-im?style=flat-square" alt="Stars"/></a>
+  <a href="https://github.com/laijin1/miyu-im/network"><img src="https://img.shields.io/github/forks/laijin1/miyu-im?style=flat-square" alt="Forks"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"/></a>
+  <img src="https://img.shields.io/badge/Java-17-orange?style=flat-square" alt="Java 17"/>
+  <img src="https://img.shields.io/badge/Android-API%2034-green?style=flat-square" alt="Android"/>
+  <img src="https://img.shields.io/badge/tests-365%20passed-brightgreen?style=flat-square" alt="Tests"/>
+</p>
+
+<p align="center">
+  <a href="#-features">Features</a> ·
+  <a href="#-quick-start">Quick Start</a> ·
+  <a href="#-architecture">Architecture</a> ·
+  <a href="#-security">Security</a> ·
+  <a href="#-screenshots">Screenshots</a> ·
+  <a href="README.zh-CN.md">🇨🇳 中文文档</a>
+</p>
 
 ---
 
-## 一、30 秒了解项目
+## ✨ Features
 
 | | |
 |---|---|
-| 客户端 | Android，Java，`minSdk 24` / `targetSdk 34`，6 个 Gradle 模块 |
-| 服务端 | Java 17+，Javalin + SQLite（WAL），单 JAR 可跑 |
-| 代码量 | Java 约 3.5 万行（服务端约 1 万 / 客户端约 2.5 万） |
-| 接口 | 128 条 REST 路由 + WebSocket；29 张表 |
-| 加密 | ECDH(P-256) + AES-256-GCM，私钥密码加密备份 |
-| 部署 | 局域网 HTTP，或 Cloudflare Tunnel 暴露到公网（HTTPS） |
+| 🔐 **True E2EE** | X25519 + AES-GCM for 1:1, per-member encrypted envelopes for groups (TOFU trust) |
+| 💬 **Full Chat Suite** | 1:1 / group chats · Text / images / files / voice · Real-time WebSocket delivery |
+| 📞 **Voice & Video** | WebRTC-based calls, STUN config included |
+| 👥 **Group Ecosystem** | Pinned chats · Do-Not-Disturb · Announcements · Shared albums · Files · Polls |
+| 💰 **Wallet Module** | Balance, payment PIN (bcrypt), ledger-style transactions |
+| 🖥 **Admin Console** | Session-epoch password reset, forced first-time password change, audit log |
+| 🌐 **Self-Hosted** | LAN fake-domain HTTPS + Cloudflare Tunnel for public exposure — no port forwarding needed |
+| 🧪 **Engineering-Grade** | 365 unit tests · 7-gate publish check · release-key-only signing · obfuscation-safe JSON contract tests |
+
+### 中文特性简介
+- 🔐 **真·端到端加密**：X25519 + AES-GCM 双密钥体系，群聊逐成员加密，TOFU 信任模型
+- 💬 **完整聊天**：单聊/群聊，支持文字、图片、文件、语音，WebSocket 实时推送
+- 📞 **音视频**：基于 WebRTC
+- 👥 **群生态**：置顶、免打扰、公告、相册、文件、投票
+- 💰 **钱包**：余额、支付密码、流水
+- 🖥 **管理后台**：重置口令强制踢旧会话、首登强制改密、审计日志
+- 🌐 **自托管**：局域网假域名 HTTPS + Cloudflare Tunnel 公网穿透
+- 🧪 **工程化**：365 个单测、7 项发版门禁、防调试签名、防混淆 JSON 契约
 
 ---
 
-## 二、目录结构
+## 🚀 Quick Start
 
+### Prerequisites
+
+| Requirement | Version | Notes |
+|---|---|---|
+| JDK | **17 or 21** | JDK 24 compiles the APK but has known pitfalls |
+| Git | any recent | |
+| Android SDK | platform 34 + build-tools 34.0.0 | only needed to build the Android client |
+| PowerShell 7 | optional, Windows | required by the helper/test scripts |
+
+### 1. Clone
+
+```bash
+git clone https://github.com/laijin1/miyu-im.git
+cd miyu-im
 ```
-liaotian/                     仓库根
-├── client/android/           Android 客户端（多模块）
-│   ├── core/                 网络(ApiClient/Models/WebSocket) + 基础工具
-│   ├── ui-common/            设计系统：颜色/主题/通用控件（资源下沉层）
-│   ├── feature-wallet/       钱包：转账/收款/红包/账单
-│   ├── feature-mall/         商城：商品/购物车/订单/退款/地址/评价
-│   ├── feature-chat/         聊天：会话/E2EE/语音视频(WebRTC)/短视频(Media3)
-│   ├── feature-group/        群聊：群管理/公告/文件/相册/投票
-│   └── app/                  壳工程：登录/主界面/设置/更新器
-├── server/                   服务端（Javalin + SQLite）
+
+### 2. Run the server (about 5 minutes)
+
+```bash
+# Windows
+scripts\start-server.bat
+
+# Linux / macOS
+bash scripts/run-server.sh
+```
+
+The server builds itself and listens on **port 5000**; it prints the LAN address on startup.
+On first run it also prints a randomly generated admin password and writes it to
+`server/data/admin_initial_password.txt` (git-ignored) — change it after the first login.
+
+Verify:
+
+```bash
+curl http://127.0.0.1:5000/version.json
+```
+
+Useful environment variables (all optional; secure defaults):
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `JWT_SECRET` | auto-generated to `server/data/jwt_secret.key` | JWT signing key — back it up |
+| `ADMIN_USER_IDS` | **empty** (everyone denied) | comma-separated user IDs allowed to self-recharge |
+| `familychat.data.dir` | `server/data` | runtime data directory |
+| `server.port` | `5000` | HTTP/HTTPS port |
+
+### 3. Build the Android client
+
+```bash
+cd client/android
+
+./gradlew assembleDebug     # trial build, debug-signed
+# ./gradlew assembleRelease # production: needs your own keystore, see docs/guides/RELEASE.md
+```
+
+APK output: `client/android/app/build/outputs/apk/<variant>/app-<variant>.apk`.
+
+> ⚠️ **Never ship a debug-signed APK.** Debug certificates are public and carry `debuggable`,
+> which antivirus engines flag as "bundled adware". The repo ships a 7-gate release check
+> (`scripts/publish-check.bat`) — see [`docs/guides/RELEASE.md`](docs/guides/RELEASE.md).
+
+### 4. Point the client at your server
+
+On the login screen enter `host:port` (for example `192.168.1.10:5000`). The client decides
+HTTP vs HTTPS automatically: private IPv4 ranges use plain HTTP on LAN, everything else is
+forced to `https/wss` with a pinned self-signed CA.
+
+### Self-hosting on a public server
+
+- Full deployment guide: [`docs/guides/DEPLOY.md`](docs/guides/DEPLOY.md)
+- systemd unit + Nginx + Cloudflare Tunnel: [`deploy/`](deploy/)
+- Release process: [`docs/guides/RELEASE.md`](docs/guides/RELEASE.md)
+
+---
+
+## 🏗 Architecture
+
+A single repository, three deployable pieces:
+
+```text
+miyu-im/
+├── client/android/           Android client (7 Gradle modules, Java)
+│   ├── app/                  Shell: login, home, settings, updater
+│   ├── core/                 ApiClient / models / WebSocket / crypto helpers
+│   ├── ui-common/            Design system (colors, themes, shared widgets)
+│   ├── feature-chat/         1:1 chat, E2EE, voice/video, short video
+│   ├── feature-group/        Groups, announcements, files, albums, polls
+│   ├── feature-wallet/       Wallet, transfers, bills
+│   └── feature-mall/         Store, cart, orders, refunds, addresses
+├── server/                   Java 17 · Javalin + Jetty · SQLite (WAL) · single JAR
 │   └── src/main/java/com/familychat/server/
-│       ├── FamilyChatServer.java   入口：注册所有路由
-│       ├── handler/                各业务接口（Auth/Message/Group/Wallet/Mall/File…）
-│       ├── model/                  Database / DAO / DbUtil
-│       ├── ws/                     WebSocket（在线状态、消息推送）
-│       └── util/                   鉴权、限流、配置
-├── release/                  发布产物 + 签名密钥（密钥不入库）
-├── scripts/                  构建/发布/测试脚本 + 启动入口（start-server.bat / 启动隧道.bat）
-├── deploy/                   部署配置（systemd / nginx / Cloudflare Tunnel）
-└── docs/                     文档中心：guides/ 现行手册 + audits/deploy/testing 历史档案
+│       ├── FamilyChatServer.java   Entry point / route registration
+│       ├── handler/                 REST + WebSocket handlers
+│       ├── model/                   Database, DAOs, migrations
+│       ├── admin/                   Admin console (auth, audit, pages)
+│       ├── ws/                      Realtime hub
+│       └── tools/                   Ops CLI (schema / reconcile / reset)
+├── scripts/                  Build · test · release · run helpers
+├── deploy/                   systemd · Nginx · Cloudflare Tunnel
+├── docs/                     guides/ (living manuals) + audits/ (historical records)
+└── release/                  Release artifacts + signing config (git-ignored)
 ```
 
-**模块依赖是单向的**，不存在循环：
+One-way module dependency — features never depend on each other:
 
-```
+```text
 app ──► feature-* ──► ui-common ──► core
-                    └──────────────► core
 ```
 
-> 规则：功能模块之间**不互相依赖**；要共享的东西下沉到 `core`（逻辑）或 `ui-common`（资源/UI）。
-> 这条规则曾经被破坏过（`bg_transfer_card` 画在 `app` 里却被 `feature-chat` 引用），
-> 症状是 release 构建报 `resource not found`，详见 `docs/guides/RELEASE.md`。
-
----
-
-## 三、本地跑起来
-
-### 0. 日常启动（最快）
-
-> 进入 `scripts/` 后双击 `start-server.bat`；公网隧道用 `启动隧道.bat`。两者路径已绝对定位，双击即可运行。
-
-### 1. 环境要求
-
-| 组件 | 版本 | 说明 |
-|---|---|---|
-| JDK | **17 或 21** | ⚠️ JDK 24 能编 APK，但有已知坑（见下文"踩坑"） |
-| Android SDK | platform 34 + build-tools 34.0.0 | 设 `ANDROID_HOME`，或写 `local.properties` |
-| PowerShell | **7+（pwsh）** | 跑单元测试脚本必需；Windows PowerShell 5.1 会给出假成功 |
-| Gradle | 用仓库自带 `gradlew` | 已升到 8.14.3 |
-
-### 2. 启动服务端
-
-```powershell
-cd server
-.\gradlew.bat shadowJar            # 产出 build\libs\familychat-server.jar
-cd ..
-.\scripts\start-server.bat          # 默认监听 5000，控制台会打印局域网地址
-```
-
-验证：
-
-```
-http://<服务器IP>:5000/version.json      # 更新接口
-http://<服务器IP>:5000/download          # APK 下载页
-```
-
-### 3. 编译并安装客户端
-
-```powershell
-# 首次需要配置发布签名（复制模板后填密码）
-copy release\keystore.properties.example release\keystore.properties
-
-cd client\android
-.\gradlew.bat assembleRelease
-# 产物：app\build\outputs\apk\release\app-release.apk
-```
-
-> ⚠️ **不要用 `assembleDebug` 出货**。调试签名是全世界公开的证书 + 带 `debuggable`，
-> 会被安全软件判为"危险捆绑软件"。理由与完整流程见 `docs/guides/RELEASE.md`。
-
-### 4. 客户端里填服务器地址
-
-登录页"服务器地址"填 `192.168.x.x:5000`（手机与服务器同一局域网）。
-
-> 明文 HTTP 只对 `network_security_config.xml` 里白名单的地址开放。
-> 换网络后如果报 `CLEARTEXT communication to ... not permitted`，
-> 把新 IP 加进该文件重新出包即可。
-
----
-
-## 四、跑测试
-
-**客户端单元测试**（纯 JVM，不需要模拟器/真机）：
-
-```powershell
-# 推荐：Gradle 原生任务（工程已在 ASCII 路径，可正常使用）
-cd client\android
-.\gradlew.bat testDebugUnitTest
-
-# 可选：更详细的逐模块汇总 + 关键用例存在性检查
-pwsh -File scripts\run-unit-tests.ps1
-```
-
-当前覆盖 52 个用例，集中在最不能出错的三块：
-
-| 测试 | 覆盖内容 |
+| Layer | Technology |
 |---|---|
-| `MessageEncryptorTest` | E2EE 往返、跨用户、错误密钥必须失败、密文篡改被 GCM 检出、IV 随机性、中文/emoji/100KB 边界 |
-| `KeyBackupTest` | 私钥备份往返、密码错必须返回 null、v1 旧格式兼容、随机盐、篡改拒绝 |
-| `GsonContractTest` | 请求体/响应模型的 JSON 键名契约 + **结构性护栏**：Gson 类字段必须有 `@SerializedName` |
-| `ServerProtocolTest` | 局域网/公网协议判定、URL token 追加幂等 |
-
-**服务端测试**：
-
-```powershell
-cd server
-.\gradlew.bat test
-```
+| Client | Android (Java), `minSdk 24` / `targetSdk 34`, OkHttp, Glide, Media3, WebRTC |
+| Server | Java 17, Javalin 6, Jetty, SQLite (WAL), Gson, java-jwt, jBCrypt |
+| Crypto | X25519 ECDH + AES-256-GCM, TOFU key pinning, password-derived key backup |
+| Ops | Gradle 8.14, systemd, Nginx, Cloudflare Tunnel |
 
 ---
 
-## 五、发布前必做：跑一次体检
+## 🔐 Security
 
-```powershell
-scripts\publish-check.bat
-```
+**Encryption model**
 
-7 项硬校验，任何一项不过就**不要发布**：
+- **1:1 messages** — X25519 key agreement, AES-256-GCM per message, unique IV per message.
+  The server stores and relays ciphertext only; it never holds the conversation keys.
+- **Group messages** — every member receives the message encrypted with their own key
+  (per-member envelopes). Removing a member re-keys the group.
+- **Trust** — TOFU (trust on first use) with a safety-number fingerprint users can compare.
+- **Key backup** — the private key is encrypted client-side with a key derived from the user's
+  password before it is uploaded; the server cannot decrypt it.
 
-1. 签名必须是正式证书（不是 Android 调试证书）
-2. 不含 `android:debuggable`
-3. 无"忽略电池优化"等敏感权限
-4. Gson 关键字段名没被 R8 混淆掉（否则接口返回空体 400）
-5. APK 版本号 = `version.properties`，且不比它旧
-6. 客户端单元测试全绿
-7. 流水线脚本编码/版本守卫
+**Explicit scope boundaries (honest disclosure)**
 
-完整发版流程见 [`docs/guides/RELEASE.md`](docs/guides/RELEASE.md)。
+| Data | Encrypted end-to-end? |
+|---|---|
+| 1:1 messages, group messages | ✅ Yes |
+| Message attachments (images / files / voice) | ⚠️ Stored server-side, protected by authorization only |
+| Group albums, group files, group polls | ⚠️ Plaintext on the server (authorization-protected) |
+| User profile, wallet ledger, orders | ⚠️ Plaintext on the server (authorization-protected) |
+
+**Server & admin hardening**
+
+- No default credentials anywhere. The admin account is bootstrapped once with a random
+  14-character password (bcrypt-hashed in the DB); first login forces a password change.
+- Password reset bumps a session epoch, instantly invalidating all old admin sessions.
+- The recharge allowlist (`ADMIN_USER_IDS`) is **empty by default** — nobody can mint balance.
+- JWT secret is generated on first run (or supplied via env) and is **never** committed;
+  the server refuses to start if the database exists but the key file is missing.
+- Keystores, signing passwords, databases and runtime data are all git-ignored.
+
+**Operational caveat**
+
+On a LAN, cleartext HTTP is deliberately permitted (Android cannot whitelist CIDR ranges);
+public addresses are always forced to HTTPS/WSS. Treat LAN traffic as trusted, or deploy a
+proper domain + TLS before exposing the service.
+
+**Reporting a vulnerability**
+
+This is a personal project maintained in spare time. If you find a security issue, please open
+a private report via GitHub Security Advisories rather than a public issue. It has been
+internally audited but **not** by an external party — do not use it for high-risk threat models.
 
 ---
 
-## 六、踩过的坑（写给未来的自己）
+## 🧪 Engineering
 
-这些都是真实事故，不是假设：
+| Signal | Detail |
+|---|---|
+| Unit tests | **365 total** — 208 client JVM tests + 157 server tests, all green |
+| Release gate | `scripts/publish-check.bat` runs **7 checks**: signing key, `debuggable`, sensitive permissions, obfuscation-safe Gson names, version consistency, unit tests, script encoding guards |
+| Release discipline | Only release-key-signed builds; version comes from one file (`release/version.properties`) |
+| Repo hygiene | Small history, no binaries, no secrets, gradle-wrapper pinned and committed |
 
-| 症状 | 根因 | 对策 |
+Known trade-offs (being upfront): R8/minification is currently **disabled** on the release
+build to avoid reflection/Gson regressions, and there is **no CI pipeline** yet — both are on
+the roadmap. Build from source and run the gate locally if you plan to ship.
+
+---
+
+## 📸 Screenshots
+
+> Screenshots are being prepared. Once `chat.png`, `admin.png` and `download.png` are added to
+> `docs/assets/screenshots/`, the gallery below will render automatically.
+
+<!--
+<p align="center">
+  <img src="docs/assets/screenshots/chat.png"     width="240" alt="Chat screen"/>
+  <img src="docs/assets/screenshots/admin.png"    width="240" alt="Admin console"/>
+  <img src="docs/assets/screenshots/download.png" width="240" alt="Download page"/>
+</p>
+-->
+
+| Screen | File | Status |
 |---|---|---|
-| 被杀软报"危险捆绑软件" | 30 多个版本全部用调试签名出货 | 正式 keystore + `assembleRelease`；`publish-check` 硬校验 |
-| 登录返回 **400 且响应体为空** | R8 把 `username` 混淆成 `a`，服务端反序列化失败 | 字段加 `@SerializedName` + keep 规则 + 契约测试 |
-| 升级后账号/E2EE 私钥丢失 | `PreferencesManager.Account` 被混淆，读不出旧存档 | 同上，且注解值必须等于原字段名 |
-| 登录后闪退 | 该工程从未在 R8 混淆下跑过，一开就崩 | 暂关 `minifyEnabled`；要重开需先补齐 keep 并真机回归 |
-| release 编译报 `resource not found` | `app` 的资源被 `feature-chat` 引用（反向依赖） | 共享资源下沉到 `ui-common` |
-| **单元测试在本机永远 `ClassNotFoundException`** | 工程路径含中文，JDK 读 Gradle 的 `@argfile` 时用 `sun.jnu.encoding=GBK`，而 Gradle 按 UTF-8 写 | **已根治：工程迁到纯 ASCII 路径** |
-| .bat 报"不是内部或外部命令" | cmd 按 GBK 解析 `.bat`，UTF-8 中文被读坏（`0x85` 还是续行符） | `.bat` 带 UTF-8 BOM 或纯 ASCII；写成守卫脚本自动检查 |
-| PS 脚本"0 个测试全部通过" | PowerShell 5.1 下脚本静默失效 | 脚本内加 PS 7 版本守卫，宁可报错也不给假成功 |
-
-### 关于工程路径（已解决）
-
-> **本工程原先位于 `<本地路径>`，中文路径引发过一连串工具链问题，
-> 现已迁移到纯 ASCII 路径 `<本地路径>`。**
-
-迁移带来的实际改善：
-
-| 问题 | 中文路径下 | ASCII 路径下 |
-|---|---|---|
-| `gradlew testDebugUnitTest` | **必然失败**（`ClassNotFoundException`，编译却是成功的） | ✅ 直接可用，实测 52 用例通过 |
-| `aapt` / `apktool` 分析 APK | 直接报 `Illegal byte sequence` | ✅ 正常 |
-| Gradle `@argfile` | classpath 被读成乱码 | ✅ 无此问题 |
-| `.bat` 里写中文 | 需 UTF-8 BOM 才能被 cmd 正确解析 | 同样建议带 BOM（与路径无关） |
-
-**根因说明**（值得记住）：Gradle 在命令行过长时会把 classpath 写进 `@argfile`，
-写的是 UTF-8；而 JDK 按 `sun.jnu.encoding`（中文 Windows 下是 GBK）去读它。
-两边编码不一致，含中文的路径就变成乱码，表现为测试类"找不到"。
-已实测：同一个 argfile 用 GBK 写就能跑通——所以这是**路径**问题，不是代码问题。
-
-因此：
-
-- **推荐**：直接用 Gradle 原生任务 `gradlew testDebugUnitTest`（或 `gradlew test`）。
-- `scripts\run-unit-tests.ps1` 仍然保留，它额外提供逐模块汇总、关键用例存在性检查，
-  并且**能提前发现"新旧 jar 抢占"这类坑**。两者都可以用。
+| Chat | `docs/assets/screenshots/chat.png` | 🕓 pending |
+| Admin console | `docs/assets/screenshots/admin.png` | 🕓 pending |
+| Download page | `docs/assets/screenshots/download.png` | 🕓 pending |
 
 ---
 
-## 七、相关文档
+## 📚 Documentation
 
-- [`docs/guides/RELEASE.md`](docs/guides/RELEASE.md) — 发版步骤、更新机制原理、红线与踩坑清单
-- `docs/guides/` — 其余现行手册：`ARCHITECTURE.md`、`DEPLOY.md`、`RELEASE-RULES.md`
-- [`release/签名密钥备份说明.md`](release/签名密钥备份说明.md) — 签名密钥备份（**务必照做**）
-- `docs/audits/apk-av/报毒原因分析报告.md` — 报毒事件的完整取证分析
-- [`docs/`](docs/README.md) — 文档中心索引（guides 现行手册 + audits/deploy/testing 历史档案）
+| Document | What it covers |
+|---|---|
+| [`docs/README.md`](docs/README.md) | Documentation index (living manuals + historical audits) |
+| [`docs/guides/ARCHITECTURE.md`](docs/guides/ARCHITECTURE.md) | Deep dive: data flows, module boundaries |
+| [`docs/guides/DEPLOY.md`](docs/guides/DEPLOY.md) | Deploying to a real server (systemd, Nginx, TLS) |
+| [`docs/guides/RELEASE.md`](docs/guides/RELEASE.md) | Release process, updater mechanics, red lines |
+| [`docs/guides/RELEASE-RULES.md`](docs/guides/RELEASE-RULES.md) | Server/client release rulebook |
+
+---
+
+## 🗺 Roadmap
+
+- [ ] Re-enable R8 with a complete keep-rule set + on-device regression matrix
+- [ ] CI pipeline (unit tests + publish gate on every push)
+- [ ] Screenshots and a short demo video
+- [ ] iOS client (the protocol is plain REST + WebSocket)
+- [ ] Cleaner ops CLI and one-command Docker deployment
+
+---
+
+## 🤝 Contributing
+
+Issues and pull requests are welcome. Before opening a PR:
+
+1. Run `cd server && ./gradlew test` and `cd client/android && ./gradlew testDebugUnitTest`.
+2. Run `scripts/publish-check.bat` if you touched anything release-related.
+3. Keep the E2EE boundary intact: never log plaintext, never move encryption server-side.
+
+---
+
+## 📄 License
+
+[MIT](LICENSE) © 2026 laijin1
+
+## ⚠️ Disclaimer
+
+Miyu is a self-hosted project provided **as-is**, without warranty of any kind. You are
+responsible for the server you run, the data you store, and compliance with the laws of your
+jurisdiction (including self-hosted instant-messaging regulations). The maintainers are not
+liable for data loss, service interruption, or misuse.
+
+<p align="center"><sub>Built with ☕ and Java · 端到端加密，自己家的服务器自己说了算</sub></p>
