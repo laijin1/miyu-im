@@ -21,7 +21,6 @@
   <a href="#-quick-start">Quick Start</a> ·
   <a href="#-architecture">Architecture</a> ·
   <a href="#-security">Security</a> ·
-  <a href="#-screenshots">Screenshots</a> ·
   <a href="README.zh-CN.md">🇨🇳 中文文档</a>
 </p>
 
@@ -231,27 +230,6 @@ the roadmap. Build from source and run the gate locally if you plan to ship.
 
 ---
 
-## 📸 Screenshots
-
-> Screenshots are being prepared. Once `chat.png`, `admin.png` and `download.png` are added to
-> `docs/assets/screenshots/`, the gallery below will render automatically.
-
-<!--
-<p align="center">
-  <img src="docs/assets/screenshots/chat.png"     width="240" alt="Chat screen"/>
-  <img src="docs/assets/screenshots/admin.png"    width="240" alt="Admin console"/>
-  <img src="docs/assets/screenshots/download.png" width="240" alt="Download page"/>
-</p>
--->
-
-| Screen | File | Status |
-|---|---|---|
-| Chat | `docs/assets/screenshots/chat.png` | 🕓 pending |
-| Admin console | `docs/assets/screenshots/admin.png` | 🕓 pending |
-| Download page | `docs/assets/screenshots/download.png` | 🕓 pending |
-
----
-
 ## 📚 Documentation
 
 | Document | What it covers |
@@ -268,7 +246,6 @@ the roadmap. Build from source and run the gate locally if you plan to ship.
 
 - [ ] Re-enable R8 with a complete keep-rule set + on-device regression matrix
 - [ ] CI pipeline (unit tests + publish gate on every push)
-- [ ] Screenshots and a short demo video
 - [ ] iOS client (the protocol is plain REST + WebSocket)
 - [ ] Cleaner ops CLI and one-command Docker deployment
 
