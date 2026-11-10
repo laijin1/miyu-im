@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 底部导航 tab 文字颜色：选中橙色，未选中灰 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:color="@color/taobao_orange" />
+    <item android:color="@color/text_secondary" />
+</selector>

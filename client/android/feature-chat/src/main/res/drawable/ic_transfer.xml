@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 转账面板图标：橙底圆 + 白色 ¥（密语转账风格） -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp" android:height="64dp"
+    android:viewportWidth="64" android:viewportHeight="64">
+    <path
+        android:pathData="M32,3A29,29 0 1,1 31.9,3Z"
+        android:fillColor="@color/paycode_orange" />
+    <path
+        android:pathData="M21,18 L32,28 L43,18"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4.5"
+        android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path
+        android:pathData="M32,28 L32,47"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4.5"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M25,37 L39,37"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4.5"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M25,47 L32,54 L39,47"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4.5"
+        android:strokeLineCap="round" android:strokeLineJoin="round" />
+</vector>

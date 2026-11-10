@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  全局间距 / 尺寸 / 字号体系（新增，纯 additive）。
+
+  为什么要有这个文件：全仓此前没有任何 dimens.xml，群详情两个界面的间距全靠
+  硬编码 dp（8/10/16/20…），改一处视觉要满文件找数字。这里只做「取名字」，
+  不改任何现有资源的值，也不强制旧代码迁移。
+-->
+<resources>
+
+    <!-- ===== 间距 ===== -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_s">8dp</dimen>
+    <dimen name="spacing_m">12dp</dimen>
+    <dimen name="spacing_l">16dp</dimen>
+    <dimen name="spacing_xl">24dp</dimen>
+
+    <!-- ===== 圆角 ===== -->
+    <dimen name="radius_s">8dp</dimen>
+    <dimen name="radius_m">10dp</dimen>
+    <dimen name="radius_l">12dp</dimen>
+
+    <!-- ===== 字号 ===== -->
+    <dimen name="text_size_caption">12sp</dimen>
+    <dimen name="text_size_body">14sp</dimen>
+    <dimen name="text_size_subtitle">15sp</dimen>
+    <dimen name="text_size_title">17sp</dimen>
+    <dimen name="text_size_headline">20sp</dimen>
+
+    <!-- ===== 尺寸 ===== -->
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="row_height">52dp</dimen>
+    <dimen name="avatar_card">88dp</dimen>
+    <dimen name="avatar_row">44dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="button_height">44dp</dimen>
+
+</resources>

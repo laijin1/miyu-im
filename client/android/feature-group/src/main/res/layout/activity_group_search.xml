@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/chat_bg">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent" android:layout_height="56dp"
+        android:background="@color/surface" android:elevation="1dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <ImageButton android:id="@+id/btnBack"
+                android:layout_width="44dp" android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back" android:tint="?attr/colorIcon"
+                android:scaleType="center" />
+            <TextView android:id="@+id/tvTitle" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="群内搜索"
+                android:textSize="17dp" android:textStyle="bold" android:textColor="@color/text" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingStart="12dp" android:paddingEnd="12dp" android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+        <EditText android:id="@+id/etKeyword" android:layout_width="0dp"
+            android:layout_height="40dp" android:layout_weight="1"
+            android:hint="搜索文件名、系统消息" android:textSize="14sp"
+            android:background="@drawable/bg_search_input" android:paddingStart="12dp"
+            android:paddingEnd="12dp" android:imeOptions="actionSearch"
+            android:singleLine="true" />
+        <TextView android:id="@+id/btnSearch" android:layout_width="wrap_content"
+            android:layout_height="40dp" android:text="搜索" android:textSize="14sp"
+            android:textColor="@color/white" android:gravity="center"
+            android:background="@drawable/bg_send_btn" android:paddingStart="16dp"
+            android:paddingEnd="16dp" android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvResults" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1"
+        android:padding="8dp" android:clipToPadding="false" android:scrollbars="vertical" />
+
+    <TextView android:id="@+id/tvEmpty" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="没有找到相关消息"
+        android:textColor="@color/text_secondary" android:textSize="13sp"
+        android:visibility="gone" android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp" />
+</LinearLayout>

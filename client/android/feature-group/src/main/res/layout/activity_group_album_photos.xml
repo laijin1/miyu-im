@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/chat_bg">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:background="@color/surface" android:elevation="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <ImageButton android:id="@+id/btnBack"
+                    android:layout_width="44dp" android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_back" android:tint="?attr/colorIcon"
+                    android:scaleType="center" />
+                <TextView android:id="@+id/tvTitle" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="相册" android:textSize="17sp"
+                    android:textStyle="bold" android:textColor="@color/text" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPhotos" android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1"
+            android:padding="2dp" android:clipToPadding="false" android:scrollbars="none" />
+
+        <TextView android:id="@+id/tvEmpty" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="暂无照片，点右下角上传"
+            android:textColor="@color/text_secondary" android:textSize="13sp"
+            android:visibility="gone" android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddPhotos" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="end|bottom"
+        android:layout_margin="20dp" android:src="@drawable/ic_add"
+        android:contentDescription="上传照片" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

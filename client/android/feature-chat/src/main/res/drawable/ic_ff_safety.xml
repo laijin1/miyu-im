@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  安全码：盾牌 + 对勾（描边，不填充 —— 填充后内部的对勾会被同色盖住）。
+  只表示"这里可以核对安全码"，与指纹算法无关：真实指纹由 PeerKeyPinStore 计算。
+  颜色默认 @color/icon，运行时被主题 colorIcon 统一着色。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+    <path android:strokeColor="@color/icon" android:strokeWidth="1.7"
+        android:strokeLineJoin="round" android:strokeLineCap="round"
+        android:pathData="M12,3.2 L19,5.9 L19,11 C19,15.6 16.1,19.3 12,20.4 C7.9,19.3 5,15.6 5,11 L5,5.9 Z" />
+    <path android:strokeColor="@color/icon" android:strokeWidth="1.9"
+        android:strokeLineJoin="round" android:strokeLineCap="round"
+        android:pathData="M9,11.9 L11.2,14.1 L15.2,9.9" />
+</vector>

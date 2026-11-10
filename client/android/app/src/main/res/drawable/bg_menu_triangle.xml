@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 主页"+"下拉菜单：顶部小三角，指向工具栏加号按钮 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16dp" android:height="10dp"
+    android:viewportWidth="16" android:viewportHeight="10">
+    <path
+        android:fillColor="@color/menu_card_bg"
+        android:pathData="M8,0 L16,10 L0,10 Z" />
+</vector>

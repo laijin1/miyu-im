@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <!-- 主界面内容 -->
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical" android:background="@color/bg">
+
+    <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
+        android:layout_width="match_parent" android:layout_height="56dp"
+        android:background="@color/surface" android:elevation="1dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginStart="0dp" android:layout_marginEnd="12dp">
+            <TextView android:id="@+id/tvToolbarTitle"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="消息" android:textSize="20dp" android:textStyle="bold" android:textColor="@color/text" />
+            <ImageButton android:id="@+id/btnAddFriend"
+                android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@drawable/ic_add" android:tint="?attr/colorIcon"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="onAddFriendClick" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Chats -->
+    <LinearLayout android:id="@+id/viewChats"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="vertical" android:visibility="gone">
+        <!-- 离线缓存提示（网络恢复后由 MainActivity 隐藏） -->
+        <TextView android:id="@+id/tvOfflineChats"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:paddingTop="6dp" android:paddingBottom="6dp"
+            android:textSize="12sp" android:textColor="@color/text_secondary"
+            android:background="@color/surface"
+            android:visibility="gone" />
+        <!-- 群聊已并入下方 rvChats 会话列表混排，不再有独立的"群聊"标题行 -->
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvChats"
+            android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- Contacts -->
+    <!-- QQ 联系人页：搜索框 + 功能入口 + 字母分组列表 + 右侧索引条 -->
+    <FrameLayout android:id="@+id/viewContacts"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:visibility="gone">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!-- 离线缓存提示（网络恢复后由 MainActivity 隐藏） -->
+            <TextView android:id="@+id/tvOfflineContacts"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:paddingLeft="16dp" android:paddingRight="16dp"
+                android:paddingTop="6dp" android:paddingBottom="6dp"
+                android:textSize="12sp" android:textColor="@color/text_secondary"
+                android:background="@color/surface"
+                android:visibility="gone" />
+            <!-- QQ 顶部搜索框（固定不滚动） -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:background="@color/surface"
+                android:paddingLeft="12dp" android:paddingTop="8dp" android:paddingRight="12dp" android:paddingBottom="8dp">
+                <TextView android:layout_width="match_parent" android:layout_height="36dp"
+                    android:gravity="center_vertical" android:text="搜索：联系人/群聊"
+                    android:textSize="14sp" android:textColor="@color/text_secondary"
+                    android:paddingLeft="14dp" android:paddingRight="14dp"
+                    android:background="@drawable/bg_search_input"
+                    android:onClick="onContactSearchClick" />
+            </LinearLayout>
+            <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvContacts"
+                    android:layout_width="match_parent" android:layout_height="match_parent" />
+                <!-- QQ 右侧 A-Z 索引条 -->
+                <com.familychat.app.ui.IndexBarView android:id="@+id/indexBar"
+                    android:layout_width="30dp" android:layout_height="match_parent"
+                    android:layout_gravity="end" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="4dp" android:layout_marginBottom="4dp" />
+                <!-- 索引居中字母气泡 -->
+                <TextView android:id="@+id/tvIndexBubble"
+                    android:layout_width="64dp" android:layout_height="64dp"
+                    android:layout_gravity="center" android:gravity="center"
+                    android:textSize="30sp" android:textColor="@android:color/white"
+                    android:background="@drawable/bg_index_bubble"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </LinearLayout>
+        <!-- 我的群聊列表（入口"我的群聊"点击后显示） -->
+        <LinearLayout android:id="@+id/contactGroupsContainer"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="vertical" android:visibility="gone" android:background="@color/bg">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="8dp" android:paddingRight="16dp"
+                android:onClick="onContactGroupsBack">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="‹" android:textSize="26sp" android:textColor="@color/text"
+                    android:paddingLeft="8dp" android:paddingRight="16dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="我的群聊"
+                    android:textSize="17sp" android:textColor="@color/text" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="创建群聊" android:textSize="14sp"
+                    android:textColor="@color/green" android:onClick="onCreateGroupFromContacts" />
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvContactGroups"
+                android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Discover：发现页 -->
+    <LinearLayout android:id="@+id/viewDiscover"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="vertical" android:visibility="gone" android:background="@color/bg">
+        <!-- 商场入口（点击进入商品列表页 MallActivity） -->
+        <LinearLayout android:id="@+id/rowMallEntry"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="16dp" android:paddingRight="16dp">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="商场"
+                android:textSize="16dp" android:textColor="@color/text" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="›" android:textSize="20dp"
+                android:textColor="@color/text_secondary" android:paddingStart="8dp" />
+        </LinearLayout>
+        <!-- 商家后台入口（点击进入 MerchantBackendActivity） -->
+        <LinearLayout android:id="@+id/rowMerchantEntry"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="16dp" android:paddingRight="16dp">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="商家后台"
+                android:textSize="16dp" android:textColor="@color/text" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="›" android:textSize="20dp"
+                android:textColor="@color/text_secondary" android:paddingStart="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Me -->
+    <LinearLayout android:id="@+id/viewMe"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="vertical" android:visibility="gone">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:background="@color/surface"
+            android:paddingLeft="16dp" android:paddingTop="20dp" android:paddingRight="16dp" android:paddingBottom="20dp"
+            android:onClick="onEditProfileClick">
+            <ImageView android:id="@+id/ivMyAvatar" android:layout_width="72dp" android:layout_height="72dp"
+                android:src="@drawable/ic_avatar_placeholder" android:scaleType="centerCrop"
+                android:onClick="onAvatarClick" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:orientation="vertical" android:layout_marginStart="16dp" android:layout_gravity="center_vertical">
+                <TextView android:id="@+id/tvMyName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="用户" android:textSize="22dp" android:textStyle="bold" android:textColor="@color/text" />
+                <TextView android:id="@+id/tvMyUid" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@username" android:textSize="14dp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="10dp" android:background="@color/bg" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@color/surface">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingLeft="16dp" android:background="?attr/selectableItemBackground"
+                android:onClick="onEditProfileClick">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_me" android:tint="?attr/colorIcon" android:scaleType="fitCenter"
+                    android:layout_marginEnd="12dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="编辑资料" android:textSize="16dp" android:textColor="@color/text" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingLeft="16dp" android:background="?attr/selectableItemBackground"
+                android:onClick="onAddFriendRowClick">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_person_add" android:tint="?attr/colorIcon" android:scaleType="fitCenter"
+                    android:layout_marginEnd="12dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="添加朋友" android:textSize="16dp" android:textColor="@color/text" />
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingLeft="16dp" android:background="?attr/selectableItemBackground"
+                android:onClick="onWalletClick">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_pay" android:tint="?attr/colorIcon" android:scaleType="fitCenter"
+                    android:layout_marginEnd="12dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="钱包" android:textSize="16dp" android:textColor="@color/text" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="›" android:textSize="20dp"
+                    android:textColor="@color/text_secondary" android:paddingStart="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="10dp" android:background="@color/bg" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@color/surface">
+            <LinearLayout android:id="@+id/btnSettings" android:layout_width="match_parent" android:layout_height="52dp"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:paddingLeft="16dp" android:background="?attr/selectableItemBackground">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                    android:src="@drawable/ic_settings" android:tint="?attr/colorIcon" android:scaleType="fitCenter"
+                    android:layout_marginEnd="12dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="设置" android:textSize="16dp" android:textColor="@color/text" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="›" android:textSize="20dp" android:textColor="@color/text_secondary" android:paddingEnd="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav" android:layout_width="match_parent" android:layout_height="56dp"
+        android:background="@color/surface" app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/nav_icon_tint" app:itemTextColor="@color/nav_icon_tint"
+        app:itemRippleColor="@null" app:itemBackground="@null" />
+    </LinearLayout>
+</FrameLayout>

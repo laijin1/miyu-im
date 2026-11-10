@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:background="@color/surface">
+
+    <ImageView
+        android:id="@+id/srAvatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_avatar_placeholder" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/srName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@color/text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/srPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="14dp"
+            android:textColor="@color/text_secondary"
+            android:maxLines="2"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/srTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="12dp"
+        android:textColor="@color/text_secondary" />
+</LinearLayout>

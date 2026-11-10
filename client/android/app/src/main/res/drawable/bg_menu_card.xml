@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 主页"+"下拉菜单：白色圆角卡片，带细描边 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/menu_card_bg" />
+    <corners android:radius="8dp" />
+    <stroke android:width="0.5dp" android:color="@color/menu_border" />
+</shape>

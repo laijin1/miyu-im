@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  网络安全策略：【允许】明文 HTTP。
+
+  ============================ 为什么允许明文 ============================
+  真正决定"用 http 还是 https"的不是这里，而是客户端的
+  ServerProtocol.isSecure()：只有 localhost / 私有 IPv4
+  (10.x / 172.16-31.x / 192.168.x) 才走 http/ws，**其余一切公网地址一律强制
+  https/wss**。也就是说 App 本身永远不会对公网发送明文。
+
+  本文件是第二道防线（defense-in-depth）。曾经把它设成
+  cleartextTrafficPermitted="false" 并用 IP 白名单放行局域网，结果如下：
+
+  ======================= 2026-09-12 踩坑记录（勿重蹈） =======================
+  现象：v1.0.124 起，App 登录报
+        "UnknownServiceException: CLEARTEXT communication to 192.168.x.x not permitted"
+
+  原因：把明文从"全局放行"收紧成"仅白名单放行"后，白名单写死了当时的
+        局域网 IP <内网IP>。路由器 DHCP 重新分配后网段变成
+        <内网网段>，于是明文请求被系统拦掉，登录直接不可用。
+        换句话说：**一次安全加固打断了可用性。**
+
+  根本原因：Android 的 network-security-config **不支持网段/CIDR**，
+        <domain> 只能写精确域名或 IP。用 IP 白名单意味着
+        "每换一次网段 → 改配置 → 重新出包 → 每台手机重装"，
+        这条路不可持续。
+
+  结论：局域网期间保持明文全局放行。**要重新收紧，前提是先有固定域名 +
+        HTTPS 部署**（此时 ServerProtocol 会走 https，也不再依赖任何会变的
+        IP）。收紧时请连同本注释一起更新，说明当时为什么可以安全收紧。
+
+  ======================= 2026-09-22 状态更新（上面那个前提已达成）=======================
+  现在已有固定域名 + 自签 HTTPS 部署，对应关系如下：
+    - 服务端：Javalin/Jetty 已启用 TLS（server-java 的 ssl_keystore.p12），
+      SAN = DNS:miyu.lan，端口仍是 5000。
+    - 客户端：ServerProtocol.baseUrl() 对 IPv4 服务器启用"假域名模式"——
+      URL 统一写成 https://miyu.lan:5000/...，再由 HttpClientProvider 的
+      自定义 Dns 把 miyu.lan 解析到用户配置的那个 IP。用户仍然只填裸
+      "IP:port"，IP 变了只改地址，证书与 APK 都不用动。
+    - 因此**访问服务端已不再依赖明文**，下面新增的 @raw/miyu_ca 就是让系统
+      信任这套自签证书（自签 CA 不在系统信任库里，必须显式声明）。
+
+  为什么 cleartextTrafficPermitted 仍然保持 true（本次刻意不收紧）：
+    1. 老用户手机里存的还是裸 IP，升级后解析/回退路径仍可能命中明文；
+    2. 收紧成 false 会把任何遗漏的 http:// 调用点变成硬故障，
+       而"漏没漏"只能靠真机全量回归确认。
+    待 (a) 客户端全部走 baseUrl/wsBaseUrl 且 (b) 真机回归覆盖
+    登录/聊天/群/商城/钱包/更新 全部页面后，再单独一批收紧。
+==============================================================================
+-->
+<network-security-config>
+
+    <!-- 明文 HTTP 全局放行：公网安全性由 ServerProtocol 保证（见上） -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <!-- 密语服务端自签 CA（server-java/data/ca.crt 的副本，PEM）。
+                 只放 base-config 内：debug-overrides 只管调试包，release 包会失效。 -->
+            <certificates src="@raw/miyu_ca" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- 调试构建额外信任用户安装的证书，便于抓包联调；不影响 release 包 -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+
+</network-security-config>

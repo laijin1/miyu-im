@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- 顶栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#F7F7F7">
+        <TextView
+            android:id="@+id/btnResultBack"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:text="←"
+            android:textSize="22sp"
+            android:textColor="#222222"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="扫一扫结果"
+            android:textSize="17sp"
+            android:textColor="#222222"
+            android:gravity="center" />
+        <View
+            android:layout_width="46dp"
+            android:layout_height="1dp" />
+    </LinearLayout>
+
+    <!-- 结果卡片 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:background="@drawable/bg_qr_card">
+
+        <TextView
+            android:id="@+id/tvResultType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#9AA0A6"
+            android:text="文本内容" />
+
+        <TextView
+            android:id="@+id/tvResultContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textColor="#202124"
+            android:lineSpacingExtra="4dp"
+            android:textIsSelectable="true" />
+    </LinearLayout>
+
+    <!-- 操作按钮 -->
+    <Button
+        android:id="@+id/btnResultOpenWeb"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:text="打开网页"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_green_btn"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnResultCopy"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:text="复制内容"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_green_btn" />
+
+</LinearLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  语音通话的应用内浮层（CallOverlayView 的语音版内容布局）。
+
+  与 call_overlay_view.xml（视频版）是**两套独立布局**，由 CallOverlayView 按
+  CallManager.getCurrentCall().videoEnabled 分流 inflate —— 语音时视频版一行都不
+  inflate，因此不存在"语音却显示视频画面"的可能（也没有可复用的视频 View 字段）。
+
+  视觉照 CallFloatingWindow（系统浮窗，floating_call_window.xml）：
+    头像 + 名字 + 计时 + 底部按钮条。
+
+  与系统浮窗的两处刻意差异：
+    1) 尺寸 120dp × 120dp（系统浮窗是 140×90）。宽度沿用视频版浮层的 120dp，
+       因为底部按钮条是 4 个 26dp 按钮（4×26 + 3×2 间距 + 2×2 padding = 114dp ≤ 120dp）；
+       系统浮窗只有 2 个按钮，宽度不必对齐。
+    2) 按钮是 4 个（闭麦 / 静音对方 / 挂断 / 放大回通话页），比系统浮窗多
+       「静音对方」和「放大」—— 与视频版浮层**功能集完全一致**，语音时不少任何功能。
+
+  ⚠️ 本布局没有 TextureView / ImageView 视频层。相机锚点（overlayLocalPreviewView）
+     在语音通话下本来就不需要：WebRTCManager 只在 videoEnabled 时调 startRelayVideo()，
+     语音时 relayCamera == null，从未有相机挂上来。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/callOverlayRoot"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    android:background="@drawable/bg_call_overlay">
+
+    <!-- ===== 头像 + 名字 + 计时 ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="#66000000"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="4dp">
+
+        <ImageView
+            android:id="@+id/overlayAudioAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/overlayName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="联系人"
+            android:textSize="11sp"
+            android:textColor="#FFFFFFFF"
+            android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/overlayTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="10sp"
+            android:textColor="#FFAAAAAA"
+            android:gravity="center"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <!-- ===== 底部按钮条：闭麦 / 静音对方 / 挂断 / 放大回通话页 =====
+         与 call_overlay_view.xml 的同名按钮**完全同款**（同 id / 同尺寸 / 同图标），
+         CallOverlayView 对两套布局用同一份 findViewById + 同一份点击逻辑，无分支。
+         26dp × 4 = 104dp + 3×2dp 间距 = 110dp，加左右 2dp padding = 114dp ≤ 120dp。 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#66000000"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp">
+
+        <ImageButton
+            android:id="@+id/overlayBtnMute"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_mic"
+            android:scaleType="fitCenter"
+            android:padding="5dp"
+            android:background="@drawable/bg_call_control"
+            android:contentDescription="闭麦" />
+
+        <ImageButton
+            android:id="@+id/overlayBtnLocalMute"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="2dp"
+            android:src="@drawable/ic_volume_off"
+            android:tint="@android:color/white"
+            android:scaleType="fitCenter"
+            android:padding="5dp"
+            android:background="@drawable/bg_call_control"
+            android:contentDescription="静音对方" />
+
+        <ImageButton
+            android:id="@+id/overlayBtnHangup"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="2dp"
+            android:src="@drawable/ic_hangup"
+            android:scaleType="fitCenter"
+            android:padding="5dp"
+            android:background="@drawable/bg_call_hangup"
+            android:contentDescription="挂断" />
+
+        <!-- 放大回通话页。图标与视频版一致用 ic_resize_handle（见 call_overlay_view.xml 的注释）。 -->
+        <ImageButton
+            android:id="@+id/overlayBtnExpand"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="2dp"
+            android:src="@drawable/ic_resize_handle"
+            android:scaleType="fitCenter"
+            android:padding="5dp"
+            android:background="@drawable/bg_call_control"
+            android:contentDescription="放大" />
+    </LinearLayout>
+</FrameLayout>

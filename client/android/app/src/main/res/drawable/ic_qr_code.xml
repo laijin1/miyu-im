@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 我的二维码：方形二维码 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- 三个定位角 -->
+    <path android:fillColor="#2196F3" android:pathData="M5,5h6v6H5zM7,7v2h2V7H7zM13,5h6v6h-6zM15,7v2h2V7h-2zM5,13h6v6H5zM7,15v2h2v-2H7z"/>
+    <!-- 内部点阵 -->
+    <path android:fillColor="#2196F3" android:pathData="M15,13h2v2h-2zM19,13h2v2h-2zM13,17h2v2h-2zM17,17h2v2h-2zM19,19h2v2h-2zM17,15h2v2h-2zM13,15h2v2h-2zM15,19h2v2h-2zM19,17h2v2h-2zM15,15h2v2h-2z"/>
+</vector>

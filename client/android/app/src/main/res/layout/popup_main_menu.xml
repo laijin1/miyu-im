@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 主页右上角"+"下拉菜单（密语式）：卡片 + 顶部三角 + 4 行图标文字 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- 顶部小三角，指向工具栏加号 -->
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="10dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/bg_menu_triangle" />
+
+    <LinearLayout
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_menu_card"
+        android:orientation="vertical">
+
+        <!-- 发起群聊 -->
+        <LinearLayout
+            android:id="@+id/menuGroupChat"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="发起群聊"
+                android:src="@drawable/ic_group" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="发起群聊"
+                android:textColor="@color/text"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:background="@color/menu_border" />
+
+        <!-- 添加朋友 -->
+        <LinearLayout
+            android:id="@+id/menuAddFriend"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="添加朋友"
+                android:src="@drawable/ic_person_add" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="添加朋友"
+                android:textColor="@color/text"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:background="@color/menu_border" />
+
+        <!-- 扫一扫 -->
+        <LinearLayout
+            android:id="@+id/menuScan"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="扫一扫"
+                android:src="@drawable/ic_scan_icon" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="扫一扫"
+                android:textColor="@color/text"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="14dp"
+            android:background="@color/menu_border" />
+
+        <!-- 收付款 -->
+        <LinearLayout
+            android:id="@+id/menuPay"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="收付款"
+                android:src="@drawable/ic_pay" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="收付款"
+                android:textColor="@color/text"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

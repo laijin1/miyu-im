@@ -1,0 +1,61 @@
+# 编译产物
+build/
+.gradle/
+*.jar
+# Gradle Wrapper 的 jar 必须入库：否则新克隆的仓库无法用 ./gradlew 构建
+# （会被上面的 *.jar 规则误伤，是开源项目的硬伤）
+!**/gradle/wrapper/gradle-wrapper.jar
+*.apk
+*.apk.bak*
+# 发布回滚备份（密语.apk.pre128-bak / version.properties.pre128-bak 等）。
+# 注意 *.apk 匹配不到它们——那要求以 .apk 结尾。这类文件单个可达 51MB，
+# 一旦入库会把仓库从 ~1MB 撑到 100MB+ 且永久留在历史里。
+*.pre*-bak
+
+# 数据库和密钥
+*.db
+*.db-wal
+*.db-shm
+jwt_secret.key
+chat_files/
+avatars/
+
+# 发布签名密钥与密码（泄露 = 他人可伪造本 App 的更新包，绝不可入库）
+*.jks
+*.keystore
+keystore.properties
+keystore.properties.*
+*.p12
+*.pfx
+*.pem
+*.env
+
+# 服务端运行时数据（数据库/上传/转码缓存，不入库）
+server/data/
+
+# 短视频素材（运行时内容，不入库）
+视频/
+
+# 日志和临时文件
+.playwright-mcp/
+daily-qa-reports/
+*.log
+*.log.*
+nul
+
+# 系统文件
+.claude/settings.local.json
+local.properties
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# 商城数据清理备份（临时，不入库）
+mall-inspect/
+
+# Cloudflare Tunnel 凭据（真实隧道 json / 证书，泄露 = 他人可接管隧道）
+# 模板 deploy/cloudflare/familychat.yml 仍入库；真实凭据文件一律忽略。
+deploy/cloudflare/*.json
+deploy/cloudflare/cert.pem
+deploy/cloudflare/*.pem

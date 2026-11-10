@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  WebRTC call layout — SurfaceViewRenderers are added programmatically
+  to avoid XML inflation issues with custom View classes.
+
+  密语视频通话风格：
+    - 大窗口 = 对方画面（默认），全屏 centerCrop，纯黑背景
+    - 小窗口 = 自己画面（默认），右下角悬浮，圆角 8dp + 白色边框 2dp
+    - 点小窗口 300ms 缩放动画交换大小窗口；小窗口可拖动 / 右下角缩放
+    - 挂断(中) / 静音(右) 在底部栏，切摄像头在右上角，始终在窗口之上
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    android:background="#000000">
+
+    <!-- ===== 远程窗口（默认大窗口，全屏） ===== -->
+    <FrameLayout
+        android:id="@+id/remoteVideoContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="0dp">
+
+        <!-- Relay 模式：对方视频帧以 bitmap 绘制到该 ImageView -->
+        <ImageView
+            android:id="@+id/remoteVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <!-- 小窗口右下角缩放把手（仅当远程窗口变成小窗口时显示） -->
+        <ImageView
+            android:id="@+id/remoteResizeHandle"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/ic_resize_handle"
+            android:background="@drawable/bg_resize_handle"
+            android:padding="5dp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- ===== 本地窗口（默认小窗口，右下角悬浮） ===== -->
+    <FrameLayout
+        android:id="@+id/localVideoContainer"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="120dp"
+        android:elevation="12dp"
+        android:visibility="gone">
+
+        <!-- 相机帧锚点：TextureView 持有真实 SurfaceTexture，保证相机回调稳定出帧。
+             画面实际显示由上面的 ImageView 层负责（解码 JPEG，centerCrop 填满且不变形）。 -->
+        <android.view.TextureView
+            android:id="@+id/localPreviewView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 本地画面实际显示层：centerCrop 填满小窗/大窗，原比例不变形 -->
+        <android.widget.ImageView
+            android:id="@+id/localPreviewFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <!-- 小窗口右下角缩放把手（本地窗口默认是小窗口，显示） -->
+        <ImageView
+            android:id="@+id/localResizeHandle"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/ic_resize_handle"
+            android:background="@drawable/bg_resize_handle"
+            android:padding="5dp" />
+    </FrameLayout>
+
+    <!-- ===== 音频模式占位：头像 + 信息 ===== -->
+    <LinearLayout
+        android:id="@+id/audioOnlyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/ivCallAvatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tvCallName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="联系人"
+            android:textSize="28sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tvCallStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在呼叫..."
+            android:textSize="16sp"
+            android:textColor="#AAAAAA"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvCallDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="#888888"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- ===== 底部控制按钮：静音 / 音频设备 / 挂断，等分三格，始终在窗口之上 ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <!-- 静音 -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="28dp">
+            <ImageButton
+                android:id="@+id/btnCallMute"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_mic"
+                android:scaleType="fitCenter"
+                android:padding="14dp"
+                android:background="@drawable/bg_call_control" />
+        </FrameLayout>
+
+        <!-- 音频设备选择（扬声器 / 听筒 / 蓝牙 / 有线耳机）：图标随当前路由变 -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="28dp">
+            <ImageButton
+                android:id="@+id/btnCallSpeaker"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_speaker"
+                android:tint="@android:color/white"
+                android:scaleType="fitCenter"
+                android:padding="14dp"
+                android:background="@drawable/bg_call_control" />
+        </FrameLayout>
+
+        <!-- 挂断（红色圆形，始终显示） -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp">
+            <ImageButton
+                android:id="@+id/btnCallHangup"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_hangup"
+                android:scaleType="fitCenter"
+                android:padding="18dp"
+                android:background="@drawable/bg_call_hangup" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- ===== 顶部中央：切换摄像头（从右上角移来）=====
+         语音/视频通话都常显 —— 它切换的是"用哪个摄像头采集"，与是否显示画面无关。
+         elevation 24dp 必须压过 localVideoContainer 的 12dp，否则会被本地小窗盖住。
+         ⚠️ 本布局没有 fitsSystemWindows / insets 处理（CallActivity 也没有
+         setOnApplyWindowInsetsListener），顶部用固定 16dp 留白规避状态栏；
+         真机若发现被状态栏/刘海遮挡，另批引入 insets。 -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="16dp"
+        android:elevation="24dp">
+        <ImageButton
+            android:id="@+id/btnSwitchCamera"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_switch_camera"
+            android:scaleType="fitCenter"
+            android:padding="14dp"
+            android:background="@drawable/bg_call_control" />
+    </FrameLayout>
+
+    <!-- ===== 右上角：关闭/打开摄像头（原切摄像头的位置）=====
+         与顶部中央的切摄像头同款尺寸/留白/层高；两者分居中央与右上，互不重叠。
+         图标语义 = "点下去会发生什么"：视频开着时显示 ic_video_off（点了就关），
+         关掉后换成 ic_video（点了就开），由 CallActivity 切换。 -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="24dp">
+        <ImageButton
+            android:id="@+id/btnCallVideoToggle"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_video_off"
+            android:scaleType="fitCenter"
+            android:padding="14dp"
+            android:background="@drawable/bg_call_control" />
+    </FrameLayout>
+
+    <!-- ===== 左上角：缩小到应用内浮层（通话继续）=====
+         与顶部中央/右上角两枚按钮同款尺寸/留白/层高；三者分居左、中、右，互不重叠。
+         缩小后的画面由宿主 Activity（MainActivity / ChatActivity）的应用内浮层接管。 -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:elevation="24dp">
+        <ImageButton
+            android:id="@+id/btnCallMinimize"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_minimize"
+            android:scaleType="fitCenter"
+            android:padding="14dp"
+            android:background="@drawable/bg_call_control" />
+    </FrameLayout>
+
+    <!-- ===== 来电接听/拒绝浮层（始终在最上层） ===== -->
+    <LinearLayout android:id="@+id/incomingOverlay"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="horizontal" android:gravity="center"
+        android:paddingBottom="48dp" android:paddingTop="16dp"
+        android:background="@color/black_overlay" android:visibility="gone"
+        android:elevation="30dp">
+
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="48dp">
+            <ImageButton android:id="@+id/btnCallAccept"
+                android:layout_width="72dp" android:layout_height="72dp"
+                android:src="@drawable/ic_answer" android:scaleType="fitCenter"
+                android:padding="20dp" android:background="@drawable/bg_call_accept" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal" android:layout_marginTop="76dp"
+                android:text="接听" android:textSize="12sp" android:textColor="#CCCCCC" />
+        </FrameLayout>
+
+        <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageButton android:id="@+id/btnCallReject"
+                android:layout_width="72dp" android:layout_height="72dp"
+                android:src="@drawable/ic_hangup" android:scaleType="fitCenter"
+                android:padding="20dp" android:background="@drawable/bg_call_hangup" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal" android:layout_marginTop="76dp"
+                android:text="拒绝" android:textSize="12sp" android:textColor="#CCCCCC" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

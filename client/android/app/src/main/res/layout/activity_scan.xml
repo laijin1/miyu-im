@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- 相机预览（中心裁剪全屏） -->
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/zxing_barcode_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:zxing_preview_scaling_strategy="centerCrop"
+        app:zxing_use_texture_view="false" />
+
+    <!-- 谷歌风格遮罩：圆角取景框 + 绿色扫描线 -->
+    <com.familychat.app.ui.ScanLensOverlay
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 顶栏：返回 + 标题 + 手电筒 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#40000000">
+        <TextView
+            android:id="@+id/btnScanBack"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:text="←"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="扫一扫"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center" />
+        <ImageView
+            android:id="@+id/btnScanTorch"
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_torch"
+            android:padding="10dp"
+            android:contentDescription="手电筒"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- 底部提示 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="80dp"
+        android:text="将二维码放入框内，即可自动扫描"
+        android:textSize="13sp"
+        android:textColor="#D9FFFFFF"
+        android:letterSpacing="0.1" />
+
+    <!-- 右下角相册：点击打开相册，选择含二维码的图片进行识别 -->
+    <LinearLayout
+        android:id="@+id/btnScanAlbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="26dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="6dp">
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_gallery"
+            android:padding="8dp"
+            android:background="@drawable/bg_album_circle"
+            android:contentDescription="相册" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相册"
+            android:textSize="12sp"
+            android:textColor="#E6FFFFFF"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+</FrameLayout>

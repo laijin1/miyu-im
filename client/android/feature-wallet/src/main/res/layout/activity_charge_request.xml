@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/surface">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:id="@+id/btnChargeReqBack" android:layout_width="40dp" android:layout_height="match_parent"
+            android:text="‹" android:textSize="26dp" android:textColor="@color/text"
+            android:gravity="center" android:background="?attr/selectableItemBackgroundBorderless" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="向商家收款" android:textSize="17dp" android:textStyle="bold"
+            android:textColor="@color/text" android:gravity="center" />
+        <TextView android:layout_width="40dp" android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <!-- 付款方信息（付款码主人） -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" android:orientation="vertical" android:gravity="center_horizontal">
+        <TextView android:id="@+id/tvChargeReqAvatar" android:layout_width="56dp" android:layout_height="56dp"
+            android:textSize="24sp" android:textColor="#FFFFFF" android:gravity="center"
+            android:background="@drawable/bg_avatar_circle" android:text="?" />
+        <TextView android:id="@+id/tvChargeReqName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:textSize="16sp" android:textStyle="bold"
+            android:textColor="@color/text" android:text="付款人" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" android:text="请求向他收款" android:textSize="12sp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+    <!-- 金额显示（点击呼出密语同款数字键盘） -->
+    <LinearLayout android:id="@+id/rowChargeReqAmount" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="28dp" android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingLeft="24dp" android:paddingRight="24dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="¥" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text" />
+        <TextView android:id="@+id/tvChargeReqAmount" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:gravity="center_vertical"
+            android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text"
+            android:text="0.00" />
+    </LinearLayout>
+
+    <!-- 备注 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+        android:layout_marginTop="16dp" android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/panel_bg" android:paddingLeft="20dp" android:paddingRight="20dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="添加备注" android:textSize="15sp" android:textColor="@color/text" />
+        <EditText android:id="@+id/etChargeReqMemo" android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:background="@null" android:gravity="right|center_vertical"
+            android:hint="选填" android:textColorHint="@color/text_secondary"
+            android:textSize="15sp" android:textColor="@color/text" android:maxLines="1" android:maxLength="50" />
+    </LinearLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+
+    <!-- 说明 + 发起按钮 -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="对方确认付款后，金额将转入你的零钱" android:textSize="13sp"
+        android:textColor="@color/text_secondary" android:gravity="center" android:paddingBottom="14dp" />
+    <TextView android:id="@+id/btnChargeReqSend" android:layout_width="match_parent" android:layout_height="46dp"
+        android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="12dp"
+        android:enabled="false" android:text="发起收款" android:textSize="16sp" android:textStyle="bold"
+        android:textColor="#FFFFFF" android:gravity="center" android:background="@drawable/bg_green_btn" />
+
+    <!-- 密语同款数字键盘（底部滑出，App 内置，不走系统输入法） -->
+    <com.familychat.app.ui.AmountKeypadView
+        android:id="@+id/amountKeypadChargeReq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+</LinearLayout>

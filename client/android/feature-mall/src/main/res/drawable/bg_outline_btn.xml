@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 描边小按钮（取消订单/次要操作）：灰描边白底 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/surface" />
+    <stroke android:width="1dp" android:color="@color/border" />
+    <corners android:radius="16dp" />
+</shape>

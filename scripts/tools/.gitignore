@@ -1,0 +1,3 @@
+# scripts/tools/ 下是测试脚本用的一次性工具，只有源码需要入库。
+# 编译产物由 e2e-key-transfer.ps1 在首次运行时自动生成（javac -d .）。
+*.class

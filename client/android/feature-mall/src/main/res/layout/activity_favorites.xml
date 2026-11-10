@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/surface" android:paddingLeft="4dp" android:paddingRight="12dp">
+        <ImageButton android:id="@+id/btnFavBack"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_back" android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回" />
+        <TextView android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:text="我的收藏" android:textSize="17sp"
+            android:textColor="@color/text" android:gravity="center_vertical" android:paddingLeft="4dp" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/border" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeFav"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFavorites"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:clipToPadding="false" android:paddingBottom="4dp"
+            android:overScrollMode="never" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

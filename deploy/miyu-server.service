@@ -1,0 +1,43 @@
+[Unit]
+Description=密语 服务端 (FamilyChat Server)
+Documentation=file:///opt/miyu/DEPLOY.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=miyu
+Group=miyu
+WorkingDirectory=/opt/miyu
+
+# ---------------------------------------------------------------------------
+# 路径说明（改动前请先读 DEPLOY.md 第 1 节）：
+#   只有 data 目录是可配的，下面三项都是从它往上两级推算出来的，不要单独挪动：
+#     /opt/miyu/server-java/data/../../release/version.properties
+#     /opt/miyu/server-java/data/../../release/密语.apk
+#     /opt/miyu/server-java/data/../../视频
+# -Xmx1g：2~4G 内存的机器够用。服务端没有连接池，每条 SQLite 连接占 4MB 缓存，
+#         并发高时内存会涨，内存大的机器可调到 2g。
+# ---------------------------------------------------------------------------
+ExecStart=/usr/bin/java -Xmx1g -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/miyu -Dfile.encoding=UTF-8 -Dserver.port=5000 -Dfamilychat.data.dir=/opt/miyu/server-java/data -jar /opt/miyu/server-java/build/libs/familychat-server.jar
+
+Restart=always
+RestartSec=5
+
+# 日志：服务端的访问日志是 stdout，错误是 stderr
+StandardOutput=append:/var/log/miyu/server.log
+StandardError=append:/var/log/miyu/server.err.log
+
+# WebSocket 连接较多时够用
+LimitNOFILE=65535
+
+# ---- 安全加固 ----
+# 服务端只需要写 data/、release/ 和日志目录，其余一律只读
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/miyu/server-java/data /opt/miyu/release /var/log/miyu
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 密语主蓝实心按钮：按压深蓝、禁用浅灰（资源名沿用 bg_green_btn）。用于转账/支付/发起收款/保存收款码 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape><solid android:color="#1976D2" /><corners android:radius="6dp" /></shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape><solid android:color="#E5E5E5" /><corners android:radius="6dp" /></shape>
+    </item>
+    <item>
+        <shape><solid android:color="@color/wallet_green" /><corners android:radius="6dp" /></shape>
+    </item>
+</selector>

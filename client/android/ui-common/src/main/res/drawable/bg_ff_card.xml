@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 圆角卡片底：群资料卡 / 分组卡片。夜间 card_bg=#1C1C1C，靠与 bg(#000) 的明度差出层级 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/card_bg" />
+    <corners android:radius="@dimen/radius_l" />
+</shape>

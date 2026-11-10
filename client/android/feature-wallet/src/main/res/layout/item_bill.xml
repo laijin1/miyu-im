@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="64dp"
+    android:orientation="horizontal" android:gravity="center_vertical"
+    android:background="@color/surface" android:paddingLeft="16dp" android:paddingRight="16dp">
+
+    <!-- 方向图标：收入绿↑ / 支出灰↓ -->
+    <TextView android:id="@+id/ivBillDir" android:layout_width="38dp" android:layout_height="38dp"
+        android:textSize="17sp" android:textStyle="bold" android:textColor="#FFFFFF"
+        android:gravity="center" android:text="↑" />
+
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+        android:layout_marginLeft="12dp" android:orientation="vertical">
+        <TextView android:id="@+id/tvBillPeer" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="15sp" android:textStyle="bold" android:textColor="@color/text" android:maxLines="1"
+            android:ellipsize="end" android:text="好友" />
+        <TextView android:id="@+id/tvBillType" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" android:textSize="12sp" android:textColor="@color/text_secondary"
+            android:text="转账" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp" android:orientation="vertical" android:gravity="right">
+        <TextView android:id="@+id/tvBillAmount" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="15sp" android:textStyle="bold" android:textColor="@color/text" android:text="¥0.00" />
+        <TextView android:id="@+id/tvBillStatus" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" android:textSize="12sp" android:textColor="@color/text_secondary"
+            android:text="待收款" />
+    </LinearLayout>
+</LinearLayout>

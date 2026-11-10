@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 商城底部导航（淘宝式）：首页 | 购物车 | 我的订单。三个页面共用，MallNav.bind() 高亮当前 tab -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mallBottomNav"
+    android:layout_width="match_parent" android:layout_height="50dp"
+    android:orientation="horizontal" android:background="@color/surface"
+    android:elevation="8dp">
+
+    <LinearLayout android:id="@+id/tabNavHome" android:layout_width="0dp"
+        android:layout_height="match_parent" android:layout_weight="1"
+        android:orientation="vertical" android:background="?attr/selectableItemBackground">
+        <View android:id="@+id/indNavHome" android:layout_width="match_parent"
+            android:layout_height="3dp" android:background="@color/taobao_orange"
+            android:visibility="gone" />
+        <TextView android:layout_width="match_parent" android:layout_height="0dp"
+            android:layout_weight="1" android:text="首页" android:textSize="13sp"
+            android:textColor="@color/nav_tab_text" android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/tabNavCart" android:layout_width="0dp"
+        android:layout_height="match_parent" android:layout_weight="1"
+        android:orientation="vertical" android:background="?attr/selectableItemBackground">
+        <View android:id="@+id/indNavCart" android:layout_width="match_parent"
+            android:layout_height="3dp" android:background="@color/taobao_orange"
+            android:visibility="gone" />
+        <TextView android:layout_width="match_parent" android:layout_height="0dp"
+            android:layout_weight="1" android:text="购物车" android:textSize="13sp"
+            android:textColor="@color/nav_tab_text" android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/tabNavOrders" android:layout_width="0dp"
+        android:layout_height="match_parent" android:layout_weight="1"
+        android:orientation="vertical" android:background="?attr/selectableItemBackground">
+        <View android:id="@+id/indNavOrders" android:layout_width="match_parent"
+            android:layout_height="3dp" android:background="@color/taobao_orange"
+            android:visibility="gone" />
+        <TextView android:layout_width="match_parent" android:layout_height="0dp"
+            android:layout_weight="1" android:text="我的订单" android:textSize="13sp"
+            android:textColor="@color/nav_tab_text" android:gravity="center" />
+    </LinearLayout>
+</LinearLayout>

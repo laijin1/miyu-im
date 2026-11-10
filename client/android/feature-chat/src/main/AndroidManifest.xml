@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- :feature-chat 聊天功能模块清单 -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 录音/相机权限由 app 模块声明；本模块仅声明页面 -->
+    <application>
+        <activity
+            android:name="com.familychat.app.ui.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.familychat.app.ui.ChatVideoPlayerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name="com.familychat.app.ui.CallActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FamilyChat"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true" />
+        <activity
+            android:name="com.familychat.app.ui.SearchChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+    </application>
+</manifest>

@@ -1,0 +1,9 @@
+tunnel: familychat
+credentials-file: C:\Users\<you>\.cloudflared\familychat.json
+
+ingress:
+  - hostname: chat.your-domain.com
+    service: http://localhost:5000
+  - hostname: download.your-domain.com
+    service: http://localhost:5000
+  - service: http_status:404

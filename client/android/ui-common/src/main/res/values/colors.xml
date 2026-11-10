@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="green">#2196F3</color>
+    <color name="green_dark">#1976D2</color>
+    <color name="bg">#F5F5F5</color>
+    <!-- 表面色：卡片/工具栏/输入栏背景。黑夜模式在 values-night 中覆盖为深色 -->
+    <color name="surface">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="text">#1A1A1A</color>
+    <color name="text_secondary">#999999</color>
+    <color name="red">#F15A24</color>
+    <color name="border">#E8E8E8</color>
+    <color name="msg_self">#2196F3</color>
+    <color name="chat_bg">#E8E8E8</color>
+    <color name="black_overlay">#73000000</color>
+
+    <!-- 聊天"+": 面板背景（密语式浅灰）与通话图标蓝 -->
+    <color name="panel_bg">#F2F2F2</color>
+    <color name="panel_call_icon">#2196F3</color>
+
+    <!-- 主页"+"下拉菜单：卡片背景（密语式白底）、分隔线与文字 -->
+    <color name="menu_card_bg">#FFFFFF</color>
+    <color name="menu_border">#E8E8E8</color>
+
+    <!-- 图标着色 -->
+    <color name="icon">#4A4A4A</color>
+    <color name="icon_nav_selected">#2196F3</color>
+    <color name="icon_nav_unselected">#999999</color>
+
+    <!-- 聊天气泡 -->
+    <color name="bubble_self">#2196F3</color>
+    <color name="bubble_other">#E0E0E0</color>
+    <color name="bubble_text_self">#FFFFFF</color>
+    <color name="bubble_text_other">#000000</color>
+    <color name="bubble_voice">#E3F2FD</color>
+    <color name="bubble_voice_text">#1A1A1A</color>
+    <!-- 通话记录气泡：淡蓝底 + 深色字（日间）。与 bubble_self 同色板（Blue 100 vs 500），
+         比 chat_bg #E8E8E8 有足够对比。夜间见 values-night/colors.xml -->
+    <color name="bubble_call">#BBDEFB</color>
+    <color name="bubble_call_text">#1A1A1A</color>
+    <color name="voice_wave_other">#333333</color>
+    <color name="reject_bg">#F0F0F0</color>
+
+    <!-- 语音播放按钮：白天蓝色底 + 白图标 -->
+    <color name="play_btn_bg">#2196F3</color>
+    <color name="play_icon">#FFFFFF</color>
+
+    <!-- 支付系统（密语同款配色，主按钮/金额改为 App 主蓝） -->
+    <color name="wallet_green">#2196F3</color>       <!-- 主蓝：金额/按钮（密语品牌色） -->
+    <color name="amount_red">#FA5151</color>         <!-- 支出红：-金额 -->
+    <color name="red_packet_bg">#FA9D3B</color>      <!-- 红包橙黄：红包卡片底 -->
+    <color name="paycode_orange">#FA9D3B</color>      <!-- 收付款橙：转账卡片底（密语转账橙） -->
+    <color name="paycode_card_green">#2196F3</color> <!-- 付款码蓝虚线卡片描边（原绿） -->
+
+    <!-- 商城（淘宝首页风格） -->
+    <color name="taobao_orange">#2196F3</color>      <!-- 商城品牌蓝（原淘宝橙）：搜索/高亮 -->
+    <color name="search_capsule_bg">#E3F2FD</color>  <!-- 搜索胶囊浅蓝底 -->
+
+    <!-- 支付数字键盘（自写）：白天白键；黑夜在 values-night 覆盖为深键 -->
+    <color name="keypad_bg">#E5E5E5</color>
+    <color name="keypad_key_bg">#FFFFFF</color>
+    <color name="keypad_key_pressed">#D9D9D9</color>
+    <color name="keypad_key_text">#000000</color>
+
+    <!-- 金额显示（键盘联动）：空态灰 / 有值黑 -->
+    <color name="amount_empty">#C8C8C8</color>
+    <color name="amount_value">#1A1A1A</color>
+
+    <!-- 付款码白卡：白底灰描边（黑夜覆盖） -->
+    <color name="qr_card_bg">#FFFFFF</color>
+    <color name="qr_card_border">#DDDDDD</color>
+
+    <!-- 支付密码方格（全屏密码页） -->
+    <color name="pwd_box_bg">#FFFFFF</color>
+    <color name="pwd_box_stroke">#D9D9D9</color>
+
+    <!-- ═══ 语义色（新增，专供群详情两界面重写用；不改动上面任何已有色的值）═══
+         现有色板缺 danger/warning/divider/card_bg 四种语义，只能借 red/green，
+         层级表达不出来（例如"退出群聊"当初只能用主色实心蓝画）。
+         黑夜模式同名覆盖见 values-night/colors.xml。 -->
+    <!-- 危险：退出群聊 / 解散群聊 / 移除成员 -->
+    <color name="danger">#E5484D</color>
+    <color name="danger_pressed">#C93A3E</color>
+    <!-- 危险底色：danger 的 8% 透明，用作描边按钮的填充底 -->
+    <color name="danger_bg">#14E5484D</color>
+    <!-- 警告：转让群主等不可逆但不致命的操作 -->
+    <color name="warning">#F5A524</color>
+    <color name="warning_pressed">#D98C15</color>
+    <color name="warning_bg">#14F5A524</color>
+    <!-- 卡片底：白天同 surface(白)。夜间 surface 被覆盖成纯黑，
+         卡片与页面同色就没有层级了，所以卡片单独用 card_bg（夜 #1C1C1C）。 -->
+    <color name="card_bg">#FFFFFF</color>
+    <!-- 分割线：白天同 border 值，夜间需要比 bg(#000) 亮一档 -->
+    <color name="divider">#E8E8E8</color>
+    <!-- 卡片上的正文色（语义别名，黑夜覆盖为白） -->
+    <color name="on_surface">#1A1A1A</color>
+    <!-- 次级按钮按压底（surface 的按压态，不改 surface 本身） -->
+    <color name="surface_pressed">#EDEDED</color>
+</resources>

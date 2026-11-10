@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 搜索结果用户项：头像 + 昵称 + @账号名（密语式） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp" android:paddingRight="16dp"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView android:id="@+id/ivSearchAvatar"
+        android:layout_width="44dp" android:layout_height="44dp"
+        android:src="@drawable/ic_avatar_placeholder"
+        android:scaleType="centerCrop" android:layout_marginEnd="12dp" />
+
+    <LinearLayout
+        android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:orientation="vertical">
+
+        <TextView android:id="@+id/tvSearchName"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="昵称" android:textSize="16dp"
+            android:textColor="@color/text" android:maxLines="1" android:ellipsize="end" />
+
+        <TextView android:id="@+id/tvSearchAccount"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@账号" android:textSize="13dp"
+            android:textColor="@color/text_secondary" android:maxLines="1" android:ellipsize="end" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="›" android:textSize="20dp" android:textColor="@color/text_secondary" />
+</LinearLayout>

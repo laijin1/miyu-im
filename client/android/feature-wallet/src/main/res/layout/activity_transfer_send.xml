@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/surface">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:id="@+id/btnTransferSendBack" android:layout_width="40dp" android:layout_height="match_parent"
+            android:text="‹" android:textSize="26dp" android:textColor="@color/text"
+            android:gravity="center" android:background="?attr/selectableItemBackgroundBorderless" />
+        <TextView android:id="@+id/tvTransferSendTitle" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="转账" android:textSize="17dp" android:textStyle="bold"
+            android:textColor="@color/text" android:gravity="center" />
+        <TextView android:layout_width="40dp" android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <!-- 接收方 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingLeft="16dp" android:paddingRight="16dp">
+        <TextView android:id="@+id/tvTransferSendAvatar" android:layout_width="40dp" android:layout_height="40dp"
+            android:textSize="18sp" android:textColor="#FFFFFF" android:gravity="center"
+            android:background="@drawable/bg_avatar_circle" android:text="?" />
+        <TextView android:id="@+id/tvTransferSendName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp" android:textSize="16sp" android:textColor="@color/text"
+            android:text="收款人" />
+    </LinearLayout>
+
+    <!-- 金额显示（点击呼出密语同款数字键盘） -->
+    <LinearLayout android:id="@+id/rowTransferSendAmount" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="24dp" android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingLeft="24dp" android:paddingRight="24dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="¥" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text" />
+        <TextView android:id="@+id/tvTransferSendAmount" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:gravity="center_vertical"
+            android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text"
+            android:text="0.00" />
+    </LinearLayout>
+
+    <!-- 备注 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+        android:layout_marginTop="16dp" android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/panel_bg" android:paddingLeft="20dp" android:paddingRight="20dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="添加备注" android:textSize="15sp" android:textColor="@color/text" />
+        <EditText android:id="@+id/etTransferSendMemo" android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:background="@null" android:gravity="right|center_vertical"
+            android:hint="选填" android:textColorHint="@color/text_secondary"
+            android:textSize="15sp" android:textColor="@color/text" android:maxLines="1" android:maxLength="50" />
+    </LinearLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+
+    <!-- 零钱余额 -->
+    <TextView android:id="@+id/tvTransferSendBalance" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="零钱 ¥0.00" android:textSize="13sp" android:textColor="@color/text_secondary"
+        android:gravity="center" android:paddingBottom="14dp" />
+
+    <!-- 转账按钮 -->
+    <TextView android:id="@+id/btnTransferSendSend" android:layout_width="match_parent" android:layout_height="46dp"
+        android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_marginBottom="12dp"
+        android:enabled="false" android:text="转账" android:textSize="16sp" android:textStyle="bold"
+        android:textColor="#FFFFFF" android:gravity="center" android:background="@drawable/bg_green_btn" />
+
+    <!-- 密语同款数字键盘（底部滑出，App 内置，不走系统输入法） -->
+    <com.familychat.app.ui.AmountKeypadView
+        android:id="@+id/amountKeypadTransfer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  群主 / 管理员标签底：描边胶囊（群详情成员行专用）。
+  ⚠️ 文字色由 GroupDetailActivity 运行时 setTextColor 决定（群主 @color/green、
+     管理员 0xFFFB8C00），所以这里**不能**写死文字色，只提供外形：透明底 + 1dp
+     中性描边，让绿/橙文字自己成为主体。
+
+  为什么不复用 badge_bg：那个名字是"未读数字红点"的语义，被 app 的会话列表和
+  联系人页共用（跨模块同名资源合并成一份），群详情角色标签是**新语义**，
+  按"新用途不动既有契约"另开一个名字。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@android:color/transparent" />
+    <stroke android:width="1dp" android:color="@color/divider" />
+    <corners android:radius="10dp" />
+</shape>

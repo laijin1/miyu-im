@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 商城单页（淘宝式）：首页 | 购物车 | 我的订单 三个视图原位切换，底部导航与主界面一致 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+
+    <!-- 统一顶栏：返回 + 搜索框（首页）/ 标题（购物车/订单） + 右侧操作 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/surface" android:paddingLeft="4dp" android:paddingRight="12dp">
+        <ImageButton android:id="@+id/btnMallBack"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_back" android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回" />
+        <EditText android:id="@+id/etMallSearch"
+            android:layout_width="0dp" android:layout_height="36dp" android:layout_weight="1"
+            android:background="@drawable/bg_search_capsule"
+            android:paddingLeft="12dp" android:paddingRight="12dp"
+            android:layout_marginLeft="4dp" android:layout_marginRight="4dp"
+            android:hint="搜索商品" android:textSize="13sp"
+            android:textColor="@color/text" android:textColorHint="@color/text_secondary"
+            android:singleLine="true" android:maxLines="1"
+            android:inputType="text" android:imeOptions="actionSearch"
+            android:gravity="center_vertical" />
+        <TextView android:id="@+id/tvMallTitle"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:text="购物车" android:textSize="17sp" android:textColor="@color/text"
+            android:gravity="center_vertical" android:paddingLeft="4dp"
+            android:visibility="gone" />
+        <TextView android:id="@+id/btnMallSearchAction"
+            android:layout_width="wrap_content" android:layout_height="match_parent"
+            android:text="搜索" android:textSize="14sp"
+            android:textColor="@color/taobao_orange"
+            android:gravity="center" android:paddingLeft="8dp" android:paddingRight="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+        <TextView android:id="@+id/btnMallEdit"
+            android:layout_width="wrap_content" android:layout_height="match_parent"
+            android:text="管理" android:textSize="14sp" android:textColor="@color/taobao_orange"
+            android:gravity="center" android:paddingLeft="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- 排序栏（仅首页显示）：综合 | 销量 | 价格 -->
+    <LinearLayout android:id="@+id/mallSortBar" android:layout_width="match_parent" android:layout_height="40dp"
+        android:orientation="horizontal" android:background="@color/surface"
+        android:paddingLeft="4dp" android:paddingRight="4dp">
+        <TextView android:id="@+id/tabSortDefault" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:text="综合" android:textSize="14sp" android:gravity="center"
+            android:background="?attr/selectableItemBackground" />
+        <TextView android:id="@+id/tabSortSales" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:text="销量" android:textSize="14sp" android:gravity="center"
+            android:background="?attr/selectableItemBackground" />
+        <TextView android:id="@+id/tabSortPrice" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:text="价格" android:textSize="14sp" android:gravity="center"
+            android:background="?attr/selectableItemBackground" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/border" />
+
+    <!-- 首页视图：小节标题 + 商品双列 -->
+    <LinearLayout android:id="@+id/viewMallHome"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView android:id="@+id/tvMallSection"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="为你推荐" android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:background="@color/bg" android:paddingLeft="12dp"
+            android:paddingTop="8dp" android:paddingBottom="8dp"
+            android:visibility="gone" />
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeMall"
+            android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMallProducts"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:clipToPadding="false" android:paddingBottom="4dp"
+                android:overScrollMode="never" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <!-- 购物车视图：列表 + 底部结算栏 -->
+    <LinearLayout android:id="@+id/viewMallCart"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="vertical" android:visibility="gone">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCart"
+            android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+            android:overScrollMode="never" android:clipToPadding="false" android:paddingBottom="8dp" />
+        <LinearLayout android:id="@+id/layoutCartBar"
+            android:layout_width="match_parent" android:layout_height="56dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="@color/surface" android:paddingLeft="12dp" android:paddingRight="12dp"
+            android:elevation="4dp" android:visibility="gone">
+            <CheckBox android:id="@+id/ckCartAll"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="全选" android:textSize="13sp" android:textColor="@color/text" />
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="合计：" android:textSize="13sp" android:textColor="@color/text_secondary" />
+            <TextView android:id="@+id/tvCartTotal"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="¥0.00" android:textSize="17sp" android:textColor="@color/amount_red"
+                android:textStyle="bold" />
+            <TextView android:id="@+id/btnCartCheckout"
+                android:layout_width="wrap_content" android:layout_height="38dp"
+                android:layout_marginLeft="12dp" android:paddingLeft="26dp" android:paddingRight="26dp"
+                android:text="结算" android:textSize="14sp" android:textColor="@color/white"
+                android:gravity="center" android:background="@drawable/bg_taobao_btn" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 我的订单视图：状态筛选 tab + 订单列表 -->
+    <LinearLayout android:id="@+id/viewMallOrders"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="vertical" android:visibility="gone">
+        <HorizontalScrollView android:layout_width="match_parent" android:layout_height="44dp"
+            android:background="@color/surface" android:scrollbars="none">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <LinearLayout android:id="@+id/tabOrdersAll" android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                        android:layout_weight="1" android:text="全部" android:textSize="13sp"
+                        android:gravity="center" />
+                    <View android:id="@+id/indOrdersAll" android:layout_width="match_parent"
+                        android:layout_height="3dp" android:background="@color/taobao_orange"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/tabOrdersPending" android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                        android:layout_weight="1" android:text="待付款" android:textSize="13sp"
+                        android:gravity="center" />
+                    <View android:id="@+id/indOrdersPending" android:layout_width="match_parent"
+                        android:layout_height="3dp" android:background="@color/taobao_orange"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/tabOrdersPaid" android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                        android:layout_weight="1" android:text="待发货" android:textSize="13sp"
+                        android:gravity="center" />
+                    <View android:id="@+id/indOrdersPaid" android:layout_width="match_parent"
+                        android:layout_height="3dp" android:background="@color/taobao_orange"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/tabOrdersShipped" android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                        android:layout_weight="1" android:text="待收货" android:textSize="13sp"
+                        android:gravity="center" />
+                    <View android:id="@+id/indOrdersShipped" android:layout_width="match_parent"
+                        android:layout_height="3dp" android:background="@color/taobao_orange"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/tabOrdersCompleted" android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                        android:layout_weight="1" android:text="已完成" android:textSize="13sp"
+                        android:gravity="center" />
+                    <View android:id="@+id/indOrdersCompleted" android:layout_width="match_parent"
+                        android:layout_height="3dp" android:background="@color/taobao_orange"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/tabOrdersRefunding" android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                        android:layout_weight="1" android:text="退款中" android:textSize="13sp"
+                        android:gravity="center" />
+                    <View android:id="@+id/indOrdersRefunding" android:layout_width="match_parent"
+                        android:layout_height="3dp" android:background="@color/taobao_orange"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/tabOrdersRefunded" android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                        android:layout_weight="1" android:text="已退款" android:textSize="13sp"
+                        android:gravity="center" />
+                    <View android:id="@+id/indOrdersRefunded" android:layout_width="match_parent"
+                        android:layout_height="3dp" android:background="@color/taobao_orange"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="@color/border" />
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeOrders"
+            android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOrders"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:clipToPadding="false" android:paddingTop="6dp" android:paddingBottom="8dp"
+                android:overScrollMode="never" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <!-- 底部导航：首页 | 购物车 | 我的订单 -->
+    <include layout="@layout/view_mall_bottom_nav" />
+</LinearLayout>

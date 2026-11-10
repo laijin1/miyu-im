@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  密钥管理页（第 1 步：只读指纹显示）。
+  颜色全部引用 :ui-common 的 @color/* 体系，values-night 已覆盖，黑夜模式自动适配。
+  本步不包含「导出二维码 / 扫码导入 / 重置密钥」控件，避免留下点了没反应的死按钮。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/surface">
+
+        <ImageButton
+            android:id="@+id/btnKeyMgmtBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回"
+            android:src="@drawable/ic_back"
+            android:tint="?attr/colorIcon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密钥管理"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
+
+    <!-- 内容区：小屏/大字体下三段说明文字可能超出屏幕，故用 ScrollView 包裹 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ===== 指纹卡片 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本机私钥指纹"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary" />
+
+                <!-- 短码：大号等宽居中，4 位一组（如 a1b2 c3d4）。
+                     textDirection="ltr" 是必需的：否则阿拉伯语等 RTL 语言下
+                     这个 hex 串会被按 RTL 视觉顺序重排，导致两台设备"看起来不一样"。 -->
+                <TextView
+                    android:id="@+id/tvKeyFpShort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:typeface="monospace"
+                    android:textDirection="ltr"
+                    android:text="密钥尚未生成" />
+
+                <!-- 全码：小号次要色，64 位分 16 组，约两行 -->
+                <TextView
+                    android:id="@+id/tvKeyFpFull"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="11sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/text_secondary"
+                    android:typeface="monospace"
+                    android:textDirection="ltr" />
+
+                <TextView
+                    android:id="@+id/tvKeyFpHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="在两台设备上分别打开本页，指纹完全相同即表示两把私钥是同一把。"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 导出二维码（第 2 步）===== -->
+            <LinearLayout
+                android:id="@+id/rowExportQr"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="导出私钥二维码"
+                        android:textSize="16sp"
+                        android:textColor="@color/text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="在新手机上扫码导入，搬走本机私钥"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textSize="20sp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 扫码导入（第 3 步）===== -->
+            <LinearLayout
+                android:id="@+id/rowImportQr"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="扫码导入私钥"
+                        android:textSize="16sp"
+                        android:textColor="@color/text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="扫描旧设备的二维码，把私钥搬到本机"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textSize="20sp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 用途说明 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用途"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="本页用于换机时把私钥从旧设备搬到新设备。同一账号在旧手机和新手机上显示的指纹应当一致；若不一致，说明新手机上的密钥不是原来那把，历史消息将无法解密。"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/text" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 与已有功能的区分说明 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="与「恢复聊天记录」的区别"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="如果你只是重装应用后要找回历史记录，用设置页的「恢复聊天记录」更方便；本页的二维码导出/扫码导入是给两台设备同时在手边的情况准备的。"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/text" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- 底部留白，避免最后一段文字贴住屏幕底边 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 重置密钥（危险操作，第 4/5 步）===== -->
+            <LinearLayout
+                android:id="@+id/rowResetKey"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="重置密钥（危险）"
+                        android:textSize="16sp"
+                        android:textColor="@color/red" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="旧聊天记录将永久无法解密"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textSize="20sp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

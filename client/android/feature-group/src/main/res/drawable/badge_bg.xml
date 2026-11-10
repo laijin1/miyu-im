@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  未读数字徽标底（会话列表 tvUnreadBadge / 联系人待处理 tvEntryBadge）：
+  红色实心椭圆 + 白字。全仓唯一一份（:feature-group），:app 经依赖共用。
+
+  ⚠️ 这份 drawable 被**别的界面**用着（app 的 item_chat.xml / item_contact_entry.xml），
+     改动它等于改那两个界面的未读数显示。群详情的角色标签请用 bg_ff_role_tag，
+     不要再复用这个通用名（2026-10-05 踩过：改成透明胶囊后未读数变白字透明底，不可见）。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#F44336" />
+</shape>

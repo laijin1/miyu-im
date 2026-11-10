@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 购物车行：勾选 + 图 + 名称/价格 + 数量步进器 + 删除 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="horizontal" android:gravity="center_vertical"
+    android:background="@color/surface"
+    android:layout_marginTop="8dp" android:paddingLeft="10dp" android:paddingRight="10dp"
+    android:paddingTop="10dp" android:paddingBottom="10dp">
+
+    <CheckBox android:id="@+id/ckCartItem"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:buttonTint="@color/taobao_orange" />
+
+    <FrameLayout android:layout_width="80dp" android:layout_height="80dp"
+        android:background="@drawable/bg_product_img" android:layout_marginLeft="8dp">
+        <ImageView android:id="@+id/ivCartImage" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:scaleType="centerCrop"
+            android:visibility="gone" />
+        <TextView android:id="@+id/tvCartFallback" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:gravity="center"
+            android:textSize="26dp" android:textColor="@color/text"
+            android:background="@drawable/bg_product_img" />
+    </FrameLayout>
+
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:orientation="vertical"
+        android:paddingLeft="10dp" android:paddingRight="6dp">
+        <TextView android:id="@+id/tvCartName"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textSize="14sp" android:textColor="@color/text"
+            android:maxLines="2" android:ellipsize="end" />
+        <TextView android:id="@+id/tvCartPrice"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="16sp" android:textStyle="bold" android:textColor="@color/amount_red"
+            android:layout_marginTop="6dp" />
+        <TextView android:id="@+id/tvCartStock"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="11sp" android:textColor="@color/text_secondary"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+
+    <!-- 右侧：删除 + 数量步进器 -->
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="vertical" android:gravity="end">
+        <TextView android:id="@+id/btnCartDelete"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="删除" android:textSize="12sp" android:textColor="@color/text_secondary"
+            android:paddingLeft="8dp" android:paddingRight="8dp" android:paddingTop="2dp" android:paddingBottom="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginTop="6dp">
+            <TextView android:id="@+id/btnCartMinus"
+                android:layout_width="30dp" android:layout_height="30dp"
+                android:text="−" android:textSize="16sp" android:textColor="@color/text"
+                android:gravity="center" android:background="@drawable/bg_qty_btn" />
+            <TextView android:id="@+id/tvCartQty"
+                android:layout_width="44dp" android:layout_height="30dp"
+                android:textSize="14sp" android:textColor="@color/text"
+                android:gravity="center" android:background="@drawable/bg_qty_btn"
+                android:layout_marginLeft="1dp" android:layout_marginRight="1dp" />
+            <TextView android:id="@+id/btnCartPlus"
+                android:layout_width="30dp" android:layout_height="30dp"
+                android:text="+" android:textSize="16sp" android:textColor="@color/text"
+                android:gravity="center" android:background="@drawable/bg_qty_btn" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

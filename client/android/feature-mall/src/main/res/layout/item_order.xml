@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 我的订单卡片：圆角图 + 名称 + 状态徽标 + 数量/金额 + 时间 + 操作按钮 -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="6dp" app:cardCornerRadius="10dp"
+    app:cardElevation="2dp" app:cardUseCompatPadding="true">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="12dp">
+
+        <!-- 商品行 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <FrameLayout android:layout_width="72dp" android:layout_height="72dp"
+                android:background="@drawable/bg_product_img"
+                android:padding="4dp">
+                <ImageView android:id="@+id/ivOrderImage" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:scaleType="centerCrop"
+                    android:visibility="gone" />
+                <TextView android:id="@+id/tvOrderFallback" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:gravity="center"
+                    android:textSize="22dp" android:textColor="@color/text" />
+            </FrameLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginLeft="12dp"
+                android:orientation="vertical">
+                <TextView android:id="@+id/tvOrderName" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:textSize="15sp"
+                    android:textColor="@color/text" android:maxLines="2" android:ellipsize="end" />
+                <TextView android:id="@+id/tvOrderQty" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textSize="12sp"
+                    android:textColor="@color/text_secondary" android:layout_marginTop="4dp" />
+            </LinearLayout>
+            <TextView android:id="@+id/tvOrderStatus" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:padding="6dp"
+                android:textSize="12sp" android:gravity="center" />
+        </LinearLayout>
+
+        <!-- 物流信息（发货后显示快递公司/单号） -->
+        <TextView android:id="@+id/tvOrderLogistics"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textSize="12sp" android:textColor="@color/taobao_orange"
+            android:layout_marginTop="8dp" android:visibility="gone" />
+
+        <!-- 退款原因/状态说明 -->
+        <TextView android:id="@+id/tvOrderRefundInfo"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textSize="12sp" android:textColor="@color/text_secondary"
+            android:layout_marginTop="4dp" android:visibility="gone" />
+
+        <!-- 金额 + 时间 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+            <TextView android:id="@+id/tvOrderTime" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:textSize="12sp" android:textColor="@color/text_secondary" />
+            <TextView android:id="@+id/tvOrderAmount" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textSize="16sp"
+                android:textStyle="bold" android:textColor="@color/amount_red" />
+        </LinearLayout>
+
+        <!-- 操作按钮：取消订单 / 去支付 / 确认收货 / 申请退款 / 评价 -->
+        <LinearLayout android:id="@+id/rowOrderActions"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="right"
+            android:layout_marginTop="10dp">
+            <TextView android:id="@+id/btnOrderCancel"
+                android:layout_width="wrap_content" android:layout_height="36dp"
+                android:paddingLeft="18dp" android:paddingRight="18dp"
+                android:text="取消订单" android:textSize="13sp" android:textColor="@color/text_secondary"
+                android:gravity="center" android:background="@drawable/bg_outline_btn"
+                android:visibility="gone" />
+            <TextView android:id="@+id/btnOrderPay"
+                android:layout_width="wrap_content" android:layout_height="36dp"
+                android:paddingLeft="18dp" android:paddingRight="18dp" android:layout_marginLeft="8dp"
+                android:text="去支付" android:textSize="13sp" android:textColor="#FFFFFF"
+                android:gravity="center" android:background="@drawable/bg_taobao_btn"
+                android:visibility="gone" />
+            <TextView android:id="@+id/btnOrderRefund"
+                android:layout_width="wrap_content" android:layout_height="36dp"
+                android:paddingLeft="18dp" android:paddingRight="18dp" android:layout_marginLeft="8dp"
+                android:text="申请退款" android:textSize="13sp" android:textColor="@color/text_secondary"
+                android:gravity="center" android:background="@drawable/bg_outline_btn"
+                android:visibility="gone" />
+            <TextView android:id="@+id/btnOrderConfirm"
+                android:layout_width="wrap_content" android:layout_height="36dp"
+                android:paddingLeft="18dp" android:paddingRight="18dp" android:layout_marginLeft="8dp"
+                android:text="确认收货" android:textSize="13sp" android:textColor="#FFFFFF"
+                android:gravity="center" android:background="@drawable/bg_taobao_btn"
+                android:visibility="gone" />
+            <TextView android:id="@+id/btnOrderReview"
+                android:layout_width="wrap_content" android:layout_height="36dp"
+                android:paddingLeft="18dp" android:paddingRight="18dp" android:layout_marginLeft="8dp"
+                android:text="评价" android:textSize="13sp" android:textColor="#FFFFFF"
+                android:gravity="center" android:background="@drawable/bg_taobao_btn"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

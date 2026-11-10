@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DayNight 主题：支持黑夜/白天模式切换 -->
+    <style name="Theme.FamilyChat" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/green</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorIcon">@color/icon</item>
+        <!-- 让 AlertDialog 等组件跟随主题 -->
+        <item name="colorSurface">@color/surface</item>
+        <item name="android:colorBackground">@color/bg</item>
+    </style>
+
+    <!-- 主页"+"下拉菜单 PopupWindow 动画 -->
+    <style name="PopupMenuAnim">
+        <item name="android:windowEnterAnimation">@anim/popup_menu_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_menu_out</item>
+    </style>
+</resources>

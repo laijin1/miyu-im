@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  音频设备选择面板（底部弹出）。
+  4 行：扬声器 / 听筒 / 蓝牙 / 有线耳机；每行 = 左图标 + 中文字 + 右对勾（当前选中）。
+  未连接的行（蓝牙 / 有线耳机）由 AudioRouteDialog 在运行时置灰并取消点击。
+  图标 tint 在 View 层给（而非在 drawable 里烘焙），因为本面板是白底、通话页是黑底，两处颜色相反。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_audio_route_sheet"
+    android:paddingTop="20dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="你可以选择以下音频设备"
+        android:textSize="15sp"
+        android:textColor="#888888"
+        android:gravity="center"
+        android:paddingBottom="12dp" />
+
+    <!-- ===== 扬声器 ===== -->
+    <LinearLayout
+        android:id="@+id/rowRouteSpeaker"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/ivRouteSpeakerIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_speaker"
+            android:tint="#FF222222"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvRouteSpeaker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="扬声器"
+            android:textSize="16sp"
+            android:textColor="#FF222222" />
+
+        <ImageView
+            android:id="@+id/ivRouteSpeakerCheck"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_check_on"
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- ===== 听筒 ===== -->
+    <LinearLayout
+        android:id="@+id/rowRouteEarpiece"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/ivRouteEarpieceIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_earpiece"
+            android:tint="#FF222222"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvRouteEarpiece"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="听筒"
+            android:textSize="16sp"
+            android:textColor="#FF222222" />
+
+        <ImageView
+            android:id="@+id/ivRouteEarpieceCheck"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_check_on"
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- ===== 蓝牙 ===== -->
+    <LinearLayout
+        android:id="@+id/rowRouteBluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/ivRouteBluetoothIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_bluetooth"
+            android:tint="#FF222222"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvRouteBluetooth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="蓝牙"
+            android:textSize="16sp"
+            android:textColor="#FF222222" />
+
+        <ImageView
+            android:id="@+id/ivRouteBluetoothCheck"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_check_on"
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- ===== 有线耳机 ===== -->
+    <LinearLayout
+        android:id="@+id/rowRouteWired"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/ivRouteWiredIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_headset"
+            android:tint="#FF222222"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvRouteWired"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="有线耳机"
+            android:textSize="16sp"
+            android:textColor="#FF222222" />
+
+        <ImageView
+            android:id="@+id/ivRouteWiredCheck"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_check_on"
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- ===== 静音对方（开关型，不是路由选择）=====
+         与上面 4 行的语义差异：对勾不表示"当前路由"，而表示"本地静音开关已打开"。
+         点击只切换本地播放拦截（CallEngine.toggleLocalMute），不发信令、对方不知道，
+         并且刻意不关闭本面板 —— 用户要能连点两次取消静音。 -->
+    <LinearLayout
+        android:id="@+id/rowLocalMute"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/ivLocalMuteIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_volume_off"
+            android:tint="#FF222222"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvLocalMute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="静音对方"
+            android:textSize="16sp"
+            android:textColor="#FF222222" />
+
+        <ImageView
+            android:id="@+id/ivLocalMuteCheck"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_check_on"
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFEEEEEE" />
+
+    <TextView
+        android:id="@+id/btnRouteCancel"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center"
+        android:text="取消"
+        android:textSize="16sp"
+        android:textColor="#FF666666"
+        android:background="?android:attr/selectableItemBackground" />
+</LinearLayout>

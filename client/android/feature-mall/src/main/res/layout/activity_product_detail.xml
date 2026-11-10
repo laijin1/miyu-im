@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/surface">
+        <ImageButton android:id="@+id/btnDetailBack"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_back" android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="商品详情" android:textSize="17sp"
+            android:textColor="@color/text" android:gravity="center" />
+        <TextView android:id="@+id/btnDetailFav"
+            android:layout_width="wrap_content" android:layout_height="match_parent"
+            android:text="♡" android:textSize="22sp" android:textColor="@color/text_secondary"
+            android:gravity="center" android:paddingLeft="14dp" android:paddingRight="14dp"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+    </LinearLayout>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:overScrollMode="never">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="8dp">
+
+            <!-- 大图（圆角，白色内边距包裹） -->
+            <FrameLayout android:layout_width="match_parent" android:layout_height="300dp"
+                android:background="@color/surface" android:padding="8dp">
+                <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:background="@drawable/bg_product_img">
+                    <ImageView android:id="@+id/ivDetailImage" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:scaleType="centerCrop"
+                        android:visibility="gone" />
+                    <TextView android:id="@+id/tvDetailFallback" android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:gravity="center"
+                        android:textSize="48dp" android:textColor="@color/text"
+                        android:background="@drawable/bg_product_img" />
+                </FrameLayout>
+            </FrameLayout>
+
+            <!-- 店铺卡 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                android:background="@color/surface" android:paddingLeft="14dp" android:paddingRight="14dp"
+                android:layout_marginTop="8dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp"
+                    android:src="@drawable/ic_shop" android:contentDescription="店铺" />
+                <TextView android:id="@+id/tvDetailSeller" android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1"
+                    android:textSize="15sp" android:textColor="@color/text"
+                    android:layout_marginLeft="8dp" android:maxLines="1" android:ellipsize="end" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="进店 ›" android:textSize="12sp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+
+            <!-- 主信息 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:background="@color/surface"
+                android:padding="14dp" android:layout_marginTop="8dp">
+                <TextView android:id="@+id/tvDetailName" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:textSize="17sp"
+                    android:textStyle="bold" android:textColor="@color/text" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="bottom"
+                    android:layout_marginTop="8dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="¥" android:textSize="16sp" android:textStyle="bold"
+                        android:textColor="@color/amount_red" />
+                    <TextView android:id="@+id/tvDetailPrice" android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:layout_weight="1"
+                        android:textSize="28sp" android:textStyle="bold"
+                        android:textColor="@color/amount_red" />
+                    <TextView android:id="@+id/tvDetailSales" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:textSize="12sp"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/border" android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="商品描述" android:textSize="13sp"
+                    android:textColor="@color/text_secondary" />
+                <TextView android:id="@+id/tvDetailDesc" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:textSize="14sp"
+                    android:textColor="@color/text" android:layout_marginTop="6dp" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/border" android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- 数量选择 -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="购买数量" android:textSize="14sp"
+                        android:textColor="@color/text" />
+                    <TextView android:id="@+id/btnDetailMinus" android:layout_width="38dp"
+                        android:layout_height="38dp" android:text="−" android:textSize="20sp"
+                        android:textColor="@color/text" android:gravity="center"
+                        android:background="@drawable/bg_qty_btn" />
+                    <TextView android:id="@+id/tvDetailQty" android:layout_width="46dp"
+                        android:layout_height="38dp" android:gravity="center"
+                        android:text="1" android:textSize="15sp" android:textColor="@color/text" />
+                    <TextView android:id="@+id/btnDetailPlus" android:layout_width="38dp"
+                        android:layout_height="38dp" android:text="＋" android:textSize="20sp"
+                        android:textColor="@color/text" android:gravity="center"
+                        android:background="@drawable/bg_qty_btn" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 商品评价 -->
+            <LinearLayout android:id="@+id/cardDetailReviews"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:background="@color/surface"
+                android:layout_marginTop="8dp" android:padding="14dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="商品评价" android:textSize="15sp"
+                        android:textStyle="bold" android:textColor="@color/text" />
+                    <TextView android:id="@+id/tvDetailReviewCount"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:textSize="12sp" android:textColor="@color/text_secondary" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/llDetailReviews"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+            <!-- 服务保障 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:orientation="horizontal" android:gravity="center"
+                android:background="@color/surface" android:layout_marginTop="8dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="正品保障" android:textSize="12sp"
+                    android:textColor="@color/text_secondary" android:gravity="center" />
+                <View android:layout_width="1dp" android:layout_height="20dp"
+                    android:background="@color/border" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="极速发货" android:textSize="12sp"
+                    android:textColor="@color/text_secondary" android:gravity="center" />
+                <View android:layout_width="1dp" android:layout_height="20dp"
+                    android:background="@color/border" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="7天退换" android:textSize="12sp"
+                    android:textColor="@color/text_secondary" android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 底部购买栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="54dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/surface" android:paddingLeft="16dp" android:paddingRight="12dp">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:textSize="14sp"
+            android:textColor="@color/text_secondary" android:text="合计" />
+        <TextView android:id="@+id/tvDetailTotal" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:textSize="16sp" android:textStyle="bold"
+            android:textColor="@color/amount_red" android:gravity="left"
+            android:layout_marginLeft="6dp" />
+        <TextView android:id="@+id/btnDetailAddCart" android:layout_width="0dp"
+            android:layout_height="44dp" android:layout_weight="1"
+            android:text="加入购物车" android:textSize="14sp"
+            android:textColor="@color/white" android:gravity="center"
+            android:background="@drawable/bg_taobao_btn"
+            android:alpha="0.85"
+            android:layout_marginRight="6dp" />
+        <TextView android:id="@+id/btnDetailBuy" android:layout_width="0dp"
+            android:layout_height="44dp" android:layout_weight="1"
+            android:text="立即购买" android:textSize="15sp"
+            android:textColor="#FFFFFF" android:gravity="center"
+            android:background="@drawable/bg_taobao_btn" />
+    </LinearLayout>
+</LinearLayout>

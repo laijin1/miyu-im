@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.javalin:javalin:6.3.0'
+    implementation 'org.slf4j:slf4j-simple:2.0.16'
+    implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
+    implementation 'com.auth0:java-jwt:4.4.0'
+    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'org.mindrot:jbcrypt:0.4'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+}
+
+application {
+    mainClass = 'com.familychat.server.FamilyChatServer'
+}
+
+// 运维工具入口（不随服务启动，不进 HTTP 路由）：
+//   gradle dbadmin -Pcmd="schema"
+//   gradle dbadmin -Pcmd="wallet-reset --apply"
+tasks.register('dbadmin', JavaExec) {
+    group = 'application'
+    description = '运行 DbAdminTool 运维子命令（清库/对账/回收），-Pcmd="..." 传参'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.familychat.server.tools.DbAdminTool'
+    args = (project.findProperty('cmd') ?: 'schema').toString().split(' ').findAll { it }
+    // 运维工具绝不能落到 build/test-data：显式指向真实数据目录（与 Database 默认解析一致）
+    // org.sqlite.tmpdir：sqlite-jdbc 要把本地库解到临时目录，默认位置在受限环境里不可写，
+    // 固定到 build/sqlite-tmp 保证在沙箱/CI 下也能跑。
+    jvmArgs = [
+            '-Dfamilychat.data.dir=' + file('data').absolutePath,
+            '-Dorg.sqlite.tmpdir=' + file('build/sqlite-tmp').absolutePath,
+    ]
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+shadowJar {
+    archiveBaseName.set('familychat-server')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+}
+
+// application 插件的分发任务（startScripts/distTar/distZip）会消费 shadowJar 产物，
+// 必须显式声明依赖，否则 Gradle 8.x 的任务依赖校验会直接让 build 失败。
+tasks.named('startScripts') { dependsOn(tasks.named('shadowJar')) }
+tasks.named('distTar')      { dependsOn(tasks.named('shadowJar')) }
+tasks.named('distZip')      { dependsOn(tasks.named('shadowJar')) }
+// shadow 插件自带的 startShadowScripts 会消费 :jar 产物，同样需要显式依赖。
+tasks.named('startShadowScripts') { dependsOn(tasks.named('jar')) }
+
+// JUnit 5 测试：测试数据写入独立临时目录（familychat.data.dir），绝不触碰真实 data/
+test {
+    useJUnitPlatform()
+    systemProperty 'familychat.data.dir', System.getProperty('familychat.data.dir', 'build/test-data')
+    // sqlite-jdbc 要把本地库解到临时目录；受限环境（沙箱/CI）下系统 temp 不可写，
+    // 会导致所有用例以 UnsatisfiedLinkError 失败。固定到 build/ 下保证可写；
+    // clean 会把这个目录删掉，所以必须在测试前重新建出来（否则 clean test 必挂）。
+    def sqliteTmp = layout.buildDirectory.dir('sqlite-tmp')
+    systemProperty 'org.sqlite.tmpdir', sqliteTmp.get().asFile.absolutePath
+    // clean 之后 build/test-data 不存在：Database/ServerConfig 的静态初始化要在里面
+    // 建 family_chat.db 与 jwt_secret.key，目录缺失会让静态初始化抛异常，
+    // 表现为一堆莫名其妙的 NoClassDefFoundError。测试前必须先建目录。
+    def testData = layout.buildDirectory.dir('test-data')
+    // 固定测试密钥：测试不再依赖 build/test-data/jwt_secret.key 是否存在。
+    // 该文件缺失而数据库存在时，ServerConfig 会按设计拒绝启动（防生产误轮换导致全员登出），
+    // 于是"上次测试留下的 db + 本次 clean 删掉的密钥"会让整批用例集体以
+    // ExceptionInInitializerError 失败。注入固定密钥即可彻底消除这个测试与生产保护的冲突。
+    // 仅测试使用，与线上密钥无关。
+    systemProperty 'jwt.secret', 'test-only-jwt-secret-0123456789abcdef'
+    // 把 java.io.tmpdir 也指到 build/ 下：受限环境（沙箱/CI）里系统 temp 目录常常不可写，
+    // 任何 Files.createTempFile 都会 AccessDeniedException（早期探针用例踩过）。
+    systemProperty 'java.io.tmpdir', layout.buildDirectory.dir('tmp-test').get().asFile.absolutePath
+    doFirst {
+        sqliteTmp.get().asFile.mkdirs()
+        testData.get().asFile.mkdirs()
+        layout.buildDirectory.dir('tmp-test').get().asFile.mkdirs()
+    }
+    testLogging {
+        events 'failed', 'skipped'
+        exceptionFormat 'full'
+    }
+}

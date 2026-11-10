@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  卡片行按压反馈：ripple 叠在圆角卡片底上。
+  mask 用 card_bg（不是透明色）——透明 mask 会让涟漪溢出圆角，行角上出现方角水波。
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/divider">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/card_bg" />
+            <corners android:radius="@dimen/radius_l" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+</ripple>

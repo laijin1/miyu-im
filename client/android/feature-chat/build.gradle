@@ -1,0 +1,52 @@
+// ── :feature-chat 聊天/通话/短视频功能模块 ──
+// 只依赖 :core + :ui-common + :feature-wallet（转账卡片样式等），不依赖其它功能模块。
+// 收编：聊天/语音视频通话/短视频播放、E2EE 消息加密、本地消息库、WebRTC 信令。
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.familychat.app.feature_chat'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // 见 :core/build.gradle 说明：让 android.util.Base64 / Log 在 JVM 单测里可用，
+    // 从而能直接测 E2EE 加解密这类纯逻辑，不必上模拟器。
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':ui-common')
+    implementation project(':feature-wallet')
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // WebRTC 音视频通话
+    implementation 'io.getstream:stream-webrtc-android:1.2.0'
+    // ExoPlayer 短视频播放（Media3）
+    implementation 'androidx.media3:media3-exoplayer:1.3.1'
+    implementation 'androidx.media3:media3-ui:1.3.1'
+    // ExoPlayer 走 OkHttp 取流：默认数据源是 DefaultHttpDataSource（系统 DNS），
+    // 解析不了 miyu.lan。换成 OkHttpDataSource 复用 HttpClientProvider 的 Dns。
+    implementation 'androidx.media3:media3-datasource-okhttp:1.3.1'
+    // 图片加载
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+
+    // 单元测试
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation project(':core')
+}

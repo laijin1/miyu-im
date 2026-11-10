@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 危险按钮底：danger 描边 + danger 约 8% 淡底（退出群聊 / 解散群聊） -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/danger_bg" />
+            <stroke android:width="1dp" android:color="@color/danger_pressed" />
+            <corners android:radius="@dimen/radius_m" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/danger_bg" />
+            <stroke android:width="1dp" android:color="@color/danger" />
+            <corners android:radius="@dimen/radius_m" />
+        </shape>
+    </item>
+</selector>

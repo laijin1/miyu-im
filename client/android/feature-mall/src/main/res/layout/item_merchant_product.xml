@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 商家后台-我的商品行：圆角图 + 名称/状态 + 价格/库存 + 编辑/上架下架按钮 -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="6dp" app:cardCornerRadius="10dp"
+    app:cardElevation="2dp" app:cardUseCompatPadding="true">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:padding="10dp">
+
+        <FrameLayout android:layout_width="68dp" android:layout_height="68dp"
+            android:background="@drawable/bg_product_img" android:padding="4dp">
+            <ImageView android:id="@+id/ivMpImage" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:scaleType="centerCrop"
+                android:visibility="gone" />
+            <TextView android:id="@+id/tvMpFallback" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:gravity="center"
+                android:textSize="22dp" android:textColor="@color/text" />
+        </FrameLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:layout_marginLeft="12dp"
+            android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <TextView android:id="@+id/tvMpName" android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1"
+                    android:textSize="15sp" android:textColor="@color/text"
+                    android:maxLines="1" android:ellipsize="end" />
+                <TextView android:id="@+id/tvMpStatus" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:padding="4dp"
+                    android:textSize="11sp" android:gravity="center" />
+            </LinearLayout>
+            <TextView android:id="@+id/tvMpPrice" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textSize="16sp"
+                android:textStyle="bold" android:textColor="@color/amount_red"
+                android:layout_marginTop="4dp" />
+            <TextView android:id="@+id/tvMpStock" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textSize="12sp"
+                android:textColor="@color/text_secondary" android:layout_marginTop="2dp" />
+
+            <!-- 操作按钮：编辑 + 上架/下架 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="right"
+                android:layout_marginTop="8dp">
+                <TextView android:id="@+id/btnMpEdit"
+                    android:layout_width="wrap_content" android:layout_height="28dp"
+                    android:paddingLeft="16dp" android:paddingRight="16dp"
+                    android:text="编辑" android:textSize="12sp" android:textColor="@color/text_secondary"
+                    android:gravity="center" android:background="@drawable/bg_outline_btn" />
+                <TextView android:id="@+id/btnMpToggle"
+                    android:layout_width="wrap_content" android:layout_height="28dp"
+                    android:paddingLeft="16dp" android:paddingRight="16dp" android:layout_marginLeft="8dp"
+                    android:text="上架" android:textSize="12sp" android:textColor="#FFFFFF"
+                    android:gravity="center" android:background="@drawable/bg_taobao_btn" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

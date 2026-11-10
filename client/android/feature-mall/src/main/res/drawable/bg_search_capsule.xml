@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 商城顶部搜索胶囊（淘宝橙浅底） -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/search_capsule_bg" />
+    <corners android:radius="18dp" />
+</shape>

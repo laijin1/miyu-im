@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  群成员行：头像 + (昵称 / 副标题) + 群主·管理员胶囊 + 移除。
+  id 与控件类型全部沿用改造前（findViewById 契约不变）：
+  ivMemberAvatar / tvMemberName / tvMemberSub / tvOwnerTag / btnRemove。
+  ⚠️ btnRemove 必须是 TextView：Activity 里调 setVisibility + setOnClickListener。
+  ⚠️ tvOwnerTag 的颜色由 Activity 运行时 setTextColor 决定（群主 green / 管理员 0xFFFB8C00），
+     这里只给描边胶囊外形，不写死文字色。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="60dp"
+    android:orientation="horizontal" android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground"
+    android:paddingStart="@dimen/spacing_l" android:paddingEnd="@dimen/spacing_l">
+
+    <ImageView android:id="@+id/ivMemberAvatar"
+        android:layout_width="@dimen/avatar_row" android:layout_height="@dimen/avatar_row"
+        android:src="@drawable/ic_avatar_placeholder"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="@dimen/spacing_m" />
+
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:orientation="vertical">
+
+        <TextView android:id="@+id/tvMemberName"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="成员" android:textSize="@dimen/text_size_subtitle"
+            android:textColor="@color/text" android:maxLines="1" android:ellipsize="end" />
+
+        <!-- 副标题是运行时才可能被赋值的（"我" / 禁言状态），默认必须不可见，
+             否则空文本也会在名称下面占出一行高度 -->
+        <TextView android:id="@+id/tvMemberSub"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="" android:textSize="@dimen/text_size_caption"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="1dp"
+            android:maxLines="1" android:ellipsize="end"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView android:id="@+id/tvOwnerTag"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="群主" android:textSize="@dimen/text_size_caption"
+        android:background="@drawable/bg_ff_role_tag"
+        android:paddingStart="@dimen/spacing_s" android:paddingEnd="@dimen/spacing_s"
+        android:paddingTop="2dp" android:paddingBottom="2dp"
+        android:layout_marginEnd="@dimen/spacing_s"
+        android:visibility="gone" />
+
+    <TextView android:id="@+id/btnRemove"
+        android:layout_width="wrap_content" android:layout_height="32dp"
+        android:text="移除" android:textSize="13sp" android:textColor="@color/danger"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/spacing_s" android:paddingEnd="@dimen/spacing_s"
+        android:background="@drawable/bg_ff_remove"
+        android:visibility="gone" />
+</LinearLayout>

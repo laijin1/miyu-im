@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- :feature-group 群聊功能模块清单 -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name="com.familychat.app.ui.GroupChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.familychat.app.ui.CreateGroupActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.familychat.app.ui.GroupDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.familychat.app.ui.GroupAnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.familychat.app.ui.GroupSearchActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.familychat.app.ui.GroupFileActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.familychat.app.ui.GroupAlbumActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.familychat.app.ui.GroupPollActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+    </application>
+</manifest>

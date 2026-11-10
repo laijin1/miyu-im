@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- 通话音频路由到蓝牙耳机：API 31+ 访问蓝牙设备需要 BLUETOOTH_CONNECT
+         （API ≤30 由已废弃的 BLUETOOTH 覆盖；本 App 未申请旧权限，故 24-30 走 SCO 路径时
+         不依赖运行时蓝牙权限）。 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!-- 通话悬浮窗（TYPE_APPLICATION_OVERLAY）：系统级特殊权限，不在运行时请求列表里，
+         需引导用户到 Settings.ACTION_MANAGE_OVERLAY_PERMISSION 手动授权。 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <!-- 仅 Android 9 及以下下到公共"下载"目录需要写权限（Android 10+ 由 DownloadManager 直接下） -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- 通话前台服务（specialUse）：API 34+ 起前台服务类型必须配套声明权限。
+         刻意不用 phoneCall —— 该类型面向默认拨号器/Telecom 场景，前置条件由平台决定，
+         specialUse 不引入这类准入要求。 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <!-- 通话前台服务同时声明 microphone / camera 类型（见下方 CallService）：
+         Android 14（API 34）起，App 退到后台后要继续用麦克风/摄像头采集，
+         必须有对应前台服务类型 + 这两个配套权限，否则采集被系统静音。 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+    <!-- 已移除 REQUEST_IGNORE_BATTERY_OPTIMIZATIONS：该权限常被杀软判为"保活/常驻"风险项，
+         且前台服务 + 通知已能满足长连接保活需求。 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 来电全屏通知（setFullScreenIntent）：targetSdk 34 起平台要求显式声明，
+         否则锁屏/灭屏来电时不会展开 CallActivity（Android 10+ 后台 startActivity 被拦，
+         这条是唯一的替代路径）。声音仍由 RingtonePlayer 负责，见 IncomingCallNotifier。 -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- 下载完成后弹系统安装页，需要声明此权限，否则 canRequestPackageInstalls() 会抛 SecurityException -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <application
+        android:name=".FamilyChatApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="密语"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FamilyChat"
+        android:networkSecurityConfig="@xml/network_security_config">
+
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden" />
+        <activity
+            android:name=".ui.FriendRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MyQrCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SearchChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false" />
+        <!-- 密钥管理（E2EE 私钥指纹只读展示；换机迁移入口） -->
+        <activity
+            android:name=".ui.KeyManagementActivity"
+            android:exported="false" />
+        <!-- 私钥二维码导出（屏幕展示 + 保存相册；含私钥，禁止截图外传） -->
+        <activity
+            android:name=".ui.KeyQrExportActivity"
+            android:exported="false" />
+        <!-- 私钥扫码导入（相机权限 + 覆盖确认；唯一的密钥写入入口） -->
+        <activity
+            android:name=".ui.KeyQrImportActivity"
+            android:exported="false" />
+        <!-- 重置密钥（两次确认 + 同步服务端密码加密备份；危险操作） -->
+        <activity
+            android:name=".ui.KeyResetActivity"
+            android:exported="false" />
+        <!-- 安全码核对页（E2EE TOFU 第二层：出示/扫描公钥指纹做带外比对；只含公钥，无需 FLAG_SECURE）
+             由 :feature-chat 的聊天详情页通过 Routes.SAFETY_NUMBER_ACTIVITY + setClassName 拉起 -->
+        <activity
+            android:name=".ui.SafetyNumberActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.PrivacySecurityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ChangePasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ServerInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.UpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.AddFriendActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.SearchUsersActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.UserProfileActivity"
+            android:exported="false" />
+        <!-- 竖屏扫码界面（替换库自带横屏 CaptureActivity） -->
+        <activity
+            android:name=".ui.ScanActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <!-- 万能扫码结果页（网址/文本） -->
+        <activity
+            android:name=".ui.ScanResultActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- uCrop square avatar cropping activity (must be registered) -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <service
+            android:name=".ForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- 通话前台服务：通话在 CallActivity 之外时维持进程存活 + 每秒刷新"通话中 MM:SS"。
+             类型 specialUse|microphone|camera（见上方权限注释）：specialUse 保留（当初为绕开
+             phoneCall 的平台准入）；microphone / camera 是 Android 14 起"退到后台仍可采集"
+             的必要条件。dataSync 的推送保活服务保持原样。 -->
+        <service
+            android:name=".call.CallService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse|microphone|camera" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+    </application>
+</manifest>

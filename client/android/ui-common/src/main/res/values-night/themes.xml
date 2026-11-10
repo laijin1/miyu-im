@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FamilyChat" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/green</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="colorIcon">@color/icon</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="android:colorBackground">@color/bg</item>
+        <!-- 触摸反馈：20% 白叠加在纯黑上 ≈ #333333，点按时有灰底反馈 -->
+        <item name="colorControlHighlight">#33FFFFFF</item>
+        <item name="android:colorControlHighlight">#33FFFFFF</item>
+    </style>
+</resources>

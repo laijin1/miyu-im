@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeWidth="1dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRegUser"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:hint="账号名（@）"
+            android:inputType="text"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginStart="4dp" android:layout_marginBottom="12dp"
+        android:text="@ 是账号名，可随便起但不能重复；昵称随意、可重复"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeWidth="1dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRegNick" android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:hint="昵称（可重复）"
+            android:inputType="text"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeWidth="1dp"
+        app:passwordToggleEnabled="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRegPass" android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeWidth="1dp"
+        app:passwordToggleEnabled="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRegConfirm" android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:hint="确认密码"
+            android:inputType="textPassword"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeWidth="1dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etRegAddr" android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:hint="服务器地址（自动检测）"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginStart="4dp" android:layout_marginBottom="18dp"
+        android:text="手机访问时自动检测，可留空"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent" android:layout_height="52dp"
+        android:backgroundTint="@color/green"
+        android:text="注册"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="14dp" />
+
+    <TextView android:id="@+id/tvRegError" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:textColor="@color/red"
+        android:textSize="14sp" android:gravity="center"
+        android:layout_marginTop="12dp" android:minHeight="22dp" />
+</LinearLayout>

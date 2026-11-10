@@ -1,0 +1,168 @@
+plugins {
+    id 'com.android.application'
+}
+
+// ── 版本单一来源：读 release/version.properties（服务端 /version.json 与 APK 构建共用同一文件，改版本只改一处）──
+def versionProps = new Properties()
+def versionFile = rootProject.file('../../release/version.properties')
+if (versionFile.exists()) {
+    versionFile.withInputStream { versionProps.load(it) }
+}
+def verCode = versionProps.getProperty('versionCode', '1').toInteger()
+def verName = versionProps.getProperty('versionName', '1.0.0')
+
+// ── 正式发布签名：读 release/keystore.properties（该文件与 release.jks 均不入库）──
+// 缺少凭证时 build 仍可用（调试构建不受影响），但 assembleRelease 不会带上签名，
+// 由下方 signRelease 判断给出明显提示，避免再次把 debug 包当正式包发出去。
+def keystoreProps = new Properties()
+def keystoreFile = rootProject.file('../../release/keystore.properties')
+def hasReleaseKey = keystoreFile.exists()
+if (hasReleaseKey) {
+    keystoreFile.withInputStream { keystoreProps.load(it) }
+}
+def signRelease = hasReleaseKey
+
+/**
+ * 从 release keystore 中读出签名证书的 SHA-256 指纹（大写十六进制，无冒号）。
+ * 用于更新时校验"下载到的新包确实由本 App 的发布密钥签名"，防止更新包被替换。
+ */
+def releaseCertSha256 = { ->
+    if (!hasReleaseKey) return ''
+    try {
+        def ks = java.security.KeyStore.getInstance('PKCS12')
+        new File(rootProject.projectDir, '../../release/' + keystoreProps.getProperty('storeFile')).withInputStream {
+            ks.load(it, keystoreProps.getProperty('storePassword').toCharArray())
+        }
+        def cert = ks.getCertificate(keystoreProps.getProperty('keyAlias'))
+        def md = java.security.MessageDigest.getInstance('SHA-256')
+        return md.digest(cert.getEncoded()).collect { String.format('%02X', it) }.join('')
+    } catch (Exception e) {
+        logger.lifecycle("⚠️ 无法读取发布证书指纹（更新校验将回退为内置证书列表）: ${e.message}")
+        return ''
+    }
+}
+
+android {
+    namespace 'com.familychat.app'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.familychat.app"
+        minSdk 24
+        targetSdk 34
+        versionCode verCode
+        versionName verName
+    }
+
+    signingConfigs {
+        release {
+            if (signRelease) {
+                storeFile rootProject.file('../../release/' + keystoreProps.getProperty('storeFile'))
+                storePassword keystoreProps.getProperty('storePassword')
+                keyAlias keystoreProps.getProperty('keyAlias')
+                keyPassword keystoreProps.getProperty('keyPassword')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            // ⚠️ 暂不开启 R8 混淆：该应用大量使用反射/Gson（E2EE 加解密、多账号持久化、
+            // WebSocket 消息映射等），历史上从未用 release 变体验证过，贸然开启会导致
+            // 运行期崩溃（登录闪退）。修复签名/报毒问题不依赖混淆，先保证功能可用。
+            // 待补齐 keep 规则并在真机上完整回归后，再改回 true 并保留下面的 keep 规则。
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (signRelease) {
+                signingConfig signingConfigs.release
+            } else {
+                logger.lifecycle("⚠️ 未找到 release/keystore.properties —— 本次 assembleRelease 产出的 APK 将【没有签名】，无法安装，更不能发布！")
+            }
+            // 签名方案：v2/v3 均开启（现代设备走这两套）。v1（JAR 签名）对
+            // minSdk >= 24 的包 AGP 会自动跳过——Android 6 及以下才需要 v1，本项目
+            // minSdk 24 不需要，故实测 verify 显示 v1=false 属正常。
+            signingConfigs.release.enableV1Signing true
+            signingConfigs.release.enableV2Signing true
+            signingConfigs.release.enableV3Signing true
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    packaging {
+        resources {
+            excludes.add("META-INF/DEPENDENCIES")
+        }
+    }
+
+    // 让 android.util.Base64 / Log 在 JVM 单测可用（详见 :core/build.gradle 注释）
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+// 把发布证书指纹注入 BuildConfig，供更新校验使用（不读则返回空串，回退到内置列表）
+android.applicationVariants.all { variant ->
+    variant.buildConfigField "String", "RELEASE_CERT_SHA256", "\"${releaseCertSha256()}\""
+}
+
+dependencies {
+    // ── 核心层（网络/数据/基础工具）：功能模块化的依赖地基 ──
+    implementation project(':core')
+    // ── 设计系统（颜色/主题/通用组件）：UI 统一风格的地基 ──
+    implementation project(':ui-common')
+    // ── 功能模块（按需单向依赖；模块间无循环）──
+    implementation project(':feature-wallet')
+    implementation project(':feature-mall')
+    implementation project(':feature-chat')
+    implementation project(':feature-group')
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    // ⚠️ 必须显式钉住 androidx.core 1.13.0（不能删）：
+    // appcompat 1.6.1 把 androidx.core:core-ktx 钉在 1.9.0，而 core 跟随 core-ktx，
+    // 于是 core 被解析成 1.9.0 —— 那个版本【没有】NotificationCompat.CallStyle
+    // （1.9.0 的 AAR 里查不到 NotificationCompat$CallStyle，1.13.0/1.17.0 才有）。
+    // 来电通知（IncomingCallNotifier）用 CallStyle 渲染接听/挂断按钮，删掉这行会编译失败：
+    //   IncomingCallNotifier.java: 错误: 找不到符号 变量 CallStyle
+    implementation 'androidx.core:core-ktx:1.13.0'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+
+    // QQ 联系人页：联系人按拼音首字母分组（pinyin4j，Maven Central 稳定可用）
+    implementation 'com.belerweb:pinyin4j:2.5.1'
+
+    // OkHttp
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    // OkHttp WebSocket (included in okhttp above)
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.11.0'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    // Glide 走 OkHttp 加载图片：Glide 默认用 HttpURLConnection（系统 DNS），
+    // 解析不了 miyu.lan，也拿不到 HttpClientProvider 的自定义 Dns。
+    // 用它 + MiyuGlideModule 把 Glide 的请求接到共享 client 上。
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.16.0'
+
+    // uCrop (1:1 square avatar cropping, JitPack)
+    implementation 'com.github.yalantis:ucrop:2.2.8'
+
+    // ZXing (QR scan + generate)
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.google.zxing:core:3.5.3'
+
+    // 单元测试（纯 JVM，不需要模拟器/真机）
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'com.google.code.gson:gson:2.11.0'
+}

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  私钥扫码导入页（第 3 步）。
+  颜色全部引用 :ui-common 的 @color/* 体系，values-night 已覆盖。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/surface">
+
+        <ImageButton
+            android:id="@+id/btnImportBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回"
+            android:src="@drawable/ic_back"
+            android:tint="?attr/colorIcon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫码导入私钥"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ===== 状态提示（校验结果/错误原因都显示在这里）===== -->
+            <TextView
+                android:id="@+id/tvImportStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/text"
+                android:text="点下方按钮扫描另一台设备上显示的私钥二维码。" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 操作按钮 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnImportScan"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="扫描二维码"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnImportAlbum"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    android:text="从相册选择二维码图片"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 说明 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="导入前请先确认"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="· 如果本机还没有密钥，扫码后会直接导入。\n· 如果本机已有密钥且与二维码一致，会提示「密钥一致，无需导入」。\n· 如果两者不一致，会先让你核对两个指纹，确认后才替换。\n\n注意：替换后，本机原有聊天记录将永久无法解密。"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/text" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

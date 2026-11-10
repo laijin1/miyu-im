@@ -1,0 +1,32 @@
+// ── :ui-common 设计系统模块（企业化 UI 的起点）──
+// 只放「设计令牌 + 通用视觉资源」，不包含任何业务代码：
+//   values/colors.xml   — 配色令牌
+//   values/themes.xml   — 主题（Theme.FamilyChat）
+//   values/attrs.xml    — 自定义属性（colorIcon 等）
+//   values-night/       — 黑夜模式覆盖
+//   color/              — 色彩状态列表（导航 tab/图标着色）
+//   anim/               — 通用动画
+// 后续 UI 大改：所有界面只从本模块取色/取主题/取组件，改设计只动这一处。
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.familychat.app.ui_common'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    // 主题父类 Theme.MaterialComponents.DayNight.*
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+}

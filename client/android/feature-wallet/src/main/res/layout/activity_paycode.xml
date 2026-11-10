@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/surface">
+
+    <!-- 顶部密语品牌色区：返回 + 标题 + 分段切换 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/wallet_green"
+        android:paddingTop="6dp" android:paddingBottom="18dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:id="@+id/btnPayCodeBack" android:layout_width="40dp" android:layout_height="match_parent"
+                android:text="‹" android:textSize="26dp" android:textColor="#FFFFFF"
+                android:gravity="center" android:background="?attr/selectableItemBackgroundBorderless" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="收付款" android:textSize="17dp" android:textStyle="bold"
+                android:textColor="#FFFFFF" android:gravity="center" />
+            <TextView android:layout_width="40dp" android:layout_height="match_parent" />
+        </LinearLayout>
+        <!-- 分段控件 -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:layout_marginLeft="24dp" android:layout_marginRight="24dp" android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_segment_pill">
+            <TextView android:id="@+id/tabCollect" android:layout_width="0dp" android:layout_height="match_parent"
+                android:layout_weight="1" android:text="二维码收款" android:textSize="15dp"
+                android:textColor="@color/wallet_green" android:gravity="center" />
+            <TextView android:id="@+id/tabPay" android:layout_width="0dp" android:layout_height="match_parent"
+                android:layout_weight="1" android:text="向商家付款" android:textSize="15dp"
+                android:textColor="#CCFFFFFF" android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+
+        <!-- 收款 tab：头像+昵称+收款码+保存 -->
+        <LinearLayout android:id="@+id/collectPanel" android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="vertical" android:gravity="center_horizontal"
+            android:paddingLeft="20dp" android:paddingRight="20dp">
+            <TextView android:id="@+id/tvCollectAvatar" android:layout_width="56dp" android:layout_height="56dp"
+                android:layout_marginTop="22dp" android:textSize="24sp" android:textColor="#FFFFFF"
+                android:gravity="center" android:background="@drawable/bg_avatar_circle"
+                android:text="我" />
+            <TextView android:id="@+id/tvCollectName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:textSize="15sp" android:textColor="@color/text"
+                android:text="我的昵称" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+                android:orientation="vertical" android:gravity="center">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:gravity="center_horizontal"
+                    android:background="@drawable/bg_qr_card"
+                    android:paddingTop="16dp" android:paddingBottom="16dp">
+                    <ImageView android:id="@+id/ivCollectQr" android:layout_width="240dp" android:layout_height="240dp"
+                        android:scaleType="fitCenter" android:contentDescription="收款码" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp" android:text="扫一扫向我付款" android:textSize="12sp"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView android:id="@+id/btnSaveCollectQr" android:layout_width="match_parent" android:layout_height="40dp"
+                android:layout_marginBottom="36dp" android:text="保存收款码" android:textSize="15sp"
+                android:textColor="#FFFFFF" android:gravity="center"
+                android:background="@drawable/bg_green_btn" />
+        </LinearLayout>
+
+        <!-- 付款 tab：绿虚线卡（二维码+条形码）+ 付款方式 -->
+        <LinearLayout android:id="@+id/payPanel" android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="vertical" android:gravity="center_horizontal"
+            android:paddingLeft="20dp" android:paddingRight="20dp"
+            android:visibility="gone">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+                android:orientation="vertical" android:gravity="center">
+                <LinearLayout android:id="@+id/payCard" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:gravity="center_horizontal"
+                    android:paddingTop="20dp" android:paddingBottom="20dp">
+                    <ImageView android:id="@+id/ivPayQr" android:layout_width="220dp" android:layout_height="220dp"
+                        android:scaleType="fitCenter" android:contentDescription="付款码" />
+                    <ImageView android:id="@+id/ivBarcode" android:layout_width="match_parent" android:layout_height="56dp"
+                        android:layout_marginLeft="24dp" android:layout_marginRight="24dp" android:layout_marginTop="12dp"
+                        android:scaleType="fitCenter" android:adjustViewBounds="true"
+                        android:contentDescription="付款码条形码" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/rowPayMethod" android:layout_width="match_parent" android:layout_height="48dp"
+                    android:layout_marginTop="18dp" android:orientation="horizontal" android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingLeft="16dp" android:paddingRight="16dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="付款方式" android:textSize="15sp" android:textColor="@color/text" />
+                    <TextView android:id="@+id/tvPayMethod" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="零钱" android:textSize="15sp" android:textColor="@color/wallet_green"
+                        android:textStyle="bold" android:layout_marginRight="4dp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="›" android:textSize="18sp" android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="请商家扫描二维码/条形码，向你的零钱发起收款" android:textSize="12sp"
+                android:textColor="@color/text_secondary" android:gravity="center"
+                android:paddingBottom="36dp" android:paddingLeft="24dp" android:paddingRight="24dp" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- QQ 联系人页字母分组头：A-Z / #。背景用 panel_bg（白天 #F2F2F2 / 黑夜 #1F1F1F 自动切换） -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:textSize="13sp" android:textColor="@color/text_secondary"
+    android:background="@color/panel_bg"
+    android:paddingLeft="16dp" android:paddingTop="6dp"
+    android:paddingRight="16dp" android:paddingBottom="6dp" />

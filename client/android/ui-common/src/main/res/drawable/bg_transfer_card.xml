@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  转账卡片底色。原先放在 app 模块，但 feature-chat / feature-wallet 的布局也要用，
+  而 feature-* 并不依赖 app（app 依赖 feature-*），构成反向依赖：
+  debug 构建靠资源合并侥幸通过，release 的 verifyReleaseResources 会直接报
+  "resource drawable/bg_transfer_card not found"。故下沉到 ui-common
+  （paycode_orange 颜色也定义在此），所有 feature 模块都能正确引用。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/paycode_orange" />
+    <corners android:radius="8dp" />
+</shape>

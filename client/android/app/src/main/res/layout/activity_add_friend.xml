@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 添加朋友页：顶部搜索框 + 扫一扫 + 我的二维码（密语式） -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/surface"
+        android:elevation="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageButton
+                android:id="@+id/btnAddFriendBack"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back" android:tint="?attr/colorIcon"
+                android:scaleType="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加朋友"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/text"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 搜索框 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@color/surface">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_search_input"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_search"
+                android:tint="@color/text_secondary" />
+            <EditText
+                android:id="@+id/etAddFriendSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:background="@null"
+                android:hint="密语号 / 账号名"
+                android:textSize="15dp"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text_secondary"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnAddFriendSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:text="搜索"
+            android:textColor="@color/green"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border" />
+
+    <!-- 扫一扫 -->
+    <LinearLayout
+        android:id="@+id/rowAddFriendScan"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_scan_icon"
+            android:tint="@color/green" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="14dp"
+            android:text="扫一扫"
+            android:textSize="16dp"
+            android:textColor="@color/text" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textSize="20dp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border" />
+
+    <!-- 我的二维码 -->
+    <LinearLayout
+        android:id="@+id/rowAddFriendQr"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_qr_code"
+            android:tint="@color/green" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="14dp"
+            android:text="我的二维码"
+            android:textSize="16dp"
+            android:textColor="@color/text" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textSize="20dp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+</LinearLayout>

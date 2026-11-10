@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="密语 · 端对端加密的安全聊天。下载 Android 安装包（APK）。">
+<meta name="format-detection" content="telephone=no">
+<title>密语 · 下载 Android 版</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='64' y2='64' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%232196F3'/%3E%3Cstop offset='1' stop-color='%2322D3EE'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Crect x='16' y='21' width='32' height='22' rx='6' fill='none' stroke='%23fff' stroke-width='3.4'/%3E%3Cpath d='M25 43 L25 52 L34 43Z' fill='%23fff'/%3E%3Ccircle cx='26' cy='32' r='2.4' fill='%23fff'/%3E%3Ccircle cx='32' cy='32' r='2.4' fill='%23fff'/%3E%3Ccircle cx='38' cy='32' r='2.4' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   密语 · APK 下载页样式
+   单文件、零外链、零 CDN；配色取自 App 黑夜主题
+   （ui-common/src/main/res/values-night/colors.xml）：
+   纯黑 #000 / 面板 #1F1F1F / 卡片 #2A2A2A / 描边 #3A3A3A /
+   次要文字 #AAAAAA，主色 #2196F3（App 品牌蓝）
+   ============================================================ */
+
+:root{
+  color-scheme:dark;
+  --bg:#000000;
+  --surface:#0A0C10;
+  --card:#12161D;
+  --card-2:#171C24;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.16);
+  --text:#F3F6FA;
+  --muted:#9AA4B2;
+  --faint:#6E7887;
+  --accent:#2196F3;
+  --accent-2:#22D3EE;
+  --accent-soft:rgba(33,150,243,.14);
+  --grad:linear-gradient(135deg,#2196F3 0%,#22D3EE 100%);
+  --radius-lg:22px;
+  --radius-md:18px;
+  --radius-sm:12px;
+  --shadow-1:0 12px 34px rgba(0,0,0,.55);
+  --shadow-accent:0 12px 34px rgba(33,150,243,.30);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei UI","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background-color:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+::selection{background:rgba(34,211,238,.28);color:#fff}
+a{color:inherit}
+img,svg{display:block}
+[hidden]{display:none !important}
+
+/* ---------- 背景：纯黑 + 两层青色/蓝色光晕 + 点阵 ---------- */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--bg);contain:strict}
+.bg::after{
+  content:"";position:absolute;inset:-2px;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px);
+  background-size:26px 26px;
+  mask-image:radial-gradient(120% 85% at 50% 0%,#000 0%,rgba(0,0,0,.35) 45%,transparent 78%);
+  -webkit-mask-image:radial-gradient(120% 85% at 50% 0%,#000 0%,rgba(0,0,0,.35) 45%,transparent 78%);
+}
+/* 光晕：用多层径向渐变的 alpha 衰减做柔边，完全不使用 filter:blur
+   （blur 会让浏览器每帧重新计算模糊，是这页最大的卡顿源） */
+.orb{
+  position:absolute;border-radius:50%;opacity:.6;
+  will-change:transform;
+  transform:translate3d(0,0,0);
+  contain:paint;
+}
+.orb-a{width:58vmax;height:58vmax;left:-22vmax;top:-30vmax;background:radial-gradient(circle at 50% 50%,rgba(33,150,243,.40),rgba(33,150,243,.17) 34%,rgba(33,150,243,.05) 56%,rgba(33,150,243,0) 72%);animation:drift 34s ease-in-out infinite alternate}
+.orb-b{width:46vmax;height:46vmax;right:-18vmax;top:-12vmax;background:radial-gradient(circle at 50% 50%,rgba(34,211,238,.30),rgba(34,211,238,.12) 34%,rgba(34,211,238,.03) 56%,rgba(34,211,238,0) 72%);animation:drift 42s ease-in-out infinite alternate-reverse}
+.orb-c{width:44vmax;height:44vmax;left:26vw;bottom:-26vmax;background:radial-gradient(circle at 50% 50%,rgba(33,150,243,.22),rgba(33,150,243,.08) 34%,rgba(33,150,243,.02) 56%,rgba(33,150,243,0) 72%);animation:drift 52s ease-in-out infinite alternate}
+
+/* ---------- 版心 ---------- */
+.wrap{
+  position:relative;z-index:1;
+  width:100%;max-width:700px;margin:0 auto;
+  padding:clamp(18px,3.4vw,30px) clamp(18px,4.6vw,26px) clamp(28px,4.6vw,44px);
+}
+.top{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin-bottom:clamp(26px,6vw,54px);
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{
+  width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  background:var(--grad);
+  display:grid;place-items:center;
+  box-shadow:0 4px 14px rgba(33,150,243,.35);
+}
+.brand-mark svg{width:17px;height:17px}
+.brand-name{font-size:15px;font-weight:600;letter-spacing:.08em;color:#E7ECF3}
+.top-actions{display:flex;gap:8px;flex-shrink:0}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  height:31px;padding:0 12px;
+  font-size:12.5px;font-weight:500;color:var(--muted);
+  background:rgba(255,255,255,.045);
+  border:1px solid var(--line);
+  border-radius:999px;
+  cursor:pointer;
+  transition:color .18s ease,border-color .18s ease,background .18s ease,transform .18s ease;
+  white-space:nowrap;
+}
+.chip:hover{color:var(--text);border-color:var(--line-strong);background:rgba(255,255,255,.08)}
+.chip:active{transform:scale(.97)}
+.chip svg{width:13.5px;height:13.5px;flex-shrink:0}
+.chip.done{color:#7FE9D2;border-color:rgba(34,211,238,.45);background:rgba(34,211,238,.12)}
+.chip:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+
+/* ---------- 主视觉 ---------- */
+.hero{text-align:center;display:flex;flex-direction:column;align-items:center}
+.app-icon{
+  position:relative;
+  width:clamp(84px,22vw,104px);height:clamp(84px,22vw,104px);
+  border-radius:26%;
+  overflow:hidden;isolation:isolate;
+  filter:drop-shadow(0 14px 30px rgba(33,150,243,.30)) drop-shadow(0 2px 8px rgba(0,0,0,.6));
+}
+.app-icon::before{
+  content:"";position:absolute;inset:-34%;z-index:-1;
+  background:conic-gradient(from 0deg,rgba(33,150,243,.55),rgba(34,211,238,.55),rgba(33,150,243,.55));
+  /* 静态光晕 + 缓慢呼吸：只动 opacity，不旋转、不模糊 */
+  animation:breathe 9s ease-in-out infinite alternate;
+}
+.app-icon svg{width:100%;height:100%;position:relative;z-index:1}
+.hero h1{
+  margin-top:clamp(18px,4vw,26px);
+  font-size:clamp(38px,10.5vw,58px);
+  font-weight:700;letter-spacing:.14em;text-indent:.14em;line-height:1.12;
+  background:linear-gradient(180deg,#FFFFFF 12%,#B9C6D6 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.tagline{
+  margin-top:12px;
+  font-size:clamp(14px,3.7vw,16px);font-weight:500;letter-spacing:.20em;text-indent:.20em;
+  color:var(--muted);
+}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:20px;padding:7px 15px 7px 11px;
+  font-size:12.5px;color:#BFE7F7;
+  background:linear-gradient(180deg,rgba(34,211,238,.13),rgba(33,150,243,.07));
+  border:1px solid rgba(34,211,238,.24);
+  border-radius:999px;
+}
+.dot-ok{
+  position:relative;
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+  background:var(--accent-2);
+}
+/* 呼吸光环：用 transform+opacity 实现，避免动画 box-shadow（每帧重绘） */
+.dot-ok::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:var(--accent-2);
+  animation:ring 2.6s ease-out infinite;
+}
+.pill.is-wait{color:#F5D9A8;border-color:rgba(245,178,64,.30);background:linear-gradient(180deg,rgba(245,178,64,.14),rgba(245,178,64,.05))}
+.pill.is-wait .dot-ok{background:#F5B240}
+.pill.is-wait .dot-ok::after{background:#F5B240}
+
+.hero-cta{margin-top:clamp(28px,6vw,36px);display:flex;flex-direction:column;align-items:center;gap:14px}
+.btn{
+  -webkit-appearance:none;appearance:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:13px;
+  font-family:inherit;font-size:16.5px;font-weight:600;letter-spacing:.02em;
+  text-decoration:none;cursor:pointer;
+  border-radius:16px;
+  transition:transform .2s cubic-bezier(.22,.61,.36,1),box-shadow .2s ease,filter .2s ease,background .2s ease,opacity .2s ease;
+  position:relative;overflow:hidden;
+  max-width:100%;
+}
+.btn .ico{width:20px;height:20px;flex-shrink:0}
+.btn-primary{
+  padding:19px 38px;
+  color:#04121C;
+  background:var(--grad);
+  box-shadow:0 14px 34px rgba(33,150,243,.30),inset 0 1px 0 rgba(255,255,255,.38);
+}
+.btn-primary::after{
+  content:"";position:absolute;top:0;left:0;width:70%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.42),transparent);
+  transform:translateX(-180%) skewX(-18deg);
+  will-change:transform;
+  animation:sheen 4.8s ease-in-out infinite;
+  pointer-events:none;
+}
+.btn-xl{padding:23px 46px;font-size:17.5px;border-radius:17px;width:100%;max-width:440px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 42px rgba(33,150,243,.42),inset 0 1px 0 rgba(255,255,255,.45);filter:brightness(1.05)}
+.btn-primary:active{transform:scale(.985) translateY(0)}
+.btn:focus-visible{outline:2px solid #FFFFFF;outline-offset:3px}
+.btn[aria-disabled="true"]{cursor:not-allowed;filter:none;opacity:.5;box-shadow:none}
+.btn[aria-disabled="true"]::after{display:none}
+.btn[aria-disabled="true"]:hover{transform:none}
+.btn-pill{font-size:13px;padding:10px 16px;border-radius:12px}
+.btn-ghost{
+  color:var(--text);
+  background:rgba(255,255,255,.045);
+  border:1px solid var(--line);
+  padding:14px 22px;
+}
+.btn-ghost:hover{background:rgba(255,255,255,.085);border-color:var(--line-strong);transform:translateY(-1px)}
+.btn-ghost:active{transform:scale(.985)}
+.btn-ghost.done{color:#7FE9D2;border-color:rgba(34,211,238,.45);background:rgba(34,211,238,.10)}
+.btn-note{font-size:12.5px;color:var(--faint);letter-spacing:.02em}
+#iosHint{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  max-width:440px;padding:11px 15px;
+  font-size:12.5px;line-height:1.5;color:#F5D9A8;text-align:left;
+  background:rgba(245,178,64,.09);
+  border:1px solid rgba(245,178,64,.22);
+  border-radius:12px;
+}
+#iosHint svg{width:15px;height:15px;flex-shrink:0;margin-top:1px}
+
+/* ---------- 卡片通用 ---------- */
+.card{
+  margin-top:16px;
+  background:linear-gradient(180deg,var(--card),var(--surface));
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-1);
+  transition:border-color .22s ease,transform .22s cubic-bezier(.22,.61,.36,1),box-shadow .22s ease;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(30px,7vw,46px)}
+.grid .card{margin-top:0;display:flex;flex-direction:column}
+.card-pad{padding:22px 22px 24px}
+.card:hover{border-color:var(--line-strong);transform:translateY(-2px);box-shadow:0 18px 44px rgba(0,0,0,.6)}
+@media(hover:none){.card:hover{transform:none}}
+
+.card-title{
+  display:flex;align-items:center;gap:9px;
+  font-size:11.5px;font-weight:600;letter-spacing:.22em;color:var(--faint);
+  margin-bottom:16px;
+}
+.card-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line-strong),transparent)}
+.card-title svg{width:14px;height:14px;color:var(--accent-2);flex-shrink:0}
+
+/* 版本卡 */
+.ver-new{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.ver-name{
+  font-size:29px;font-weight:700;letter-spacing:.01em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.ver-build{font-size:12.5px;color:var(--faint);font-family:var(--mono);letter-spacing:.02em}
+.ver-meta{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+.meta-row{display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:13.5px}
+.meta-row .k{color:var(--faint);flex-shrink:0}
+.meta-row .v{color:#DDE4EC;font-weight:500;text-align:right}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.02em}
+.hash-click{cursor:pointer;transition:color .18s ease}
+.hash-click:hover{color:#9FE4F7}
+.ver-hint{
+  margin-top:auto;padding-top:16px;
+  font-size:12px;line-height:1.6;color:var(--faint);
+  border-top:1px solid var(--line);
+}
+.ver-hint b{color:var(--muted);font-weight:600}
+
+/* 更新日志 */
+.cl-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  width:100%;padding:0;border:0;background:none;font-family:inherit;
+  cursor:pointer;color:inherit;text-align:left;
+}
+.cl-head:focus-visible{outline:2px solid var(--accent-2);outline-offset:4px;border-radius:8px}
+.cl-head .card-title{margin-bottom:0;flex:1}
+.chev{
+  width:26px;height:26px;flex-shrink:0;border-radius:50%;
+  display:grid;place-items:center;
+  color:var(--muted);background:rgba(255,255,255,.05);border:1px solid var(--line);
+  transition:transform .3s cubic-bezier(.22,.61,.36,1),background .2s ease,color .2s ease;
+}
+.chev svg{width:13px;height:13px}
+.cl:hover .chev{color:var(--text);background:rgba(255,255,255,.09)}
+.cl.is-open .chev{transform:rotate(180deg)}
+.cl-panel{overflow:hidden}
+.cl-list{
+  list-style:none;
+  max-height:min(46vh,340px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  margin-top:16px;
+  padding-right:6px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.18) transparent;
+}
+.cl-list::-webkit-scrollbar{width:6px}
+.cl-list::-webkit-scrollbar-track{background:transparent}
+.cl-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}
+.cl-item{display:flex;gap:11px;padding:11px 0;border-top:1px solid var(--line)}
+.cl-item:first-child{border-top:0;padding-top:2px}
+.cl-num{
+  flex-shrink:0;width:20px;height:20px;margin-top:2px;border-radius:6px;
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:#9FE4F7;
+  background:rgba(34,211,238,.11);
+  border:1px solid rgba(34,211,238,.20);
+}
+.cl-text{font-size:13.5px;line-height:1.72;color:#B9C3D0}
+.cl-plain{margin-top:16px;font-size:13.5px;line-height:1.72;color:#B9C3D0;white-space:pre-wrap;word-break:break-word}
+
+/* ---------- 下载区 ---------- */
+.dl-card{
+  margin-top:16px;padding:clamp(22px,5vw,30px);
+  display:flex;flex-direction:column;align-items:center;gap:15px;text-align:center;
+  scroll-margin-top:22px;
+}
+.dl-title{font-size:clamp(18px,4.6vw,21px);font-weight:600;letter-spacing:.01em}
+.dl-sub{font-size:13px;color:var(--faint);margin-top:-4px}
+.dl-status{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:20px;font-size:13px;color:var(--muted);
+}
+.dl-status svg{width:14px;height:14px;flex-shrink:0}
+.dl-status.is-ok{color:#7FE9D2}
+.dl-status.is-wait{color:#F5B240}
+.dl-status .spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.16);border-top-color:var(--accent-2);animation:spin .8s linear infinite}
+.bar{
+  width:100%;max-width:440px;height:4px;border-radius:999px;
+  background:rgba(255,255,255,.07);overflow:hidden;position:relative;
+}
+.bar::after{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:38%;
+  border-radius:999px;background:var(--grad);
+  transform:translateX(-110%);
+  will-change:transform;
+  animation:slide 1.35s ease-in-out infinite;
+}
+
+/* ---------- 页脚 ---------- */
+.foot{
+  margin-top:clamp(34px,7vw,52px);padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;flex-direction:column;gap:13px;
+  font-size:12.5px;color:var(--faint);
+}
+.foot-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.foot .srv{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.foot .srv .k{color:var(--faint)}
+.copy-host{
+  -webkit-appearance:none;appearance:none;font-family:var(--mono);font-size:12.5px;
+  color:#9FC6DC;background:rgba(255,255,255,.045);border:1px solid var(--line);
+  border-radius:8px;padding:4px 9px;cursor:pointer;
+  transition:color .18s ease,border-color .18s ease,background .18s ease;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.copy-host:hover{color:#CFEAF7;border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.10)}
+.copy-host.done{color:#7FE9D2;border-color:rgba(34,211,238,.45)}
+.copy-host:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.foot-note{font-size:12px;color:#5C6572;line-height:1.7}
+
+/* ---------- 动效（全部只使用 transform / opacity，保持合成器动画） ---------- */
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(4%,5%,0) scale(1.12)}}
+@keyframes breathe{from{opacity:.62}to{opacity:1}}
+@keyframes ring{0%{transform:scale(1);opacity:.55}70%{transform:scale(2.8);opacity:0}100%{transform:scale(2.8);opacity:0}}
+@keyframes sheen{0%{transform:translateX(-180%) skewX(-18deg)}55%{transform:translateX(260%) skewX(-18deg)}100%{transform:translateX(260%) skewX(-18deg)}}
+@keyframes slide{0%{transform:translateX(-110%)}100%{transform:translateX(365%)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:720px){
+  .grid{grid-template-columns:1fr}
+  /* 手机上更新日志不做「卡内滚动」：取消限高，并彻底取消滚动容器与滚动劫持，
+     否则手指滑到列表里就会被嵌套滚动吃掉，页面滑不动 */
+  .cl-list{
+    max-height:none;
+    overflow-y:visible;
+    overscroll-behavior:auto;
+    padding-right:0;
+  }
+}
+@media(max-width:480px){
+  .top{margin-bottom:24px}
+  .brand-name{display:none}
+  .chip{padding:0 11px;font-size:12px}
+  .btn-xl{padding:19px 26px;font-size:16px}
+  .btn-primary:not(.btn-pill){padding:17px 26px}
+  .hero h1{letter-spacing:.1em;text-indent:.1em}
+  .tagline{letter-spacing:.16em;text-indent:.16em}
+  .card-pad{padding:19px 18px 21px}
+  .dl-card{padding:22px 18px}
+  .foot-row{flex-direction:column;align-items:flex-start;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <span class="orb orb-a"></span>
+  <span class="orb orb-b"></span>
+  <span class="orb orb-c"></span>
+</div>
+
+<main class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.4a8.2 8.2 0 0 1-8.5 8.2 9.3 9.3 0 0 1-3.5-.7L3 20.5l1.6-4.4A8 8 0 0 1 3.5 11.4a8.2 8.2 0 0 1 8.5-8.2 8.2 8.2 0 0 1 9 8.2z"/>
+        </svg>
+      </span>
+      <span class="brand-name">密语</span>
+    </div>
+    <div class="top-actions">
+      <button class="chip" id="verChip" type="button" title="查看更新日志">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18"/><path d="M9.5 3 8 9l4 12 4-12-1.5-6"/></svg>
+        <span id="verChipText">检查版本…</span>
+      </button>
+      <button class="chip" id="linkChip" type="button" data-orig="复制链接" data-done="已复制">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.4"/><path d="M6.5 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1.5"/></svg>
+        <span id="linkChipText">复制链接</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="app-icon" aria-hidden="true">
+      <svg viewBox="0 0 512 512" role="presentation">
+        <defs>
+          <linearGradient id="mg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#2196F3"/>
+            <stop offset="1" stop-color="#22D3EE"/>
+          </linearGradient>
+          <linearGradient id="ms" x1="0" y1="0" x2="0" y2="512" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity=".28"/>
+            <stop offset=".5" stop-color="#FFFFFF" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <rect width="512" height="512" rx="116" fill="url(#mg)"/>
+        <rect x="4" y="4" width="504" height="504" rx="112" fill="url(#ms)"/>
+        <!-- 对话气泡 -->
+        <rect x="150" y="158" width="250" height="164" rx="46"
+              fill="none" stroke="#FFFFFF" stroke-opacity=".94" stroke-width="22"/>
+        <!-- 气泡小尾巴 -->
+        <path d="M196 322 L196 386 L265 322 Z" fill="#FFFFFF" fill-opacity=".94"/>
+        <!-- 锁 -->
+        <path d="M222 158 v-24 a44 44 0 0 1 88 0 v24"
+              fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round"/>
+        <circle cx="266" cy="240" r="20" fill="#FFFFFF" fill-opacity=".95"/>
+        <rect x="259" y="244" width="14" height="30" rx="7" fill="#FFFFFF" fill-opacity=".95"/>
+      </svg>
+    </div>
+
+    <h1>密语</h1>
+    <p class="tagline">端对端加密 · 安全聊天</p>
+
+    <div class="pill" id="pubPill">
+      <span class="dot-ok" aria-hidden="true"></span>
+      <span id="pubText">正在获取最新版本…</span>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn btn-primary" id="dlBtn" href="/apk" download="密语.apk" aria-disabled="false">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3.5v11.5"/><path d="M7.4 10.4 12 15l4.6-4.6"/><path d="M4.5 19.5h15"/>
+        </svg>
+        <span id="dlBtnText">下载 Android APK</span>
+      </a>
+      <span class="btn-note" id="dlNote">适用于 Android 手机 / 平板 · 直连本服务器下载</span>
+      <p id="iosHint" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20H2.5z"/><path d="M12 9.5v5"/><circle cx="12" cy="17.4" r=".9" fill="currentColor" stroke="none"/></svg>
+        <span>当前是 iOS 设备，无法安装 APK。请在 Android 手机或平板上打开本页。</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="版本信息">
+    <article class="card card-pad">
+      <h2 class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
+        当前版本
+      </h2>
+      <div class="ver-new">
+        <span class="ver-name" id="verName">—</span>
+        <span class="ver-build" id="verBuild">Build —</span>
+      </div>
+      <div class="ver-meta">
+        <div class="meta-row"><span class="k">安装包</span><span class="v">Android APK</span></div>
+        <div class="meta-row"><span class="k">文件大小</span><span class="v" id="sizeInfo">获取中…</span></div>
+        <div class="meta-row"><span class="k">SHA-256</span><span class="v mono" id="hashInfo">—</span></div>
+      </div>
+      <p class="ver-hint">下载完成后可核对文件大小与 <b>SHA-256</b>（点击哈希可复制完整值），确认安装包未被篡改。</p>
+    </article>
+
+    <article class="card card-pad cl" id="clBox">
+      <button class="cl-head" type="button" id="clHead" aria-expanded="false" aria-controls="clPanel">
+        <h2 class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5h9.5L19 8v12.5H5z"/><path d="M14 3.5V8h5"/><path d="M8.5 12h7M8.5 16h5"/></svg>
+          更新日志
+        </h2>
+        <span class="chev" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 12 9l6 6"/></svg>
+        </span>
+      </button>
+      <div class="cl-panel" id="clPanel" hidden>
+        <ol class="cl-list" id="clList"></ol>
+        <p class="cl-plain" id="clPlain" hidden></p>
+      </div>
+    </article>
+  </section>
+
+  <section class="card dl-card" id="download" aria-label="下载">
+    <h2 class="dl-title">下载密语 Android 版</h2>
+    <p class="dl-sub">端对端加密，消息与通话不经过第三方服务器中转存储</p>
+    <a class="btn btn-primary btn-xl" id="dlBtn2" href="/apk" download="密语.apk" aria-disabled="false">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3.5v11.5"/><path d="M7.4 10.4 12 15l4.6-4.6"/><path d="M4.5 19.5h15"/>
+      </svg>
+      <span id="dlBtn2Text">下载 Android APK</span>
+    </a>
+    <div class="bar" id="dlBar" hidden></div>
+    <p class="dl-status" id="dlStatus" aria-live="polite">点击按钮开始下载</p>
+  </section>
+
+  <footer class="foot">
+    <div class="foot-row">
+      <div class="srv">
+        <span class="k">当前服务器</span>
+        <button class="copy-host" id="hostChip" type="button" title="点击复制服务器地址"><span id="srvAddr">—</span></button>
+      </div>
+      <div>© 2026 密语 · 保留所有权利</div>
+    </div>
+    <div class="foot-note">请仅从本页面下载安装包。密语不提供网页聊天，聊天内容全程端对端加密。</div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function(id){ return document.getElementById(id); };
+
+  var els = {
+    dlBtn: $("dlBtn"), dlBtn2: $("dlBtn2"),
+    dlBtnText: $("dlBtnText"), dlBtn2Text: $("dlBtn2Text"),
+    dlNote: $("dlNote"), dlStatus: $("dlStatus"), dlBar: $("dlBar"),
+    verName: $("verName"), verBuild: $("verBuild"), sizeInfo: $("sizeInfo"), hashInfo: $("hashInfo"),
+    pubText: $("pubText"), pubPill: $("pubPill"),
+    verChip: $("verChip"), verChipText: $("verChipText"),
+    linkChip: $("linkChip"), linkChipText: $("linkChipText"),
+    srvAddr: $("srvAddr"), hostChip: $("hostChip"),
+    iosHint: $("iosHint"),
+    clBox: $("clBox"), clHead: $("clHead"), clPanel: $("clPanel"), clList: $("clList"), clPlain: $("clPlain")
+  };
+
+  var state = { published:null, versionName:"", size:0, sha:"" };
+  var copyBusy = false;
+  var dlTimer = null;
+
+  /* ---------------- 工具 ---------------- */
+
+  function fmtSize(bytes){
+    if(!bytes || bytes <= 0) return "";
+    if(bytes < 1024) return bytes + " B";
+    if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    if(bytes < 1024 * 1024 * 1024) return (bytes / 1024 / 1024).toFixed(1) + " MB";
+    return (bytes / 1024 / 1024 / 1024).toFixed(2) + " GB";
+  }
+
+  /* 复制：优先 Clipboard API；不可用时（http 环境等）回退 execCommand */
+  function copyText(text){
+    if(copyBusy || !text) return Promise.resolve(false);
+    copyBusy = true;
+    var done = function(ok){ copyBusy = false; return ok; };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text).then(function(){ return done(true); }, function(){ return done(legacy(text)); });
+    }
+    return Promise.resolve(done(legacy(text)));
+  }
+  function legacy(text){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:-9999px;opacity:0";
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e){ return false; }
+  }
+
+  function feedback(chip, labelEl, ok, text){
+    if(!chip || !labelEl) return;
+    var orig = chip.getAttribute("data-orig") || labelEl.textContent;
+    var done = chip.getAttribute("data-done") || "已复制";
+    chip.classList.toggle("done", !!ok);
+    labelEl.textContent = ok ? done : "复制失败";
+    window.setTimeout(function(){
+      chip.classList.remove("done");
+      labelEl.textContent = orig;
+    }, 1700);
+  }
+
+  /* 把 "1)xxx2)yyy"（编号之间有无空格都要支持）拆成条目；拆不出条目返回 null */
+  function splitChangelog(text){
+    var parts = String(text).split(/(?=\d{1,2}\s*[)）])/).map(function(s){ return s.trim(); }).filter(Boolean);
+    if(!parts.length) return null;
+    var items = [];
+    for(var i = 0; i < parts.length; i++){
+      var m = parts[i].match(/^\d{1,2}\s*[)）]\s*([\s\S]*)$/);
+      if(!m) return null;
+      if(m[1].trim()) items.push(m[1].trim());
+    }
+    return items.length ? items : null;
+  }
+
+  /* 更新日志：能拆成条目就渲染有序列表，否则原样展示纯文本 */
+  function renderChangelog(raw){
+    var text = String(raw == null ? "" : raw).trim();
+    if(!text){
+      els.clList.hidden = true;
+      els.clPlain.hidden = false;
+      els.clPlain.textContent = "本次更新没有提供说明。";
+      return;
+    }
+    var items = splitChangelog(text);
+    if(!items){
+      els.clList.hidden = true;
+      els.clPlain.hidden = false;
+      els.clPlain.textContent = text;
+      return;
+    }
+    els.clList.hidden = false;
+    els.clPlain.hidden = true;
+    var frag = document.createDocumentFragment();
+    for(var j = 0; j < items.length; j++){
+      var li = document.createElement("li");
+      li.className = "cl-item";
+      var num = document.createElement("span");
+      num.className = "cl-num";
+      num.textContent = String(j + 1);
+      var span = document.createElement("span");
+      span.className = "cl-text";
+      span.textContent = items[j];   /* 纯文本写入，不解析 HTML */
+      li.appendChild(num);
+      li.appendChild(span);
+      frag.appendChild(li);
+    }
+    els.clList.textContent = "";
+    els.clList.appendChild(frag);
+  }
+
+  /* 折叠面板：优先用 WAAPI 过渡高度，不支持则直接显隐 */
+  function toggleChangelog(force){
+    var open = (typeof force === "boolean") ? force : els.clPanel.hidden;
+    els.clHead.setAttribute("aria-expanded", open ? "true" : "false");
+    els.clHead.parentNode.classList.toggle("is-open", open);
+    if(REDUCED || typeof els.clPanel.animate !== "function"){
+      els.clPanel.hidden = !open;
+      return;
+    }
+    if(open){
+      els.clPanel.hidden = false;
+      els.clPanel.animate(
+        [{ height:"0px", opacity:0 }, { height: els.clPanel.scrollHeight + "px", opacity:1 }],
+        { duration:300, easing:"cubic-bezier(.22,.61,.36,1)" }
+      );
+    }else{
+      var anim = els.clPanel.animate(
+        [{ height: els.clPanel.scrollHeight + "px", opacity:1 }, { height:"0px", opacity:0 }],
+        { duration:220, easing:"cubic-bezier(.22,.61,.36,1)" }
+      );
+      anim.onfinish = function(){ if(!els.clHead.getAttribute("aria-expanded") || els.clHead.getAttribute("aria-expanded") === "false") els.clPanel.hidden = true; };
+      anim.oncancel = function(){};
+    }
+  }
+
+  /* ---------------- 版本启用状态 ---------------- */
+
+  function setPublished(published){
+    state.published = published;
+    if(dlTimer){ window.clearTimeout(dlTimer); dlTimer = null; }
+    var buttons = [els.dlBtn, els.dlBtn2];
+    for(var i = 0; i < buttons.length; i++){
+      var b = buttons[i];
+      b.setAttribute("aria-disabled", published ? "false" : "true");
+      if(published) b.removeAttribute("tabindex");
+      else b.setAttribute("tabindex", "-1");
+    }
+    if(published){
+      els.dlBtnText.textContent = "下载 Android APK";
+      els.dlBtn2Text.textContent = "下载 Android APK";
+      els.dlNote.textContent = "适用于 Android 手机 / 平板 · 直连本服务器下载";
+      els.dlStatus.className = "dl-status";
+      els.dlStatus.textContent = "点击按钮开始下载";
+      els.pubPill.classList.remove("is-wait");
+      els.pubText.textContent = state.versionName ? ("最新版本 v" + state.versionName) : "已就绪";
+      document.title = state.versionName ? ("密语 v" + state.versionName + " · 下载 Android 版") : "密语 · 下载 Android 版";
+    }else{
+      els.dlBtnText.textContent = "新版本发布中";
+      els.dlBtn2Text.textContent = "新版本发布中";
+      els.dlNote.textContent = "新安装包正在上传，稍后刷新本页即可下载";
+      els.dlStatus.className = "dl-status is-wait";
+      els.dlStatus.textContent = "新版本发布中，暂时无法下载，请稍后刷新重试";
+      els.pubPill.classList.add("is-wait");
+      els.pubText.textContent = "新版本发布中";
+      document.title = "密语 · 新版本发布中";
+      els.dlBar.hidden = true;
+    }
+  }
+
+  /* ---------------- 数据加载 ---------------- */
+
+  function loadVersion(){
+    var ctl = ("AbortController" in window) ? new AbortController() : null;
+    var timer = window.setTimeout(function(){ if(ctl) ctl.abort(); }, 10000);
+    return fetch("/version.json", { cache:"no-store", signal: ctl ? ctl.signal : undefined })
+      .then(function(r){
+        if(!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function(d){
+        state.versionName = d.versionName || "";
+        state.sha = d.apkSha256 || "";
+
+        els.verName.textContent = d.versionName ? ("v" + d.versionName) : "—";
+        els.verBuild.textContent = "Build " + (d.versionCode || "—");
+        els.verChipText.textContent = d.versionName ? ("v" + d.versionName) : "版本";
+
+        if(state.sha && state.sha.length >= 12){
+          els.hashInfo.textContent = state.sha.slice(0, 16) + "…";
+          els.hashInfo.title = "点击复制完整 SHA-256：" + state.sha;
+          els.hashInfo.classList.add("hash-click");
+        }else{
+          els.hashInfo.textContent = "—";
+        }
+
+        renderChangelog(d.changelog);
+
+        if(d.published === false){
+          setPublished(false);
+        }else{
+          setPublished(true);
+          var code = encodeURIComponent(d.versionCode || "0");
+          var href = "/apk?v=" + code + "&_=" + Date.now();
+          els.dlBtn.href = href;
+          els.dlBtn2.href = href;
+          els.dlBtn.setAttribute("download", "密语_v" + (d.versionName || "latest") + ".apk");
+          els.dlBtn2.setAttribute("download", "密语_v" + (d.versionName || "latest") + ".apk");
+        }
+      })
+      .catch(function(){
+        /* 版本接口拿不到时不阻塞下载：手动点击仍可照常下载 */
+        els.verName.textContent = "—";
+        els.verBuild.textContent = "Build —";
+        els.verChipText.textContent = "版本信息获取失败";
+        els.pubPill.classList.remove("is-wait");
+        els.pubText.textContent = "版本信息暂时获取不到";
+        els.dlStatus.className = "dl-status";
+        els.dlStatus.textContent = "版本信息获取失败，仍可直接点击下载";
+        renderChangelog("");
+      })
+      .finally(function(){ window.clearTimeout(timer); });
+  }
+
+  function loadSize(){
+    return fetch("/apk", { method:"HEAD", cache:"no-store" })
+      .then(function(r){
+        if(!r.ok) throw new Error("HTTP " + r.status);
+        var len = parseInt(r.headers.get("Content-Length") || "0", 10);
+        if(len > 0){
+          state.size = len;
+          els.sizeInfo.textContent = fmtSize(len);
+          if(state.published !== false) els.dlBtn2Text.textContent = "下载 Android APK · " + fmtSize(len);
+        }else{
+          els.sizeInfo.textContent = "未知";
+        }
+      })
+      .catch(function(){ els.sizeInfo.textContent = "获取失败"; });
+  }
+
+  /* ---------------- 下载反馈 ---------------- */
+
+  function markDownloading(){
+    if(state.published === false) return;
+    if(dlTimer) window.clearTimeout(dlTimer);
+    els.dlBar.hidden = false;
+    els.dlStatus.className = "dl-status is-ok";
+    els.dlStatus.textContent = "已开始下载，请在浏览器下载列表中查看进度";
+    dlTimer = window.setTimeout(function(){
+      dlTimer = null;
+      if(state.published === false) return;
+      els.dlBar.hidden = true;
+      els.dlStatus.className = "dl-status";
+      els.dlStatus.textContent = "若未自动开始，请再点一次下载按钮";
+    }, 12000);
+  }
+
+  function bindDownload(btn){
+    if(!btn) return;
+    btn.addEventListener("click", function(ev){
+      if(state.published === false || btn.getAttribute("aria-disabled") === "true"){
+        ev.preventDefault();
+        return;
+      }
+      markDownloading();
+    });
+  }
+
+  /* ---------------- 启动 ---------------- */
+
+  function boot(){
+    els.srvAddr.textContent = location.host || "—";
+    if(/iPhone|iPad|iPod/i.test(navigator.userAgent)) els.iosHint.hidden = false;
+
+    els.clHead.addEventListener("click", function(){ toggleChangelog(); });
+    els.verChip.addEventListener("click", function(){
+      var box = els.clBox;
+      if(box && box.scrollIntoView) box.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block:"center" });
+      toggleChangelog(true);
+    });
+    els.linkChip.addEventListener("click", function(){
+      var target = els.dlBtn.href || (location.origin + "/apk");
+      copyText(target).then(function(ok){ feedback(els.linkChip, els.linkChipText, ok); });
+    });
+    els.hashInfo.addEventListener("click", function(){
+      if(!state.sha) return;
+      var prev = els.hashInfo.textContent;
+      copyText(state.sha).then(function(ok){
+        els.hashInfo.textContent = ok ? "已复制完整哈希" : prev;
+        window.setTimeout(function(){ if(ok) els.hashInfo.textContent = prev; }, 1500);
+      });
+    });
+    els.hostChip.addEventListener("click", function(){
+      copyText(location.host).then(function(ok){
+        var prev = els.srvAddr.textContent;
+        els.hostChip.classList.toggle("done", ok);
+        if(ok) els.srvAddr.textContent = "已复制";
+        window.setTimeout(function(){ els.hostChip.classList.remove("done"); els.srvAddr.textContent = prev; }, 1500);
+      });
+    });
+
+    bindDownload(els.dlBtn);
+    bindDownload(els.dlBtn2);
+
+    loadVersion();
+    loadSize();
+  }
+
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+</script>
+</body>
+</html>

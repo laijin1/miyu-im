@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 商家后台-店铺订单行（购买账单）：买家图标+昵称+手机 + 地址图标+地址 + 商品 + 金额/时间 + 发货按钮 -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="6dp" app:cardCornerRadius="10dp"
+    app:cardElevation="2dp" app:cardUseCompatPadding="true">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="12dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                android:src="@drawable/ic_shop" android:contentDescription="买家" />
+            <TextView android:id="@+id/tvMoBuyer" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:textSize="15sp" android:textColor="@color/text"
+                android:layout_marginLeft="6dp" android:maxLines="1" android:ellipsize="end" />
+            <TextView android:id="@+id/tvMoStatus" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:padding="4dp"
+                android:textSize="11sp" android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginTop="6dp">
+            <ImageView android:layout_width="16dp" android:layout_height="16dp"
+                android:src="@drawable/ic_location" android:contentDescription="收货地址" />
+            <TextView android:id="@+id/tvMoAddress" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:textSize="12sp" android:textColor="@color/text_secondary"
+                android:layout_marginLeft="6dp" />
+        </LinearLayout>
+
+        <TextView android:id="@+id/tvMoProduct" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textSize="14sp"
+            android:textColor="@color/text" android:layout_marginTop="6dp"
+            android:maxLines="1" android:ellipsize="end" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+            <TextView android:id="@+id/tvMoTime" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:textSize="12sp" android:textColor="@color/text_secondary" />
+            <TextView android:id="@+id/tvMoAmount" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textSize="16sp"
+                android:textStyle="bold" android:textColor="@color/amount_red" />
+        </LinearLayout>
+
+        <!-- 退款申请信息（买家申请退款时显示原因 + 同意/拒绝） -->
+        <TextView android:id="@+id/tvMoRefundInfo"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textSize="12sp" android:textColor="@color/amount_red"
+            android:layout_marginTop="6dp" android:visibility="gone" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="right"
+            android:layout_marginTop="8dp">
+            <TextView android:id="@+id/btnMoRejectRefund" android:layout_width="wrap_content"
+                android:layout_height="36dp" android:paddingLeft="20dp" android:paddingRight="20dp"
+                android:text="拒绝退款" android:textSize="13sp" android:textColor="@color/text_secondary"
+                android:gravity="center" android:background="@drawable/bg_outline_btn"
+                android:visibility="gone" />
+            <TextView android:id="@+id/btnMoApproveRefund" android:layout_width="wrap_content"
+                android:layout_height="36dp" android:paddingLeft="20dp" android:paddingRight="20dp"
+                android:layout_marginLeft="8dp"
+                android:text="同意退款" android:textSize="13sp" android:textColor="#FFFFFF"
+                android:gravity="center" android:background="@drawable/bg_taobao_btn"
+                android:visibility="gone" />
+            <TextView android:id="@+id/btnMoShip" android:layout_width="wrap_content"
+                android:layout_height="36dp" android:paddingLeft="20dp" android:paddingRight="20dp"
+                android:text="发货" android:textSize="13sp" android:textColor="#FFFFFF"
+                android:gravity="center" android:background="@drawable/bg_taobao_btn"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

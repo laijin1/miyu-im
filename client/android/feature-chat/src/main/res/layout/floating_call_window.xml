@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  通话悬浮窗内容（系统级 TYPE_APPLICATION_OVERLAY，由 CallFloatingWindow 用 WindowManager.addView 挂载）。
+  约 140dp × 90dp：左侧头像 + 名字/计时 + 底部静音/挂断两个小按钮。
+  触摸处理（拖动 / 单击回到通话页）在 CallFloatingWindow 里用 OnTouchListener + GestureDetector 完成，
+  因此这里不给根布局设置任何 clickable/背景涟漪。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/floatingCallRoot"
+    android:layout_width="140dp"
+    android:layout_height="90dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_floating_call_window"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/ivFloatAvatar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvFloatName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="联系人"
+                android:textSize="13sp"
+                android:textColor="#FFFFFFFF"
+                android:singleLine="true"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvFloatTimer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="11sp"
+                android:textColor="#FFAAAAAA"
+                android:singleLine="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/btnFloatMute"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_mic"
+            android:tint="@android:color/white"
+            android:scaleType="fitCenter"
+            android:padding="7dp"
+            android:background="@drawable/bg_call_control" />
+
+        <ImageButton
+            android:id="@+id/btnFloatHangup"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_hangup"
+            android:tint="@android:color/white"
+            android:scaleType="fitCenter"
+            android:padding="7dp"
+            android:background="@drawable/bg_call_hangup" />
+    </LinearLayout>
+</LinearLayout>

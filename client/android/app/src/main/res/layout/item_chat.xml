@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:clipChildren="false">
+
+    <!-- Background: Action buttons (revealed when foreground slides left) -->
+    <LinearLayout
+        android:id="@+id/llActions"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnPin"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="置顶"
+            android:textColor="#fff"
+            android:textSize="13sp"
+            android:background="#ff9500"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/btnClear"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="清空记录"
+            android:textColor="#fff"
+            android:textSize="13sp"
+            android:background="#2196F3"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/btnDelete"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="删除会话"
+            android:textColor="#fff"
+            android:textSize="13sp"
+            android:background="#f15a24"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Foreground: Existing item content (slides left to reveal actions) -->
+    <LinearLayout
+        android:id="@+id/foreground"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="?attr/colorSurface"
+        android:elevation="2dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="12dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="联系人"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <ImageView
+                    android:id="@+id/ivMute"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_volume_off"
+                    android:tint="@color/text_secondary"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp">
+                <TextView
+                    android:id="@+id/tvPreview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="暂无消息"
+                    android:textSize="14dp"
+                    android:textColor="@color/text_secondary"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+                <TextView
+                    android:id="@+id/tvUnreadBadge"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textSize="11dp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/badge_bg"
+                    android:visibility="gone"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

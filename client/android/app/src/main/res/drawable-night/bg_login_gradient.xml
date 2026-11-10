@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 登录/注册页背景（黑夜模式）：深蓝黑渐变，随 DayNight 自动切换 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="135"
+        android:startColor="#1B2432"
+        android:centerColor="#141A24"
+        android:endColor="#10141C" />
+</shape>

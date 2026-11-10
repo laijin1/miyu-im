@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  私钥二维码导出页（第 2 步）。
+  颜色全部引用 :ui-common 的 @color/* 体系，values-night 已覆盖。
+  警告区使用 @color/red 常驻，不可关闭。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/surface">
+
+        <ImageButton
+            android:id="@+id/btnQrExportBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回"
+            android:src="@drawable/ic_back"
+            android:tint="?attr/colorIcon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="导出私钥二维码"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ===== 常驻警告（不可关闭）===== -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="⚠️ 本二维码包含你的私钥。任何人拍到它，就能解密你账号的全部历史消息。请勿截图、勿发给他，用完立即关闭本页。"
+                android:textSize="13sp"
+                android:lineSpacingExtra="4dp"
+                android:textStyle="bold"
+                android:textColor="@color/red" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 二维码卡片 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/ivKeyQr"
+                    android:layout_width="320dp"
+                    android:layout_height="320dp"
+                    android:contentDescription="私钥二维码"
+                    android:scaleType="fitCenter"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvQrCountdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:text="二维码将在 60 秒后自动隐藏" />
+
+                <!-- 指纹：便于对方在自己设备上核对导入的是不是同一把 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:text="本二维码对应的密钥指纹" />
+
+                <TextView
+                    android:id="@+id/tvQrFingerprint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:typeface="monospace"
+                    android:textDirection="ltr" />
+
+                <!-- 口令末 4 位：仅用于**同一用户在另一台设备上肉眼核对**自己输入的口令对不对。
+                     刻意只显示末 4 位、只在导出页本地计算：
+                     二维码里不含任何口令派生信息（那会削弱口令强度）。 -->
+                <TextView
+                    android:id="@+id/tvQrPasswordTail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:typeface="monospace"
+                    android:textDirection="ltr"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:text="（口令末 4 位仅供你在新设备上核对输入是否正确）" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 操作按钮 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnQrShareImage"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="分享二维码图片"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="11sp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/text_secondary"
+                    android:text="为什么没有「保存到相册」：含私钥的图片一旦写入系统相册（共享媒体），任何有存储权限的应用、以及云相册同步都可能永久留存一份副本，而本应用的 60 秒自动隐藏对它无效。分享走系统分享面板的临时授权，不会把图片放进相册。" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnQrHideNow"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    android:text="立即隐藏二维码"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border" />
+
+            <!-- ===== 使用说明 ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="怎么用"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="1. 在新手机上打开「设置 → 密钥管理 → 扫码导入」；\n2. 用新手机扫描这块屏幕上的二维码；\n3. 扫码时会要求输入本页设置的迁移口令，请照着输入；\n4. 扫码前请先核对两台的指纹短码是否一致。"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/text" />
+
+                <!-- 版本兼容提示（用户在导出侧就能看到，避免"导出了却导不进去"） -->
+                <TextView
+                    android:id="@+id/tvQrVersionNotice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="12sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/text_secondary"
+                    android:text="旧版本 App 导出的二维码本版本无法导入；请让两台设备升级到同一版本。" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

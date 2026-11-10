@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 通话应用内浮层底色：半透明黑 + 12dp 圆角（与 bg_floating_call_window.xml 同款）。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#CC000000" />
+    <corners android:radius="12dp" />
+</shape>

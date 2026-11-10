@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_chats" android:title="消息" android:icon="@drawable/ic_msg" />
+    <item android:id="@+id/nav_contacts" android:title="通讯录" android:icon="@drawable/ic_contacts" />
+    <item android:id="@+id/nav_discover" android:title="发现" android:icon="@drawable/ic_discover" />
+    <item android:id="@+id/nav_me" android:title="我的" android:icon="@drawable/ic_me" />
+</menu>

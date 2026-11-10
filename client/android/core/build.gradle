@@ -1,0 +1,45 @@
+// ── :core 核心层模块（增量模块化的第一步）──
+// 只放「不依赖任何界面/业务」的基础能力：
+//   api/    — 网络客户端（ApiClient / Models / WebSocketManager）
+//   utils/  — 基础工具（PreferencesManager / ServerProtocol / Sha / AppLog）
+// 包名保持 com.familychat.app.* 不变 → 业务代码零 import 改动。
+// 后续所有功能模块（:feature-chat / :feature-mall / :feature-wallet ...）只依赖本模块，
+// 功能之间不再互相直接依赖，实现「改一个功能不影响其他」。
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.familychat.app.core'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // 关键：android.util.Base64 / Log 等框架方法在 JVM 单测里默认抛
+    // "not mocked" 异常，置 true 后返回默认值，使纯逻辑（加解密、序列化契约）
+    // 无需模拟器即可测试。本项目 90% 的高风险逻辑都是纯 Java，这条路最快见效。
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    // 网络
+    api 'com.squareup.okhttp3:okhttp:4.12.0'
+    // JSON
+    api 'com.google.code.gson:gson:2.11.0'
+    // 加密 SharedPreferences
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+    // 二维码生成/解析（QrUtils，钱包与扫码功能共用）
+    implementation 'com.google.zxing:core:3.5.3'
+
+    // 单元测试
+    testImplementation 'junit:junit:4.13.2'
+}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  群聊详情（成员管理）：资料卡 + 成员卡 + 底部三级按钮。
+  id 与控件类型全部沿用改造前（findViewById 契约不变）：
+  chatToolbar / btnBack / tvTitle / btnAdd / ivGroupAvatar / tvGroupName /
+  tvGroupCount / rvGroupMembers / btnEditNickname / btnTransfer / btnLeaveGroup。
+  三层语义色区分：常规（改名）描边、敏感（转让群主）warning、危险（退出/解散）danger。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+
+    <!-- ═══ ① 顶栏（id 原样）═══ -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/chatToolbar"
+        android:layout_width="match_parent" android:layout_height="@dimen/toolbar_height"
+        android:background="@color/surface" android:elevation="2dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <ImageButton android:id="@+id/btnBack"
+                android:layout_width="44dp" android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back" android:tint="?attr/colorIcon" android:scaleType="center" />
+            <TextView android:id="@+id/tvTitle"
+                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="群聊详情" android:textSize="@dimen/text_size_title" android:textStyle="bold"
+                android:textColor="@color/text" />
+            <ImageButton android:id="@+id/btnAdd"
+                android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@drawable/ic_add" android:tint="@color/green"
+                android:scaleType="fitCenter" android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- ═══ ② 群资料卡 ═══ -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@drawable/bg_ff_card"
+        android:layout_marginStart="@dimen/spacing_m" android:layout_marginEnd="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:padding="@dimen/card_padding">
+
+        <ImageView android:id="@+id/ivGroupAvatar"
+            android:layout_width="56dp" android:layout_height="56dp"
+            android:src="@drawable/ic_group" android:scaleType="centerCrop" />
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical"
+            android:layout_marginStart="@dimen/spacing_m">
+            <!-- 群主点击改名（Activity 不改：设置 setOnClickListener） -->
+            <TextView android:id="@+id/tvGroupName"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="群聊" android:textSize="18sp" android:textStyle="bold"
+                android:textColor="@color/text" android:maxLines="1" android:ellipsize="end" />
+            <TextView android:id="@+id/tvGroupCount"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="" android:textSize="@dimen/text_size_caption"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ═══ ③ 成员卡（RecyclerView 在卡片内部滚动；保持 weight=1）═══ -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:orientation="vertical"
+        android:background="@drawable/bg_ff_card"
+        android:layout_marginStart="@dimen/spacing_m" android:layout_marginEnd="@dimen/spacing_m"
+        android:layout_marginTop="@dimen/spacing_m" android:layout_marginBottom="@dimen/spacing_m"
+        android:clipToPadding="false">
+
+        <!-- 标题行：纯静态文案（不设 id，Activity 不引用，避免新增任何 id）。
+             人数已由上方资料卡的 tvGroupCount 显示，此处不重复。 -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="群成员" android:textSize="@dimen/text_size_caption"
+            android:textColor="@color/text_secondary"
+            android:paddingStart="@dimen/spacing_l" android:paddingEnd="@dimen/spacing_l"
+            android:paddingTop="@dimen/spacing_m" android:paddingBottom="@dimen/spacing_xs" />
+
+        <View android:layout_width="match_parent" android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="@dimen/spacing_l" android:background="@color/divider" />
+
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvGroupMembers"
+            android:layout_width="match_parent" android:layout_height="0dp"
+            android:layout_weight="1" android:clipToPadding="false" />
+    </LinearLayout>
+
+    <!-- ═══ ④ 底部按钮区：常规 / 敏感 / 危险 ═══ -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/spacing_m" android:layout_marginEnd="@dimen/spacing_m"
+        android:layout_marginBottom="@dimen/spacing_l">
+
+        <Button android:id="@+id/btnEditNickname"
+            style="@style/Widget.FF.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="修改我的群名片" />
+
+        <!-- 仅群主可见（Activity 用 setVisibility 切换，属性必须是 visibility） -->
+        <Button android:id="@+id/btnTransfer"
+            style="@style/Widget.FF.Button.Warning"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_s"
+            android:visibility="gone"
+            android:text="转让群主" />
+
+        <!-- 危险按钮：宽高与"不全宽"的左右留白全部由本处给（style 只描述外观，
+             不再内置 layout_width=0dp —— 那个值会让使用者忘了覆盖就静默不可见）。
+             Activity 会用 setText 切成"解散群聊"，所以这里不设 textAllCaps / 固定文案。 -->
+        <Button android:id="@+id/btnLeaveGroup"
+            style="@style/Widget.FF.Button.Danger"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginStart="@dimen/spacing_xl"
+            android:layout_marginEnd="@dimen/spacing_xl"
+            android:layout_marginTop="@dimen/spacing_s"
+            android:text="退出群聊" />
+    </LinearLayout>
+</LinearLayout>

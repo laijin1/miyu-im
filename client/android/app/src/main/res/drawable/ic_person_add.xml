@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 添加朋友：人像 + 加号 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- 人像 -->
+    <path android:fillColor="#2196F3" android:pathData="M9,11c1.93,0 3.5,-1.57 3.5,-3.5S10.93,4 9,4 5.5,5.57 5.5,7.5 7.07,11 9,11zM9,12c-2.33,0 -4,1.79 -4,3.5V17h8v-1.5c0,-1.71 -1.67,-3.5 -4,-3.5z"/>
+    <!-- 加号 -->
+    <path android:fillColor="#2196F3" android:pathData="M18,8v3h-3v2h3v3h2v-3h3v-2h-3V8h-2z"/>
+</vector>

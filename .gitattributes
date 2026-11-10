@@ -1,0 +1,10 @@
+# 统一行尾：仓库内一律 LF，工作区按文件类型转换
+# 目的：消除 Windows 上反复出现的 "LF will be replaced by CRLF" 警告
+* text=auto eol=lf
+
+# Windows 批处理/PowerShell 必须是 CRLF，否则 cmd 会切错行（本项目踩过）
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# 二进制文件不做任何换行转换
+*.jar binary

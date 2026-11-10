@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 用户资料页（密语式）：大头像 + 昵称 + @账号名 + 取消/添加好友 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/surface"
+        android:elevation="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageButton
+                android:id="@+id/btnProfileBack"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back" android:tint="?attr/colorIcon"
+                android:scaleType="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="详细资料"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/text"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 用户信息卡片 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@color/surface"
+        android:paddingTop="32dp"
+        android:paddingBottom="28dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfileAvatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tvProfileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="昵称"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/text"
+            android:maxLines="1" android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/tvProfileAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@账号名"
+            android:textSize="14dp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="8dp" />
+
+    <!-- 底部操作（弹性占位把按钮推到屏幕底部） -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp" android:paddingRight="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChatFriend"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="发消息"
+            android:textSize="16dp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/green"
+            app:cornerRadius="8dp"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddFriend"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:text="添加好友"
+            android:textSize="16dp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/green"
+            app:cornerRadius="8dp" />
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="16dp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+</LinearLayout>

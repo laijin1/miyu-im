@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/surface">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:id="@+id/btnTransferDetailBack" android:layout_width="40dp" android:layout_height="match_parent"
+            android:text="‹" android:textSize="26dp" android:textColor="@color/text"
+            android:gravity="center" android:background="?attr/selectableItemBackgroundBorderless" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="转账详情" android:textSize="17dp" android:textStyle="bold"
+            android:textColor="@color/text" android:gravity="center" />
+        <TextView android:layout_width="40dp" android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <!-- 金额 + 状态 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="30dp" android:orientation="vertical" android:gravity="center_horizontal">
+        <TextView android:id="@+id/tvDetailAmount" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="¥0.00" android:textSize="34sp" android:textStyle="bold"
+            android:textColor="@color/paycode_orange" />
+        <TextView android:id="@+id/tvDetailStatus" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="6dp" android:text="待收款" android:textSize="14sp"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+
+    <!-- 信息行 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="24dp" android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingLeft="16dp" android:paddingRight="16dp">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="付款方" android:textSize="15sp" android:textColor="@color/text_secondary" />
+            <TextView android:id="@+id/tvDetailFromAvatar" android:layout_width="32dp" android:layout_height="32dp"
+                android:textSize="14sp" android:textColor="#FFFFFF" android:gravity="center"
+                android:background="@drawable/bg_avatar_circle" android:text="?" />
+            <TextView android:id="@+id/tvDetailFromName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp" android:textSize="15sp" android:textColor="@color/text"
+                android:text="付款人" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingLeft="16dp" android:paddingRight="16dp">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="收款方" android:textSize="15sp" android:textColor="@color/text_secondary" />
+            <TextView android:id="@+id/tvDetailToAvatar" android:layout_width="32dp" android:layout_height="32dp"
+                android:textSize="14sp" android:textColor="#FFFFFF" android:gravity="center"
+                android:background="@drawable/bg_avatar_circle" android:text="?" />
+            <TextView android:id="@+id/tvDetailToName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp" android:textSize="15sp" android:textColor="@color/text"
+                android:text="收款人" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingLeft="16dp" android:paddingRight="16dp">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="转账说明" android:textSize="15sp" android:textColor="@color/text_secondary" />
+            <TextView android:id="@+id/tvDetailMemo" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:gravity="right" android:textSize="15sp"
+                android:textColor="@color/text" android:text="无" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingLeft="16dp" android:paddingRight="16dp">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="转账时间" android:textSize="15sp" android:textColor="@color/text_secondary" />
+            <TextView android:id="@+id/tvDetailTime" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:gravity="right" android:textSize="15sp"
+                android:textColor="@color/text" android:text="-" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+
+    <!-- 操作区：确认收款 / 立即退还 / 撤回 -->
+    <TextView android:id="@+id/btnDetailAccept" android:layout_width="match_parent" android:layout_height="46dp"
+        android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
+        android:text="确认收款" android:textSize="16sp" android:textStyle="bold" android:textColor="#FFFFFF"
+        android:gravity="center" android:background="@drawable/bg_green_btn"
+        android:visibility="gone" />
+    <TextView android:id="@+id/btnDetailRefund" android:layout_width="match_parent" android:layout_height="46dp"
+        android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_marginTop="12dp"
+        android:layout_marginBottom="28dp" android:text="立即退还" android:textSize="15sp"
+        android:textColor="@color/text_secondary" android:gravity="center"
+        android:background="?attr/selectableItemBackground"
+        android:visibility="gone" />
+</LinearLayout>

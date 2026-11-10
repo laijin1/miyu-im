@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  群投票：三根不同高度的竖向柱条（统计 / 投票的视觉语言）。
+
+  为什么改：上一版画的是"三根递减的横条"，横条递减读起来是"列表 / 菜单"，
+  一眼看不出是投票。竖柱状图是统计类功能最通用的字形。
+
+  颜色写 @color/icon 只是默认值：GroupDetailPanel 的行内图标会在运行时用主题
+  colorIcon 统一 setColorFilter 着色。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+    <path
+        android:strokeColor="@color/icon" android:strokeWidth="2.8"
+        android:strokeLineCap="round"
+        android:pathData="M6,13.5 L6,19 M12,6 L12,19 M18,9.5 L18,19" />
+</vector>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 音频设备选择面板的底色：白底 + 顶部圆角（底部贴屏，故只圆上两角）。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFFFFFFF" />
+    <corners
+        android:topLeftRadius="16dp"
+        android:topRightRadius="16dp" />
+</shape>

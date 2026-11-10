@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 视频通话小窗口边框：圆角 8dp + 白色边框 2dp（密语风格） -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#000000" />
+    <corners android:radius="8dp" />
+    <stroke
+        android:width="2dp"
+        android:color="#FFFFFF" />
+</shape>

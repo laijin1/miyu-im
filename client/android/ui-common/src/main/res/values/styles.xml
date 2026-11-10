@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  群详情界面共用的样式（新增，纯 additive）。
+
+  存在的理由：全仓此前没有任何 styles.xml，群详情两个界面的字号/行高/按钮底
+  全部硬编码在 XML 属性和 Java 代码里，三级按钮（常规/敏感/危险）无法用一个
+  名字表达。这里只抽出两组最小集合：文字外观 + 卡片/分割线/按钮。
+  Theme.FamilyChat 不在此文件，不动。
+-->
+<resources>
+
+    <!-- ═══════════ 文字外观 ═══════════ -->
+
+    <!-- 卡片组标题：小号、次要色、字距略开（"群应用"这类分组标签） -->
+    <style name="TextAppearance.FF.SectionHeader" parent="">
+        <item name="android:textSize">@dimen/text_size_caption</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <!-- 行标题：正文主色 -->
+    <style name="TextAppearance.FF.ItemTitle" parent="">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <!-- 行右侧值 / 行副标题：次要色 -->
+    <style name="TextAppearance.FF.ItemValue" parent="">
+        <item name="android:textSize">@dimen/text_size_caption</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- ═══════════ 容器 ═══════════ -->
+
+    <!-- 圆角卡片：群资料卡、各分组卡片。不带 elevation（夜间 elevation 着色不可靠），
+         层级靠 card_bg 与 bg 的明度差。 -->
+    <style name="Widget.FF.Card" parent="">
+        <item name="android:background">@drawable/bg_ff_card</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- 卡片内分割线：只描述外观。
+         ⚠️ 宽度/高度/缩进是"使用位置的布局参数"，一律由使用处给（见
+         activity_group_detail.xml 的成员卡分隔线），style 里不写 layout_*：
+         写在这里会让每个使用者都必须覆盖，忘了就静默出错（Button.Danger 的
+         layout_width=0dp 就是这个坑的实例）。当前无人引用本 style。 -->
+    <style name="Widget.FF.Divider" parent="">
+        <item name="android:background">@color/divider</item>
+    </style>
+
+    <!-- 行内装饰图标：只描述外观（尺寸与间距由使用处给）。
+         与 Divider 同理，style 里不写 layout_*。当前无人引用本 style。 -->
+    <style name="Widget.FF.ItemIcon" parent="">
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <!-- ═══════════ 按钮三级（常规 / 敏感 / 危险）═══════════ -->
+
+    <!-- 只描述外观：宽/高/外边距都是布局参数，由使用处的 layout 给。
+         这里放 layout_width 曾导致 Danger 的 0dp 被继承，使用者不覆盖就静默不可见。 -->
+    <style name="Widget.FF.Button" parent="">
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- 常规（次要）：描边 + 表面底 —— 修改我的群名片 -->
+    <style name="Widget.FF.Button.Secondary">
+        <item name="android:background">@drawable/bg_ff_btn_secondary</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <!-- 敏感：warning 描边 + warning 淡底 —— 转让群主 -->
+    <style name="Widget.FF.Button.Warning">
+        <item name="android:background">@drawable/bg_ff_btn_warning</item>
+        <item name="android:textColor">@color/warning</item>
+    </style>
+
+    <!-- 危险：danger 描边 + danger 淡底 —— 退出群聊 / 解散群聊。
+         "不全宽"的左右留白(margin)与宽度都由使用处的 layout 决定。 -->
+    <style name="Widget.FF.Button.Danger">
+        <item name="android:background">@drawable/bg_ff_btn_danger</item>
+        <item name="android:textColor">@color/danger</item>
+    </style>
+
+</resources>

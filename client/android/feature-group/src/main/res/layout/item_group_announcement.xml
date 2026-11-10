@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:background="@color/surface"
+    android:padding="12dp" android:layout_marginBottom="6dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:id="@+id/tvPinned" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="置顶" android:textSize="11sp"
+            android:textColor="@color/white" android:background="@drawable/bg_pin_badge"
+            android:paddingStart="6dp" android:paddingEnd="6dp" android:paddingTop="2dp"
+            android:paddingBottom="2dp" android:visibility="gone" />
+        <TextView android:id="@+id/tvContent" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:textSize="15sp" android:textColor="@color/text" android:maxLines="2"
+            android:ellipsize="end" android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <TextView android:id="@+id/tvMeta" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textSize="12sp"
+        android:textColor="@color/text_secondary" android:layout_marginTop="6dp" />
+</LinearLayout>

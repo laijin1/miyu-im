@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  重置密钥 · 第二次确认（第 4 步）。
+  必须手动输入「我确认」才能继续：确认按钮初始不可点，由 Activity 用 TextWatcher 控制。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/red"
+        android:text="此操作不可撤销。\n重置后本机将生成一把全新的密钥，旧聊天记录永久无法解密。" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:text="请输入「我确认」以继续：" />
+
+    <EditText
+        android:id="@+id/etResetConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:hint="我确认"
+        android:inputType="text"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text_secondary"
+        android:importantForAutofill="no" />
+</LinearLayout>

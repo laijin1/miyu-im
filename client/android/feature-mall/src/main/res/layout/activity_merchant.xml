@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/surface">
+        <ImageButton android:id="@+id/btnMerchantBack"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_back" android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="商家后台" android:textSize="17sp"
+            android:textColor="@color/text" android:gravity="center" />
+        <View android:layout_width="40dp" android:layout_height="40dp" />
+    </LinearLayout>
+
+    <!-- 店铺头部：淘宝橙渐变 hero -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@drawable/bg_hero_gradient"
+        android:paddingLeft="20dp" android:paddingTop="14dp" android:paddingRight="20dp"
+        android:paddingBottom="16dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                android:src="@drawable/ic_shop" android:contentDescription="店铺" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="我的店铺" android:textSize="16sp" android:textStyle="bold"
+                android:textColor="#FFFFFF" android:layout_marginLeft="6dp" />
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="管理商品与订单" android:textSize="11sp"
+                android:textColor="#CCFFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="16dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:id="@+id/tvSummaryProducts" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textSize="20sp"
+                    android:textStyle="bold" android:textColor="#FFFFFF" android:text="0" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="我的商品" android:textSize="11sp"
+                    android:textColor="#CCFFFFFF" android:layout_marginTop="2dp" />
+            </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="36dp"
+                android:background="#33FFFFFF" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:id="@+id/tvSummaryPending" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textSize="20sp"
+                    android:textStyle="bold" android:textColor="#FFFFFF" android:text="0" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="待发货" android:textSize="11sp"
+                    android:textColor="#CCFFFFFF" android:layout_marginTop="2dp" />
+            </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="36dp"
+                android:background="#33FFFFFF" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+                <TextView android:id="@+id/tvSummaryIncome" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:textSize="20sp"
+                    android:textStyle="bold" android:textColor="#FFFFFF" android:text="¥0.00" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="累计收入" android:textSize="11sp"
+                    android:textColor="#CCFFFFFF" android:layout_marginTop="2dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Tab：商品管理 | 订单管理（橙色下划线指示） -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+        android:orientation="horizontal" android:background="@color/surface">
+        <LinearLayout android:id="@+id/tabMerchantProducts" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                android:layout_weight="1" android:text="商品管理" android:textSize="14sp"
+                android:gravity="center" />
+            <View android:id="@+id/indMerchantProducts" android:layout_width="match_parent"
+                android:layout_height="3dp" android:background="@color/taobao_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/tabMerchantOrders" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                android:layout_weight="1" android:text="订单管理" android:textSize="14sp"
+                android:gravity="center" />
+            <View android:id="@+id/indMerchantOrders" android:layout_width="match_parent"
+                android:layout_height="3dp" android:background="@color/taobao_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 订单状态筛选（仅订单管理 tab 显示）：全部 | 待发货 | 待收货 | 已完成 -->
+    <LinearLayout android:id="@+id/rowMerchantOrderFilter"
+        android:layout_width="match_parent" android:layout_height="40dp"
+        android:orientation="horizontal" android:background="@color/surface"
+        android:visibility="gone">
+        <LinearLayout android:id="@+id/tabMofAll" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                android:layout_weight="1" android:text="全部" android:textSize="12sp"
+                android:gravity="center" />
+            <View android:id="@+id/indMofAll" android:layout_width="match_parent"
+                android:layout_height="2dp" android:background="@color/taobao_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/tabMofPaid" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                android:layout_weight="1" android:text="待发货" android:textSize="12sp"
+                android:gravity="center" />
+            <View android:id="@+id/indMofPaid" android:layout_width="match_parent"
+                android:layout_height="2dp" android:background="@color/taobao_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/tabMofShipped" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                android:layout_weight="1" android:text="待收货" android:textSize="12sp"
+                android:gravity="center" />
+            <View android:id="@+id/indMofShipped" android:layout_width="match_parent"
+                android:layout_height="2dp" android:background="@color/taobao_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/tabMofCompleted" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                android:layout_weight="1" android:text="已完成" android:textSize="12sp"
+                android:gravity="center" />
+            <View android:id="@+id/indMofCompleted" android:layout_width="match_parent"
+                android:layout_height="2dp" android:background="@color/taobao_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/tabMofRefund" android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="match_parent" android:layout_height="0dp"
+                android:layout_weight="1" android:text="退款中" android:textSize="12sp"
+                android:gravity="center" />
+            <View android:id="@+id/indMofRefund" android:layout_width="match_parent"
+                android:layout_height="2dp" android:background="@color/taobao_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/border" />
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeMerchantProducts"
+            android:layout_width="match_parent" android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMerchantProducts"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:clipToPadding="false" android:paddingTop="6dp" android:paddingBottom="88dp"
+                android:overScrollMode="never" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeMerchantOrders"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:visibility="gone">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMerchantOrders"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:clipToPadding="false" android:paddingTop="6dp" android:paddingBottom="8dp"
+                android:overScrollMode="never" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- 发布商品悬浮按钮（带阴影橙胶囊） -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnMerchantAdd"
+            android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_gravity="bottom|right" android:layout_margin="18dp"
+            app:cardCornerRadius="24dp" app:cardElevation="4dp"
+            app:cardUseCompatPadding="false" app:cardBackgroundColor="@color/taobao_orange">
+            <TextView android:layout_width="wrap_content" android:layout_height="match_parent"
+                android:paddingLeft="22dp" android:paddingRight="22dp"
+                android:text="＋ 发布商品" android:textSize="15sp" android:textColor="#FFFFFF"
+                android:gravity="center" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+</LinearLayout>

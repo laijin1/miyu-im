@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 商城蓝实心按钮：按压深蓝、禁用浅蓝。用于商城流程所有主操作（立即购买/去支付/提交订单/发货等） -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape><solid android:color="#1976D2" /><corners android:radius="6dp" /></shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape><solid android:color="#BBDEFB" /><corners android:radius="6dp" /></shape>
+    </item>
+    <item>
+        <shape><solid android:color="@color/taobao_orange" /><corners android:radius="6dp" /></shape>
+    </item>
+</selector>

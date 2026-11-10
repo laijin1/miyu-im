@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/surface" android:paddingLeft="4dp" android:paddingRight="12dp">
+        <ImageButton android:id="@+id/btnAddrBack"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_back" android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回" />
+        <TextView android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:text="收货地址" android:textSize="17sp"
+            android:textColor="@color/text" android:gravity="center_vertical" android:paddingLeft="4dp" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/border" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddresses"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:overScrollMode="never" android:clipToPadding="false" android:paddingBottom="8dp" />
+
+    <!-- 底部新增按钮 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/surface"
+        android:paddingLeft="16dp" android:paddingRight="16dp" android:paddingTop="8dp" android:paddingBottom="10dp">
+        <TextView android:id="@+id/btnAddrAdd"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="＋ 新增收货地址" android:textSize="15sp" android:textColor="@color/white"
+            android:gravity="center" android:background="@drawable/bg_taobao_btn" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  导入覆盖确认对话框（第 3 步）。
+  并排显示"本机当前指纹"与"将要导入的指纹"，让用户在按下不可逆按钮前用眼睛确认。
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="本机当前密钥指纹"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary" />
+
+        <TextView
+            android:id="@+id/tvCurFingerprint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text"
+            android:typeface="monospace"
+            android:textDirection="ltr" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="将要导入的密钥指纹"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary" />
+
+        <TextView
+            android:id="@+id/tvNewFingerprint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text"
+            android:typeface="monospace"
+            android:textDirection="ltr" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textSize="13sp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/red"
+            android:text="导入后：\n· 本机现有聊天记录将永久无法解密（它们是用本机旧密钥加密的）\n· 不会重新加好友，对方会自动获取到导入后的公钥\n· 在对方获取到新公钥前，双方新消息会显示「消息解密失败」" />
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- QQ 联系人页顶部功能入口行：新朋友 / 我的群聊 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="56dp"
+    android:orientation="horizontal" android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground"
+    android:paddingLeft="16dp" android:paddingRight="16dp">
+
+    <ImageView android:id="@+id/ivEntryIcon"
+        android:layout_width="36dp" android:layout_height="36dp"
+        android:layout_marginEnd="14dp"
+        android:scaleType="centerCrop" />
+
+    <TextView android:id="@+id/tvEntryTitle"
+        android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:textSize="16sp"
+        android:textColor="@color/text" android:maxLines="1" android:ellipsize="end" />
+
+    <TextView android:id="@+id/tvEntrySub"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="12sp" android:textColor="@color/text_secondary"
+        android:visibility="gone" />
+
+    <TextView android:id="@+id/tvEntryBadge"
+        android:layout_width="20dp" android:layout_height="20dp"
+        android:gravity="center" android:textSize="11sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/badge_bg"
+        android:layout_marginStart="8dp" android:visibility="gone" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="›" android:textSize="20sp"
+        android:textColor="@color/text_secondary" android:paddingStart="8dp" />
+</LinearLayout>

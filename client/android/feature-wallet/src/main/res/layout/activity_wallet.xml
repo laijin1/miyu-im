@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg">
+
+    <!-- 顶栏 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:background="@color/surface" android:paddingLeft="8dp" android:paddingRight="16dp">
+        <TextView android:id="@+id/btnWalletBack" android:layout_width="40dp" android:layout_height="match_parent"
+            android:text="‹" android:textSize="26dp" android:textColor="@color/text"
+            android:gravity="center" android:background="?attr/selectableItemBackground" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="支付" android:textSize="17dp" android:textStyle="bold"
+            android:textColor="@color/text" android:gravity="center" />
+        <TextView android:layout_width="40dp" android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <!-- 余额卡（密语主蓝） -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/wallet_green"
+        android:paddingLeft="20dp" android:paddingTop="22dp" android:paddingRight="20dp" android:paddingBottom="18dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="我的余额（分）" android:textSize="13dp" android:textColor="#CCFFFFFF" />
+        <TextView android:id="@+id/tvWalletBalance" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="¥0.00" android:textSize="34dp" android:textStyle="bold"
+            android:textColor="#FFFFFF" android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="18dp">
+            <TextView android:id="@+id/btnWalletPayCode" android:layout_width="0dp" android:layout_height="36dp"
+                android:layout_weight="1" android:text="收付款" android:textSize="15dp" android:textColor="#FFFFFF"
+                android:gravity="center" android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_wallet_btn" />
+            <TextView android:id="@+id/btnWalletRecharge" android:layout_width="0dp" android:layout_height="36dp"
+                android:layout_weight="1" android:text="充值" android:textSize="15dp" android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:background="@drawable/bg_wallet_btn" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="10dp" android:background="@color/bg" />
+
+    <!-- 功能列表 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/surface">
+        <LinearLayout android:id="@+id/rowWalletPayCode" android:layout_width="match_parent" android:layout_height="52dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="收付款" android:textSize="16dp" android:textColor="@color/text" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="›" android:textSize="20dp" android:textColor="@color/text_secondary" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border" />
+        <LinearLayout android:id="@+id/rowWalletBills" android:layout_width="match_parent" android:layout_height="52dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="钱包账单" android:textSize="16dp" android:textColor="@color/text" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="›" android:textSize="20dp" android:textColor="@color/text_secondary" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border" />
+        <LinearLayout android:id="@+id/rowWalletPassword" android:layout_width="match_parent" android:layout_height="52dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:paddingLeft="16dp" android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="支付密码" android:textSize="16dp" android:textColor="@color/text" />
+            <TextView android:id="@+id/tvWalletPayStatus" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textSize="13dp"
+                android:textColor="@color/text_secondary" android:layout_marginEnd="4dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="›" android:textSize="20dp" android:textColor="@color/text_secondary" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="余额为虚拟资产，仅用于演示收付流程" android:textSize="12dp"
+        android:textColor="@color/text_secondary" android:gravity="center"
+        android:paddingBottom="20dp" />
+</LinearLayout>

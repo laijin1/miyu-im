@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/surface">
+
+        <ImageButton
+            android:id="@+id/btnLogBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回"
+            android:src="@drawable/ic_back"
+            android:tint="?attr/colorIcon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日志"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
+
+    <!-- 操作栏：刷新 / 复制 / 清空 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:background="@color/surface">
+
+        <TextView
+            android:id="@+id/btnLogRefresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="刷新"
+            android:textSize="15dp"
+            android:textColor="@color/green"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/btnLogCopy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="复制"
+            android:textSize="15dp"
+            android:textColor="@color/green"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/btnLogClear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="清空"
+            android:textSize="15dp"
+            android:textColor="@color/red"
+            android:background="?attr/selectableItemBackground" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
+
+    <!-- 日志内容 -->
+    <ScrollView
+        android:id="@+id/svLog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/tvLogContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:typeface="monospace"
+            android:textSize="11sp"
+            android:textColor="@color/text"
+            android:lineSpacingExtra="2dp"
+            android:textIsSelectable="true" />
+    </ScrollView>
+</LinearLayout>

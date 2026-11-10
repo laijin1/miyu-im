@@ -1,0 +1,4 @@
+plugins {
+    // Apply false because subprojects apply it; version resolved via pluginManagement
+    id 'com.android.application' version '8.7.3' apply false
+}

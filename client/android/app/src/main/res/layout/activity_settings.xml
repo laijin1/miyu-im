@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/surface">
+
+        <ImageButton
+            android:id="@+id/btnSettingsBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="返回"
+            android:src="@drawable/ic_back"
+            android:tint="?attr/colorIcon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
+
+    <!-- 内容区 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/surface"
+        android:layout_marginTop="8dp">
+
+        <!-- 黑夜模式开关 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="黑夜模式"
+                android:textSize="16dp"
+                android:textColor="@color/text" />
+
+            <Switch
+                android:id="@+id/swNightMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/border" />
+
+        <!-- 隐私与安全 -->
+        <LinearLayout
+            android:id="@+id/rowPrivacySecurity"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="隐私与安全"
+                android:textSize="16dp"
+                android:textColor="@color/text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textSize="20dp"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <!-- 服务器信息 -->
+        <LinearLayout
+            android:id="@+id/rowServerInfo"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="服务器信息"
+                android:textSize="16dp"
+                android:textColor="@color/text" />
+
+            <TextView
+                android:id="@+id/tvSettingsServer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:paddingLeft="12dp"
+                android:maxLines="1"
+                android:ellipsize="middle"
+                android:textSize="13dp"
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textSize="20dp"
+                android:textColor="@color/text_secondary"
+                android:paddingStart="4dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/border" />
+
+        <!-- 检测更新 -->
+        <LinearLayout
+            android:id="@+id/rowCheckUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="检测更新"
+                android:textSize="16dp"
+                android:textColor="@color/text" />
+
+            <TextView
+                android:id="@+id/tvSettingsVersion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:paddingLeft="12dp"
+                android:textSize="13dp"
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textSize="20dp"
+                android:textColor="@color/text_secondary"
+                android:paddingStart="4dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/border" />
+
+        <!-- 日志（查看报错） -->
+        <LinearLayout
+            android:id="@+id/rowLog"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="日志"
+                android:textSize="16dp"
+                android:textColor="@color/text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看报错"
+                android:textSize="13dp"
+                android:textColor="@color/text_secondary"
+                android:paddingEnd="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textSize="20dp"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/border" />
+
+        <!-- 恢复聊天记录（E2EE 密钥恢复） -->
+        <LinearLayout
+            android:id="@+id/rowRestoreKeys"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="恢复聊天记录"
+                android:textSize="16dp"
+                android:textColor="@color/text" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="找回历史消息"
+                android:textSize="13dp"
+                android:textColor="@color/text_secondary"
+                android:paddingEnd="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textSize="20dp"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/border" />
+
+        <!-- 密钥管理（E2EE 私钥指纹核对 / 换机迁移） -->
+        <LinearLayout
+            android:id="@+id/rowKeyManagement"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="密钥管理"
+                android:textSize="16dp"
+                android:textColor="@color/text" />
+
+            <TextView
+                android:id="@+id/tvSettingsKeyFingerprint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:paddingLeft="12dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="13dp"
+                android:textColor="@color/text_secondary"
+                android:typeface="monospace"
+                android:textDirection="ltr" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textSize="20dp"
+                android:textColor="@color/text_secondary"
+                android:paddingStart="4dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/border" />
+
+        <!-- 退出登录 -->
+        <LinearLayout
+            android:id="@+id/rowLogout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="退出登录"
+                android:textSize="16dp"
+                android:textColor="@color/red" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

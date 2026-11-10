@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 商城空态：图标 + 主文案 + 副文案 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:gravity="center"
+    android:paddingTop="56dp" android:paddingBottom="56dp"
+    android:paddingLeft="24dp" android:paddingRight="24dp">
+
+    <ImageView android:layout_width="48dp" android:layout_height="48dp"
+        android:src="@drawable/ic_no_result" android:contentDescription="空" />
+
+    <TextView android:id="@+id/tvEmptyTitle"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="14sp" android:textColor="@color/text"
+        android:layout_marginTop="12dp" />
+
+    <TextView android:id="@+id/tvEmptySub"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="12sp" android:textColor="@color/text_secondary"
+        android:layout_marginTop="4dp" />
+</LinearLayout>
