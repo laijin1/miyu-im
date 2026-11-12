@@ -70,4 +70,12 @@
     <color name="divider">#2A2A2A</color>
     <color name="on_surface">#FFFFFF</color>
     <color name="surface_pressed">#2E2E2E</color>
+
+    <!-- ═══ 群详情底部操作卡（列表式）黑夜覆盖 ═══
+         卡片底 #2C2C2E（比成员卡 #1C1C1C 亮一档）；分割线 #3A3A3C 保证可见；
+         危险文字用 iOS 系统红 #FF453A。 -->
+    <color name="action_card_bg">#2C2C2E</color>
+    <color name="action_card_divider">#3A3A3C</color>
+    <color name="action_danger_text">#FF453A</color>
+    <color name="action_row_ripple">#1FFFFFFF</color>
 </resources>

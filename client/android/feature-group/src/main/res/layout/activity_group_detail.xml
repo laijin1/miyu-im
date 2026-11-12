@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  群聊详情（成员管理）：资料卡 + 成员卡 + 底部三级按钮。
+  群聊详情（成员管理）：资料卡 + 成员卡 + 底部操作卡。
   id 与控件类型全部沿用改造前（findViewById 契约不变）：
   chatToolbar / btnBack / tvTitle / btnAdd / ivGroupAvatar / tvGroupName /
   tvGroupCount / rvGroupMembers / btnEditNickname / btnTransfer / btnLeaveGroup。
-  三层语义色区分：常规（改名）描边、敏感（转让群主）warning、危险（退出/解散）danger。
+  底部操作改为「卡片列表式」（微信 / Telegram 风格）：一张深灰圆角卡内垂直排列
+  三个操作行，1dp 细分割线分隔；常规项左对齐 + 右侧 chevron，危险项（解散/退出）
+  居中显示危险红。控件仍用 AppCompatButton（Activity 将 btnTransfer/btnLeaveGroup
+  声明为 Button，改成 TextView 会破坏 findViewById 契约），但外观已完全列表化。
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical" android:background="@color/bg">
 
@@ -85,37 +89,47 @@
             android:layout_weight="1" android:clipToPadding="false" />
     </LinearLayout>
 
-    <!-- ═══ ④ 底部按钮区：常规 / 敏感 / 危险 ═══ -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical"
+    <!-- ═══ ④ 底部操作卡：卡片列表式（不做三个独立大按钮） ═══
+         MaterialCardView 负责 #2C2C2E 深灰底、12dp 圆角和内容裁剪；
+         行内按压涟漪与 1dp 分割线由行背景 drawable 提供。 -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_m" android:layout_marginEnd="@dimen/spacing_m"
-        android:layout_marginBottom="@dimen/spacing_l">
+        android:layout_marginBottom="@dimen/spacing_l"
+        app:cardBackgroundColor="@color/action_card_bg"
+        app:cardCornerRadius="@dimen/radius_l"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
 
-        <Button android:id="@+id/btnEditNickname"
-            style="@style/Widget.FF.Button.Secondary"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:text="修改我的群名片" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <!-- 仅群主可见（Activity 用 setVisibility 切换，属性必须是 visibility） -->
-        <Button android:id="@+id/btnTransfer"
-            style="@style/Widget.FF.Button.Warning"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="@dimen/spacing_s"
-            android:visibility="gone"
-            android:text="转让群主" />
+            <!-- 常规项：修改我的群名片（左对齐 + chevron） -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditNickname"
+                style="@style/Widget.FF.ActionRow.Divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/row_height"
+                android:text="修改我的群名片" />
 
-        <!-- 危险按钮：宽高与"不全宽"的左右留白全部由本处给（style 只描述外观，
-             不再内置 layout_width=0dp —— 那个值会让使用者忘了覆盖就静默不可见）。
-             Activity 会用 setText 切成"解散群聊"，所以这里不设 textAllCaps / 固定文案。 -->
-        <Button android:id="@+id/btnLeaveGroup"
-            style="@style/Widget.FF.Button.Danger"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginStart="@dimen/spacing_xl"
-            android:layout_marginEnd="@dimen/spacing_xl"
-            android:layout_marginTop="@dimen/spacing_s"
-            android:text="退出群聊" />
-    </LinearLayout>
+            <!-- 仅群主可见（Activity 用 setVisibility 切换，属性必须是 visibility）。
+                 分割线写在本行背景里，行 GONE 时连线一起消失，不会出现双线。 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTransfer"
+                style="@style/Widget.FF.ActionRow.Divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/row_height"
+                android:visibility="gone"
+                android:text="转让群主" />
+
+            <!-- 危险项：Activity 会 setText 切成"解散群聊"/"退出群聊"，
+                 文案不固定；居中显示，不加 chevron。 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLeaveGroup"
+                style="@style/Widget.FF.ActionRow.Danger"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/row_height"
+                android:text="退出群聊" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

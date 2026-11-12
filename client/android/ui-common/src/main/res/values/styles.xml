@@ -3,8 +3,9 @@
   群详情界面共用的样式（新增，纯 additive）。
 
   存在的理由：全仓此前没有任何 styles.xml，群详情两个界面的字号/行高/按钮底
-  全部硬编码在 XML 属性和 Java 代码里，三级按钮（常规/敏感/危险）无法用一个
-  名字表达。这里只抽出两组最小集合：文字外观 + 卡片/分割线/按钮。
+  全部硬编码在 XML 属性和 Java 代码里。这里只抽出最小集合：文字外观 +
+  卡片/分割线/列表行。底部操作已从"三级描边按钮"改为"卡片列表式"，
+  对应样式见文件末尾的 Widget.FF.ActionRow.*。
   Theme.FamilyChat 不在此文件，不动。
 -->
 <resources>
@@ -54,34 +55,41 @@
         <item name="android:scaleType">fitCenter</item>
     </style>
 
-    <!-- ═══════════ 按钮三级（常规 / 敏感 / 危险）═══════════ -->
+    <!-- ═══════════ 群详情底部操作卡（卡片列表式）═══════════
+         三个操作不再是三个实心/描边大按钮，而是同一张圆角卡片里的列表行：
+         常规项左对齐 + 右侧 chevron，危险项（解散/退出）居中危险红。
+         行背景只负责按压涟漪与行底 1dp 分割线，卡片圆角由外层
+         MaterialCardView 统一裁剪。宽/高仍由使用处的 layout 给，style 不写 layout_*。 -->
 
-    <!-- 只描述外观：宽/高/外边距都是布局参数，由使用处的 layout 给。
-         这里放 layout_width 曾导致 Danger 的 0dp 被继承，使用者不覆盖就静默不可见。 -->
-    <style name="Widget.FF.Button" parent="">
-        <item name="android:textSize">@dimen/text_size_body</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-        <item name="android:stateListAnimator">@null</item>
-    </style>
-
-    <!-- 常规（次要）：描边 + 表面底 —— 修改我的群名片 -->
-    <style name="Widget.FF.Button.Secondary">
-        <item name="android:background">@drawable/bg_ff_btn_secondary</item>
+    <style name="Widget.FF.ActionRow" parent="">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
         <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingStart">@dimen/card_padding</item>
+        <item name="android:paddingEnd">@dimen/card_padding</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <!-- 防止主题 buttonStyle 的 backgroundTint 把行背景染色 -->
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:drawableEnd">@drawable/ic_chevron_right</item>
+        <item name="android:drawablePadding">@dimen/spacing_s</item>
+        <item name="android:background">@drawable/bg_ff_action_row</item>
     </style>
 
-    <!-- 敏感：warning 描边 + warning 淡底 —— 转让群主 -->
-    <style name="Widget.FF.Button.Warning">
-        <item name="android:background">@drawable/bg_ff_btn_warning</item>
-        <item name="android:textColor">@color/warning</item>
+    <!-- 带行底分割线的行（非末行）：btnTransfer 为 GONE 时线随行一起消失 -->
+    <style name="Widget.FF.ActionRow.Divider">
+        <item name="android:background">@drawable/bg_ff_action_row_divider</item>
     </style>
 
-    <!-- 危险：danger 描边 + danger 淡底 —— 退出群聊 / 解散群聊。
-         "不全宽"的左右留白(margin)与宽度都由使用处的 layout 决定。 -->
-    <style name="Widget.FF.Button.Danger">
-        <item name="android:background">@drawable/bg_ff_btn_danger</item>
-        <item name="android:textColor">@color/danger</item>
+    <!-- 危险行：居中、危险红、无 chevron -->
+    <style name="Widget.FF.ActionRow.Danger">
+        <item name="android:textColor">@color/action_danger_text</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawableEnd">@null</item>
     </style>
 
 </resources>
